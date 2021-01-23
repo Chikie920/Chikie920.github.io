@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!--Valine-->
+        <script src="/js/Valine.min.js"></script>
+    <meta name="description" content="前言-本教程一方面是作为个人学习笔记另一方面也是本着一种助人为乐的态度写的，参考了C3程序员的视频同时也包含了我自己遇到问题时的经验而写成，我尽量将本笔记写的简洁并且易懂的同时囊括大部分的内容以节约大家的时间与耐心，没有时间观看视频的小伙伴们可以看我的笔记，要是觉得本笔记不适合的话推荐去观看原视频，这个老师讲的很好，内容也浅显易懂，希望大家能够支持他。如果本文章存在侵权行为，请联系我删除。如有错误">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Socket网络编程">
+<meta property="og:url" content="http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Chikie">
+<meta property="og:description" content="前言-本教程一方面是作为个人学习笔记另一方面也是本着一种助人为乐的态度写的，参考了C3程序员的视频同时也包含了我自己遇到问题时的经验而写成，我尽量将本笔记写的简洁并且易懂的同时囊括大部分的内容以节约大家的时间与耐心，没有时间观看视频的小伙伴们可以看我的笔记，要是觉得本笔记不适合的话推荐去观看原视频，这个老师讲的很好，内容也浅显易懂，希望大家能够支持他。如果本文章存在侵权行为，请联系我删除。如有错误">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%5Cimages%5C2021_1_23_1.png">
+<meta property="og:image" content="http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%5Cimages%5C2021_1_23_2.png">
+<meta property="og:image" content="http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%5Cimages%5C2021_1_23_3.png">
+<meta property="article:published_time" content="2021-01-23T13:37:02.000Z">
+<meta property="article:modified_time" content="2021-01-23T13:39:20.861Z">
+<meta property="article:author" content="Chikie">
+<meta property="article:tag" content="Socket网络编程 C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%5Cimages%5C2021_1_23_1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Socket网络编程</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2020/12/29/%E5%8D%9A%E5%AE%A2%E6%9B%B4%E6%96%B0%E8%A7%84%E5%88%92/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&text=Socket网络编程"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&is_video=false&description=Socket网络编程"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Socket网络编程&body=Check out this article: http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&name=Socket网络编程&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&t=Socket网络编程"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSOCKET"><span class="toc-number">2.</span> <span class="toc-text">什么是SOCKET</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SOCKET%E7%AE%80%E4%BB%8B%E4%B8%8E%E7%AE%80%E5%8D%95%E7%9A%84%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">SOCKET简介与简单的网络通信原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ETCP-IP%E7%9A%84C-S%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">基于TCP&#x2F;IP的C&#x2F;S通信模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.1.</span> <span class="toc-text">TCP&#x2F;IP协议的简单介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SOCKET%E9%80%9A%E4%BF%A1%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.2.</span> <span class="toc-text">SOCKET通信步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E7%BD%91%E7%BB%9C%E5%BA%93%E4%B8%8E%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">3.3.</span> <span class="toc-text">Windows网络库与头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BD%91%E7%BB%9C%E5%BA%93-WSAStartup-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.4.</span> <span class="toc-text">初始化网络库-WSAStartup()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VScode%E9%85%8D%E7%BD%AE"><span class="toc-number">3.5.</span> <span class="toc-text">VScode配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%A5%97%E6%8E%A5%E5%AD%97-socket-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.6.</span> <span class="toc-text">创建套接字-socket()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%91%E5%AE%9A%E6%9C%AC%E5%9C%B0socket-bind-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.7.</span> <span class="toc-text">绑定本地socket-bind()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E5%90%AC%E9%93%BE%E6%8E%A5-listen-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.8.</span> <span class="toc-text">监听链接-listen()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%93%BE%E6%8E%A5-connect-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.9.</span> <span class="toc-text">与服务端链接-connect()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%97%E9%93%BE%E6%8E%A5-accept-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.10.</span> <span class="toc-text">接受链接-accept()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E4%BF%A1%E6%81%AF-recv-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.11.</span> <span class="toc-text">接收信息-recv()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E4%BF%A1%E6%81%AF-send-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.12.</span> <span class="toc-text">发送信息-send()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Server%E7%AB%AF%E5%AE%8C%E6%95%B4%E7%BC%96%E5%86%99"><span class="toc-number">3.13.</span> <span class="toc-text">Server端完整编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client%E7%AB%AF%E5%AE%8C%E6%95%B4%E7%BC%96%E5%86%99"><span class="toc-number">3.14.</span> <span class="toc-text">Client端完整编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-number">3.15.</span> <span class="toc-text">运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">3.16.</span> <span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#C-S%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">C&#x2F;S模型优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UDP-IP%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.</span> <span class="toc-text">UDP&#x2F;IP模型的简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">完结</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Socket网络编程
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Chikie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-01-23T13:37:02.000Z" itemprop="datePublished">2021-01-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B-C/" rel="tag">Socket网络编程 C</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>-本教程一方面是作为个人学习笔记另一方面也是本着一种助人为乐的态度写的，参考了<a target="_blank" rel="noopener" href="https://study.163.com/course/courseMain.htm?courseId=1006358018&share=1&shareId=1141882478">C3程序员</a>的视频同时也包含了我自己遇到问题时的经验而写成，我尽量将本笔记写的简洁并且易懂的同时囊括大部分的内容以节约大家的时间与耐心，没有时间观看视频的小伙伴们可以看我的笔记，要是觉得本笔记不适合的话推荐去观看原视频，这个老师讲的很好，内容也浅显易懂，希望大家能够支持他。如果本文章存在侵权行为，请联系我删除。如有错误，欢迎大家批评指正!</p>
+<p>-作者使用Visual Studio Code搭配GCC编译器进行代码编写与运行，这里不介绍如何安装，如果你使用的其他环境，具体实践可能会与本文章的内容有所出入，请自行解决</p>
+<p>-文章刚发布内容可能会不完善，后续将会慢慢补齐</p>
+<p>-转载请注明链接，请尊重我的劳动成果！</p>
+<h1 id="什么是SOCKET"><a href="#什么是SOCKET" class="headerlink" title="什么是SOCKET"></a>什么是SOCKET</h1><h2 id="SOCKET简介与简单的网络通信原理"><a href="#SOCKET简介与简单的网络通信原理" class="headerlink" title="SOCKET简介与简单的网络通信原理"></a>SOCKET简介与简单的网络通信原理</h2><p>SOCKET又称套接字，现代的网络通信就是通过SOCKET进行的，SOCKET编程也叫网络编程</p>
+<p>Socket相当于一个电话，只需要知道另一个电话号码(另一端的信息)即可通信，我们并不需要了解手机是如何做成的，对与socket编程也一样，我们只需要了解简单的通信协议与函数即可编写出简单的通信模型出来，所以不要惧怕它。同时，我们需要善用<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/">MSDN</a>来学习有关函数的调用。</p>
+<h1 id="基于TCP-IP的C-S通信模型"><a href="#基于TCP-IP的C-S通信模型" class="headerlink" title="基于TCP/IP的C/S通信模型"></a>基于TCP/IP的C/S通信模型</h1><h2 id="TCP-IP协议的简单介绍"><a href="#TCP-IP协议的简单介绍" class="headerlink" title="TCP/IP协议的简单介绍"></a>TCP/IP协议的简单介绍</h2><h2 id="SOCKET通信步骤"><a href="#SOCKET通信步骤" class="headerlink" title="SOCKET通信步骤"></a>SOCKET通信步骤</h2><h2 id="Windows网络库与头文件"><a href="#Windows网络库与头文件" class="headerlink" title="Windows网络库与头文件"></a>Windows网络库与头文件</h2><p><strong>WinSock2.h</strong>头文件，名称即为Windows下的socket简写，2指第二版的网络库(主版本)，我们使用新版的网络库不使用1版的，引入该头文件即可使用网络库的函数</p>
+<p><strong>ws2_32.lib</strong>为windows网络库，需要有网络库并且成功初始化，WinSock2.h头文件内的函数才能成功的调用</p>
+<p>头文件与库的名字都不区分大小写</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;WinSock2.h&gt;</span></span></span><br><span class="line"><span class="comment">//引入头文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">&quot;ws2_32.lib&quot;</span>)</span></span><br><span class="line"><span class="comment">//引入网络库</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">引入windows库的模板写法</span></span><br><span class="line"><span class="comment">#pragma comment(lib, &quot;库名字&quot;)</span></span><br><span class="line"><span class="comment">不用过多纠结</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="初始化网络库-WSAStartup-函数与返回值"><a href="#初始化网络库-WSAStartup-函数与返回值" class="headerlink" title="初始化网络库-WSAStartup()函数与返回值"></a>初始化网络库-WSAStartup()函数与返回值</h2><p><strong>函数介绍</strong></p>
+<p>我们使用WSAStartup()函数来初始化网络库，以便网络函数能成功调用</p>
+<p>W指windows </p>
+<p>S指socket </p>
+<p>A指Asynchronous异步，同步则阻塞，卡死，而异步则指多线程，同时的意思</p>
+<p>Startup启动</p>
+<p><strong>函数原型</strong></p>
+<p>我们可以使用<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows/win32/api/winsock/nf-winsock-wsastartup">MSDN</a>来查看相关函数，与其使用实例</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">WSAStartup</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  WORD      wVersionRequired,</span></span></span><br><span class="line"><span class="function"><span class="params">  LPWSADATA lpWSAData</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>参数解析</strong></p>
+<p>这个函数的返回值为int类型，有两个参数</p>
+<p>一个为WORD类型，它并不是一个浮点型。变量名为wVersionRequired，变量名实际使用可以自定，指网络库的具体版本，目前最新为2.2版本(副版本)，对于详细版本可以在MSDN中搜索WSAStartup下翻查看</p>
+<p>另一个为LPWSADATA类型，是一个指针类型，它指向WSADATA结构体，一般名称中有LP的基本都为指针类型</p>
+<p><strong>函数返回值</strong></p>
+<p>如果WSAStartup()调用成功则返回0，失败则返回其他值</p>
+<p>若初始化网络库失败，则其他网络函数将无法正常使用</p>
+<p><strong>使用函数</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">WORD WSVersion = (<span class="number">2</span>, <span class="number">2</span>);<span class="comment">//选择版本</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">官方提供这种方法来进行版本号的赋值</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">WSADATA wsadata;</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> wsas_return = WSAStartup(WSVersion, &amp;wsadata);</span><br><span class="line"><span class="keyword">if</span>(wsas_return != <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;初始化网络库失败! 请检查网络库，或者重启电脑\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="VScode配置"><a href="#VScode配置" class="headerlink" title="VScode配置"></a>VScode配置</h2><p>需配置项目目录内的<code>.vscode</code>内的<code>tasks.json</code>文件内tasks-&gt;args，将库包含进工程，才能正常使用网络库函数</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;args&quot;: [</span><br><span class="line">                &quot;-g&quot;,</span><br><span class="line">                &quot;$&#123;file&#125;&quot;,</span><br><span class="line">                &quot;-o&quot;,</span><br><span class="line">                &quot;$&#123;fileDirname&#125;\\$&#123;fileBasenameNoExtension&#125;.exe&quot;,</span><br><span class="line">                <span class="string">&quot;-lwsock32&quot;</span></span><br><span class="line">            ],</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="创建套接字-socket-函数与返回值"><a href="#创建套接字-socket-函数与返回值" class="headerlink" title="创建套接字-socket()函数与返回值"></a>创建套接字-socket()函数与返回值</h2><p><strong>函数介绍</strong></p>
+<p>该函数用于创建进行通信的Socket</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">SOCKET WSAAPI <span class="title">socket</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span> af,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span> type,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span> protocol</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>参数解析</strong></p>
+<p>第一个参数为地址的类型，填<strong>AF_INET</strong>，为使用IPV4地址为现在常用的地址类型，若填<strong>AF_INET6</strong>则为IPV6地址类型但尚未普及，可以选择不同的协议进行通信，但前提是知道对方的地址，并使用对应的地址类型，这里我们使用IPV4</p>
+<p>第二个参数为套接字的类型，填<strong>SOCK_STREAM</strong>，即使用TCP进行通信</p>
+<p>第三个为使用的协议类型，我们使用的是TCP/IP协议，所以填<strong>IPPROTO_TCP</strong></p>
+<p>这里我们只是简单了解会使用即可，关于协议的解释，感兴趣的可以查找MSDN的Socket函数或者网上查阅大佬的文章</p>
+<p><strong>函数返回值</strong></p>
+<p>函数使用成功返回一个可用的Socket，否则返回<strong>INVALID_SOCKET</strong></p>
+<p><strong>使用函数</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">SOCKET server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line"><span class="keyword">if</span>(server_socket == INVALID_SOCKET)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;创建socket失败! 错误代码:&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> error = WSAGetLastError();<span class="comment">//可以使用该函数进行查看上个最近网络函数失败后的错误代码</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,error);</span><br><span class="line">    WSACleanup();<span class="comment">//清理网络库</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;<span class="comment">//结束程序</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">无法成功创建socket我们就无法通信，这是非常重要的环节之一，所以程序无法也没有必要再继续运行</span></span><br><span class="line"><span class="comment">在结束运行之前要关闭socket与清理网络库，由于这里创建socket失败所以我们无需关闭，只需要清理网络库即可</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="绑定本地socket-bind-函数与返回值"><a href="#绑定本地socket-bind-函数与返回值" class="headerlink" title="绑定本地socket-bind()函数与返回值"></a>绑定本地socket-bind()函数与返回值</h2><p><strong>函数介绍</strong></p>
+<p>该函数用于给socket绑定具体地址与端口号用于通信</p>
+<p><strong>地址与端口号的简单解释</strong></p>
+<p>地址是唯一的，可以通过地址找到对应的计算机设备</p>
+<p>计算机内的软件通过端口与外界通信，端口范围为0-65535，端口有我们所熟知的如22(SSH服务)、80(HTTP服务)等，我们也可以自己申请一个端口使用，后面的通信模型中我们会进行实践，一个软件可能只占用一个端口也可能是多个，端口号是唯一的，不能是多个软件拥有同一个端口，这样信息的传递是混乱的，同时计算机也不允许这样</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> WSAAPI <span class="title">bind</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  SOCKET         s,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> sockaddr *name,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>            namelen</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>函数参数</strong></p>
+<p>参数一为SOCKET类型，使用我们上面创建并配置好协议的<strong>server_socket</strong>，来进行端口号与地址的绑定</p>
+<p>参数二为一个结构体指针，我们需要sockaddr类型的结构体内存放要绑定的地址与端口</p>
+<p>参数三为结构体的大小，使用sizeof()函数得到</p>
+<p><strong>sockaddr与sockaddr_in结构体的定义与选择</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr</span> &#123;</span></span><br><span class="line">        ushort  sa_family;</span><br><span class="line">        <span class="keyword">char</span>    sa_data[<span class="number">14</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> &#123;</span></span><br><span class="line">        <span class="keyword">short</span>   sin_family;</span><br><span class="line">        u_short sin_port;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span>  <span class="title">in_addr</span> <span class="title">sin_addr</span>;</span></span><br><span class="line">        <span class="keyword">char</span>    sin_zero[<span class="number">8</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>同为IPV4协议使用的结构体，sockaddr第一个成员为地址协议，也就是我们创建socket时的协议类型(协议族)，指为AF_INET</p>
+<p>第二个成员为一个数组，用于存放地址与端口，由于MSDN没有sockaddr成员二的存储方法，我们不能得知该以何种方式去赋值。</p>
+<p>官方使用的是第二个结构体sockaddr_in，因为这两个结构体内存排布相同，我们在使用sockaddr_in进行配置后可以强转为sockaddr类型。</p>
+<p>再让我们来看sockaddr_in，第一个成员与上一个相同，第二个成员可以看出是用来存放端口号的，第三个成员为一个in_addr类型的结构体，我在编译器内查看它的定义如下</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">in_addr</span> &#123;</span></span><br><span class="line">  <span class="class"><span class="keyword">union</span> &#123;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span> u_char  s_b1, s_b2, s_b3, s_b4; &#125; S_un_b;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> &#123;</span> u_short s_w1, s_w2; &#125; S_un_w;</span><br><span class="line">    u_long S_addr;</span><br><span class="line">  &#125; S_un;</span><br><span class="line">&#125; IN_ADDR, *PIN_ADDR, *LPIN_ADDR;</span><br></pre></td></tr></table></figure>
+
+<p>结构体内为一个S_un联合，我们有三种方式去储存地址，这里为了方便我们使用第三种u_long型(无符号long型)进行存储。我们在进行本地通信模型时使用本机地址(<strong>127.0.0.1</strong>)进行数据通信，但是该地址并不是一个无符号long型，需要使用**inet_addr()**这个宏去将地址转换为u_long型。</p>
+<p>这里可能会比较复杂，想了解更多可以去MSDN搜索sockaddr</p>
+<p>第四个成员为sockaddr结构体的大小，同样使用sizeof()得出</p>
+<p><strong>函数返回值</strong></p>
+<p>成功返回0，失败返回SOCKET_ERROR宏，同样我们可以使用WSAGetLastError()来得到具体的错误代码</p>
+<p><strong>函数使用</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">bind_info</span>;</span></span><br><span class="line">bind_info.sin_family = AF_INET;</span><br><span class="line">bind_info.sin_port = htons(<span class="number">2333</span>);<span class="comment">//下面解释该代码</span></span><br><span class="line">bind_info.sin_addr.S_un.S_addr = inet_addr(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> bind_return = bind(server_socket, (<span class="keyword">const</span> struct *)&amp;bind_info, <span class="keyword">sizeof</span>(bind_info));</span><br><span class="line"><span class="keyword">if</span>(bind_return != <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">    closesocket(server_socket);<span class="comment">//关闭socket</span></span><br><span class="line">    WSACleanup();<span class="comment">//清理网络库</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    closesocket()为网络库函数，所以要先关闭socket再清理网络库</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">与socket函数相同，bind()函数也是重要的一环，当该函数没有正确的返回时，该程序也就失败了，没有必要再运行了</span></span><br><span class="line"><span class="comment">后面的一些函数使用例子也是如此，将不再赘述</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>使用本地地址并开启本地端口用于通信与htons宏的使用</strong></p>
+<p>这里我们只经行本地通信，使用本机地址，在进行通信时，既作为服务端传递信息也作为客户端接收信息，当然，需要使用不同的程序</p>
+<p>上面我们简单介绍过端口，其中0~1023为系统保留端口，是系统所占用的，我们无法申请使用</p>
+<p>剩下的1024~65535为我们可以支配的，但是其中有些已经被我们所安装的软件所使用，我们不能再占用这些端口，比如我们想使用2333端口，那么如何去查看该端口是否被占用呢？</p>
+<p><code>netstat -ano|findstr &quot;端口号&quot;</code>查看某个端口号是否被占用，如果没有任何信息则没有被占用</p>
+<p><code>netstat -ano</code>查看所有被使用的端口号与信息</p>
+<p>由于bind_info.sin_port为一个u_short类型(无符号short类型)，而我们输入的端口号为int类型，所以使用htons()函数经行转化，更加规范</p>
+<h2 id="监听链接-listen-函数与返回值"><a href="#监听链接-listen-函数与返回值" class="headerlink" title="监听链接-listen()函数与返回值"></a>监听链接-listen()函数与返回值</h2><p><strong>函数介绍</strong></p>
+<p>开启服务端对客户端的socket通信监听</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> WSAAPI <span class="title">listen</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  SOCKET s,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>    backlog</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>函数参数</strong></p>
+<p>WSAAP为调用约定，可以忽略，于我们无关</p>
+<p>第一个参数为服务端socket，也就是上面我们创建于配置的server_socket</p>
+<p>第二个参数为开始挂起客户端链接的最大长度，实际在通信时，一个服务端可能会接收到许多客户端的链接，由于服务端的性能有限，无法同时处理全部的链接，所以需要设置最大的处理个数，多出来的请求进行排队等待处理。我们可以自行设置个数，自己的电脑建议2~20个左右，也可以使用<code>SOMAXCONN</code>宏让系统根据自身性能自动设置。</p>
+<p><strong>函数返回值</strong></p>
+<p>成功返回0，失败返回SOCKET_ERROR</p>
+<p><strong>函数使用</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> listen_return = listen(server_socket, SOMAXCONN);</span><br><span class="line"><span class="keyword">if</span>(listen_return != <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">    closesocket(server_socket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="与服务端链接-connect-函数与返回值"><a href="#与服务端链接-connect-函数与返回值" class="headerlink" title="与服务端链接-connect()函数与返回值"></a>与服务端链接-connect()函数与返回值</h2><p><strong>函数介绍</strong></p>
+<p>该函数用于客户端与服务端链接</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> WSAAPI <span class="title">connect</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  SOCKET         s,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> sockaddr *name,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>            namelen</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>函数参数</strong></p>
+<p>参数一为服务端socket</p>
+<p>参数二为服务端的协议与ip和端口信息</p>
+<p>参数三为结构体大小</p>
+<p><strong>函数返回值</strong></p>
+<p>如果未发生错误，则 connect返回零。否则，它将返回SOCKET_ERROR</p>
+<p><strong>函数使用</strong></p>
+<p>与bind()相似</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_info</span>;</span></span><br><span class="line">server_info.sin_family = AF_INET;</span><br><span class="line">server_info.sin_port = htons(<span class="number">2333</span>);</span><br><span class="line">server_info.sin_addr.S_un.S_addr = inet_addr(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line"><span class="keyword">int</span> connect_return = connect(server_socket, (<span class="keyword">const</span> struct sockaddr *)&amp;server_info, <span class="keyword">sizeof</span>(server_info));</span><br><span class="line"><span class="keyword">if</span>(connect_return != <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;与服务端链接错误! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">    closesocket(server_socket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;链接成功!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="接受链接-accept-函数与返回值"><a href="#接受链接-accept-函数与返回值" class="headerlink" title="接受链接-accept()函数与返回值"></a>接受链接-accept()函数与返回值</h2><p><strong>函数介绍</strong></p>
+<p>创建客户端socket，储存客户端信息</p>
+<p>这里要弄清楚，客户端与服务器进行通信使用储存服务端信息的socket，而服务端与客户端通信使用储存客户端信息的socket</p>
+<p>相当于我们需要知道对方的电话号码才能通信</p>
+<p>listen()通过监听客户端的链接，accept()将一个客户端信息绑定到一个socket上，多个客户端则调用多次</p>
+<p>该函数是<strong>阻塞</strong>的，当没有客户端链接时会一直等待，相当于进入卡死状态，当客户端链接时继续运行</p>
+<p><strong>函数原型</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">SOCKET WSAAPI <span class="title">accept</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  SOCKET   s,</span></span></span><br><span class="line"><span class="function"><span class="params">  sockaddr *addr,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>      *addrlen</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>函数参数</strong></p>
+<p>参数一为服务端socket即server_socket</p>
+<p>参数二为sockaddr类型的结构体指针，用于储存一个客户端信息，我们还是使用sockaddr_in类型更便捷</p>
+<p>参数三为结构体大小的整型指针</p>
+<p>该函数是通过从服务端socket获取客户端信息进行储存，储存到我们所填的参数二与三的变量中。</p>
+<p>所以参数二与三不需要给出具体值，实际上参数二我们也不清楚</p>
+<p>参数二与三我们也可以不写，直接设置为NULL，选择不存储客户端的信息，当然返回的socket内是有储存的，但是下一次就被覆盖了</p>
+<p>想储存可以使用链表，这里就不写了</p>
+<p><strong>函数返回值</strong></p>
+<p>成功则返回<strong>SOCKET</strong>类型的值，也就是一个socket，错误返回<strong>INVALID_SOCKET</strong></p>
+<p><strong>函数使用</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SOCKET client_socket = accept(server_socket, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line"><span class="keyword">if</span>(client_socket == INVALID_SOCKET)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">    closesocket(server_socket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;客户端链接成功!\n&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="接收信息-recv-函数与返回值"><a href="#接收信息-recv-函数与返回值" class="headerlink" title="接收信息-recv()函数与返回值"></a>接收信息-recv()函数与返回值</h2><p><strong>函数原型</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> WSAAPI <span class="title">recv</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  SOCKET s,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">char</span>   *buf,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>    len,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>    flags</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>函数参数</strong></p>
+<p>参数一为目标的socket</p>
+<p>参数二为消息的储存空间(字符数组)，一般为1500(网络传输的最大单元)，不要超过它，超过了会分次发送</p>
+<p>参数三为从缓冲区读取的字节数(读取后会被存储在数组中)</p>
+<p>参数四为数据的读取方式，写0就行</p>
+<p>当另一端发送消息时，数据由SOCKET底层协议进行储存在一个缓冲区中，而recv()则是从该缓冲区进行信息的读取放在数组中</p>
+<p><strong>函数返回值</strong></p>
+<p>未发生错误则返回接收到的字符数，如果正常关闭链接则返回0，错误则返回SOCKET_ERROR</p>
+<p><strong>函数使用</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> rec_msg[<span class="number">1500</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> recv_return = recv(client_socket, rec_msg, <span class="number">1499</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(recv_return == <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;客户端下线\n&quot;</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span>(recv_return &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, rec_msg);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="发送信息-send-函数与返回值"><a href="#发送信息-send-函数与返回值" class="headerlink" title="发送信息-send()函数与返回值"></a>发送信息-send()函数与返回值</h2><p><strong>函数原型</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> WSAAPI <span class="title">send</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">  SOCKET     s,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">const</span> <span class="keyword">char</span> *buf,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>        len,</span></span></span><br><span class="line"><span class="function"><span class="params">  <span class="keyword">int</span>        flags</span></span></span><br><span class="line"><span class="function"><span class="params">)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p><strong>函数参数</strong></p>
+<p>参数一为目标的socket</p>
+<p>参数二为用来发送信息的字符串指针</p>
+<p>参数三为字符串数组长度</p>
+<p>参数四为发送的方式，同样我们填0就行</p>
+<p><strong>函数返回值</strong></p>
+<p>成功则返回发送的字节总数，否则返回SOCKET_ERROR</p>
+<p><strong>函数使用</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> send_msg[<span class="number">1500</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> send_return = send(server_socket, send_msg, <span class="keyword">sizeof</span>(send_msg), <span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(send_return == SOCKET_ERROR)&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Server端完整编写"><a href="#Server端完整编写" class="headerlink" title="Server端完整编写"></a>Server端完整编写</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">&quot;ws2_32.lib&quot;</span>)</span></span><br><span class="line"><span class="comment">//socket头文件网络库</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD WSVersion = (<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">	WSADATA wsadata;</span><br><span class="line">    <span class="keyword">int</span> wsas_return = WSAStartup(WSVersion, &amp;wsadata);</span><br><span class="line">    <span class="keyword">if</span>(wsas_return != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;初始化网络库失败! 请检查网络库，或者重启电脑\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//初始化网络库</span></span><br><span class="line">    </span><br><span class="line">    SOCKET server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">	<span class="keyword">if</span>(server_socket == INVALID_SOCKET)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;创建socket失败! 错误代码:&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> error = WSAGetLastError();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,error);</span><br><span class="line">        WSACleanup();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建本地socket</span></span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">bind_info</span>;</span></span><br><span class="line">    bind_info.sin_family = AF_INET;</span><br><span class="line">    bind_info.sin_port = htons(<span class="number">2333</span>);</span><br><span class="line">    bind_info.sin_addr.S_un.S_addr = inet_addr(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> bind_return = bind(server_socket, (<span class="keyword">const</span> struct sockaddr *)&amp;bind_info, <span class="keyword">sizeof</span>(bind_info));</span><br><span class="line">    <span class="keyword">if</span>(bind_return != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">        closesocket(server_socket);</span><br><span class="line">        WSACleanup();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//绑定本地ip与端口</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">int</span> listen_return = listen(server_socket, SOMAXCONN);</span><br><span class="line">    <span class="keyword">if</span>(listen_return != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">        closesocket(server_socket);</span><br><span class="line">        WSACleanup();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;Listening...\n&quot;</span>);</span><br><span class="line">    <span class="comment">//监听客户端链接</span></span><br><span class="line">    </span><br><span class="line">    SOCKET client_socket = accept(server_socket, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span>(client_socket == INVALID_SOCKET)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">        closesocket(server_socket);</span><br><span class="line">        WSACleanup();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;客户端链接成功!\n&quot;</span>);</span><br><span class="line">    <span class="comment">//创建客户端socket</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">char</span> rec_msg[<span class="number">1500</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">int</span> recv_return = recv(client_socket, rec_msg, <span class="number">1499</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span>(recv_return == <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;客户端下线\n&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(recv_return &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%s\n&quot;</span>, rec_msg);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;ERROR! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//接收客户端信息</span></span><br><span class="line">    </span><br><span class="line">    closesocket(client_socket);</span><br><span class="line">    closesocket(server_socket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">    <span class="comment">//关闭socket与清理网络库</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Client端完整编写"><a href="#Client端完整编写" class="headerlink" title="Client端完整编写"></a>Client端完整编写</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;winsock2.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">pragma</span> comment(lib, <span class="meta-string">&quot;ws2_32.lib&quot;</span>)</span></span><br><span class="line"><span class="comment">//socket头文件网络库</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    WORD WSVersion = (<span class="number">2</span>, <span class="number">2</span>);</span><br><span class="line">    WSADATA wsadata;</span><br><span class="line">    <span class="keyword">int</span> wsas_return = WSAStartup(WSVersion, &amp;wsadata);</span><br><span class="line">    <span class="keyword">if</span>(wsas_return != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;初始化网络库失败! 请检查网络库，或者重启电脑\n&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//初始化网络库</span></span><br><span class="line">    </span><br><span class="line">    SOCKET server_socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);</span><br><span class="line">    <span class="keyword">if</span>(server_socket == INVALID_SOCKET)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;创建socket失败! 错误代码:&quot;</span>);</span><br><span class="line">        <span class="keyword">int</span> error = WSAGetLastError();</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,error);</span><br><span class="line">        WSACleanup();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建服务端socket</span></span><br><span class="line">    </span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">server_info</span>;</span></span><br><span class="line">    server_info.sin_family = AF_INET;</span><br><span class="line">    server_info.sin_port = htons(<span class="number">2333</span>);</span><br><span class="line">    server_info.sin_addr.S_un.S_addr = inet_addr(<span class="string">&quot;127.0.0.1&quot;</span>);</span><br><span class="line">    <span class="keyword">int</span> connect_return = connect(server_socket, (<span class="keyword">const</span> struct sockaddr *)&amp;server_info, <span class="keyword">sizeof</span>(server_info));</span><br><span class="line">    <span class="keyword">if</span>(connect_return != <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;与服务端链接错误! 错误代码: %d\n&quot;</span>,WSAGetLastError());</span><br><span class="line">        closesocket(server_socket);</span><br><span class="line">        WSACleanup();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;链接成功!\n&quot;</span>);</span><br><span class="line">        send(server_socket, <span class="string">&quot;Hello World!\n&quot;</span>, <span class="keyword">sizeof</span>(<span class="string">&quot;Hello World!\n&quot;</span>), <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//与服务端链接</span></span><br><span class="line">    </span><br><span class="line">    closesocket(server_socket);</span><br><span class="line">    WSACleanup();</span><br><span class="line">    <span class="comment">//关闭socket与清理网络库</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h2><p><img src="%5Cimages%5C2021_1_23_1.png"></p>
+<p><img src="%5Cimages%5C2021_1_23_2.png"></p>
+<p><img src="%5Cimages%5C2021_1_23_3.png"></p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>咕咕咕</p>
+<h1 id="C-S模型优化"><a href="#C-S模型优化" class="headerlink" title="C/S模型优化"></a>C/S模型优化</h1><p>咕咕</p>
+<h1 id="UDP-IP模型的简单介绍"><a href="#UDP-IP模型的简单介绍" class="headerlink" title="UDP/IP模型的简单介绍"></a>UDP/IP模型的简单介绍</h1><p>咕</p>
+<p>博主太懒了，天天摸鱼打彩六，ddl了才开始赶文章，我一天是真赶不完啊啊啊….</p>
+<p>内容会慢慢补起来的….</p>
+<h1 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h1><p>本教程到此结束，你学废了吗？有问题的小伙伴们欢迎在评论区友好交流。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="vcomments">
+                <!--Valine-->
+                <script src="/js/Valine.min.js"></script>
+            <!--id disqus_thread  <noscript>Please enable JavaScript to view the comments.</noscript>-->
+            <script>
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'yEI6RlVJLA4pYwjBexhwdp8j-gzGzoHsz',
+                    appKey: '0oz4352SSpNVsruE6U11qzhQ',
+                     // 设置贴吧表情包地址
+                    emojiCDN: 'https://valinecdn.bili33.top/Tieba-New', 
+                    // 表情title和图片映射
+                    emojiMaps: {
+                        "Tieba-New2": "Tieba-New/image_emoticon.png",
+                        "Tieba-New3": "Tieba-New/image_emoticon10.png",
+                        "Tieba-New4": "Tieba-New/image_emoticon100.png",
+                        "Tieba-New5": "Tieba-New/image_emoticon101.png",
+                        "Tieba-New6": "Tieba-New/image_emoticon102.png",
+                        "Tieba-New7": "Tieba-New/image_emoticon103.png",
+                        "Tieba-New8": "Tieba-New/image_emoticon104.png",
+                        "Tieba-New9": "Tieba-New/image_emoticon105.png",
+                        "Tieba-New10": "Tieba-New/image_emoticon106.png",
+                        "Tieba-New11": "Tieba-New/image_emoticon107.png",
+                        "Tieba-New12": "Tieba-New/image_emoticon108.png",
+                        "Tieba-New13": "Tieba-New/image_emoticon109.png",
+                        "Tieba-New14": "Tieba-New/image_emoticon11.png",
+                        "Tieba-New15": "Tieba-New/image_emoticon110.png",
+                        "Tieba-New16": "Tieba-New/image_emoticon111.png",
+                        "Tieba-New17": "Tieba-New/image_emoticon112.png",
+                        "Tieba-New18": "Tieba-New/image_emoticon113.png",
+                        "Tieba-New19": "Tieba-New/image_emoticon114.png",
+                        "Tieba-New20": "Tieba-New/image_emoticon115.png",
+                        "Tieba-New21": "Tieba-New/image_emoticon116.png",
+                        "Tieba-New22": "Tieba-New/image_emoticon117.png",
+                        "Tieba-New23": "Tieba-New/image_emoticon118.png",
+                        "Tieba-New24": "Tieba-New/image_emoticon119.png",
+                        "Tieba-New25": "Tieba-New/image_emoticon12.png",
+                        "Tieba-New26": "Tieba-New/image_emoticon120.png",
+                        "Tieba-New27": "Tieba-New/image_emoticon121.png",
+                        "Tieba-New28": "Tieba-New/image_emoticon122.png",
+                        "Tieba-New29": "Tieba-New/image_emoticon123.png",
+                        "Tieba-New30": "Tieba-New/image_emoticon124.png",
+                        "Tieba-New31": "Tieba-New/image_emoticon13.png",
+                        "Tieba-New32": "Tieba-New/image_emoticon14.png",
+                        "Tieba-New33": "Tieba-New/image_emoticon15.png",
+                        "Tieba-New34": "Tieba-New/image_emoticon16.png",
+                        "Tieba-New35": "Tieba-New/image_emoticon17.png",
+                        "Tieba-New36": "Tieba-New/image_emoticon18.png",
+                        "Tieba-New37": "Tieba-New/image_emoticon19.png",
+                        "Tieba-New38": "Tieba-New/image_emoticon2.png",
+                        "Tieba-New39": "Tieba-New/image_emoticon20.png",
+                        "Tieba-New40": "Tieba-New/image_emoticon21.png",
+                        "Tieba-New41": "Tieba-New/image_emoticon22.png",
+                        "Tieba-New42": "Tieba-New/image_emoticon23.png",
+                        "Tieba-New43": "Tieba-New/image_emoticon24.png",
+                        "Tieba-New44": "Tieba-New/image_emoticon25.png",
+                        "Tieba-New45": "Tieba-New/image_emoticon26.png",
+                        "Tieba-New46": "Tieba-New/image_emoticon27.png",
+                        "Tieba-New47": "Tieba-New/image_emoticon28.png",
+                        "Tieba-New48": "Tieba-New/image_emoticon29.png",
+                        "Tieba-New49": "Tieba-New/image_emoticon3.png",
+                        "Tieba-New50": "Tieba-New/image_emoticon30.png",
+                        "Tieba-New51": "Tieba-New/image_emoticon31.png",
+                        "Tieba-New52": "Tieba-New/image_emoticon32.png",
+                        "Tieba-New53": "Tieba-New/image_emoticon33.png",
+                        "Tieba-New54": "Tieba-New/image_emoticon34.png",
+                        "Tieba-New55": "Tieba-New/image_emoticon35.png",
+                        "Tieba-New56": "Tieba-New/image_emoticon36.png",
+                        "Tieba-New57": "Tieba-New/image_emoticon37.png",
+                        "Tieba-New58": "Tieba-New/image_emoticon38.png",
+                        "Tieba-New59": "Tieba-New/image_emoticon39.png",
+                        "Tieba-New60": "Tieba-New/image_emoticon4.png",
+                        "Tieba-New61": "Tieba-New/image_emoticon40.png",
+                        "Tieba-New62": "Tieba-New/image_emoticon41.png",
+                        "Tieba-New63": "Tieba-New/image_emoticon42.png",
+                        "Tieba-New64": "Tieba-New/image_emoticon43.png",
+                        "Tieba-New65": "Tieba-New/image_emoticon44.png",
+                        "Tieba-New66": "Tieba-New/image_emoticon45.png",
+                        "Tieba-New67": "Tieba-New/image_emoticon46.png",
+                        "Tieba-New68": "Tieba-New/image_emoticon47.png",
+                        "Tieba-New69": "Tieba-New/image_emoticon48.png",
+                        "Tieba-New70": "Tieba-New/image_emoticon49.png",
+                        "Tieba-New71": "Tieba-New/image_emoticon5.png",
+                        "Tieba-New72": "Tieba-New/image_emoticon50.png",
+                        "Tieba-New73": "Tieba-New/image_emoticon6.png",
+                        "Tieba-New74": "Tieba-New/image_emoticon66.png",
+                        "Tieba-New75": "Tieba-New/image_emoticon67.png",
+                        "Tieba-New76": "Tieba-New/image_emoticon68.png",
+                        "Tieba-New77": "Tieba-New/image_emoticon69.png",
+                        "Tieba-New78": "Tieba-New/image_emoticon7.png",
+                        "Tieba-New79": "Tieba-New/image_emoticon70.png",
+                        "Tieba-New80": "Tieba-New/image_emoticon71.png",
+                        "Tieba-New81": "Tieba-New/image_emoticon72.png",
+                        "Tieba-New82": "Tieba-New/image_emoticon73.png",
+                        "Tieba-New83": "Tieba-New/image_emoticon74.png",
+                        "Tieba-New84": "Tieba-New/image_emoticon75.png",
+                        "Tieba-New85": "Tieba-New/image_emoticon76.png",
+                        "Tieba-New86": "Tieba-New/image_emoticon77.png",
+                        "Tieba-New87": "Tieba-New/image_emoticon78.png",
+                        "Tieba-New88": "Tieba-New/image_emoticon79.png",
+                        "Tieba-New89": "Tieba-New/image_emoticon8.png",
+                        "Tieba-New90": "Tieba-New/image_emoticon80.png",
+                        "Tieba-New91": "Tieba-New/image_emoticon81.png",
+                        "Tieba-New92": "Tieba-New/image_emoticon82.png",
+                        "Tieba-New93": "Tieba-New/image_emoticon83.png",
+                        "Tieba-New94": "Tieba-New/image_emoticon84.png",
+                        "Tieba-New95": "Tieba-New/image_emoticon85.png",
+                        "Tieba-New96": "Tieba-New/image_emoticon86.png",
+                        "Tieba-New97": "Tieba-New/image_emoticon87.png",
+                        "Tieba-New98": "Tieba-New/image_emoticon88.png",
+                        "Tieba-New99": "Tieba-New/image_emoticon89.png",
+                        "Tieba-New100": "Tieba-New/image_emoticon9.png",
+                        "Tieba-New101": "Tieba-New/image_emoticon90.png",
+                        "Tieba-New102": "Tieba-New/image_emoticon91.png",
+                        "Tieba-New103": "Tieba-New/image_emoticon92.png",
+                        "Tieba-New104": "Tieba-New/image_emoticon93.png",
+                        "Tieba-New105": "Tieba-New/image_emoticon94.png",
+                        "Tieba-New106": "Tieba-New/image_emoticon95.png",
+                        "Tieba-New107": "Tieba-New/image_emoticon96.png",
+                        "Tieba-New108": "Tieba-New/image_emoticon97.png",
+                        "Tieba-New109": "Tieba-New/image_emoticon98.png",
+                        "Tieba-New110": "Tieba-New/image_emoticon99.png",
+                        // ... 更多表情
+                    } 
+                })
+            </script>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSOCKET"><span class="toc-number">2.</span> <span class="toc-text">什么是SOCKET</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#SOCKET%E7%AE%80%E4%BB%8B%E4%B8%8E%E7%AE%80%E5%8D%95%E7%9A%84%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86"><span class="toc-number">2.1.</span> <span class="toc-text">SOCKET简介与简单的网络通信原理</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8ETCP-IP%E7%9A%84C-S%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">基于TCP&#x2F;IP的C&#x2F;S通信模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-IP%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.1.</span> <span class="toc-text">TCP&#x2F;IP协议的简单介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SOCKET%E9%80%9A%E4%BF%A1%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.2.</span> <span class="toc-text">SOCKET通信步骤</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Windows%E7%BD%91%E7%BB%9C%E5%BA%93%E4%B8%8E%E5%A4%B4%E6%96%87%E4%BB%B6"><span class="toc-number">3.3.</span> <span class="toc-text">Windows网络库与头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E7%BD%91%E7%BB%9C%E5%BA%93-WSAStartup-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.4.</span> <span class="toc-text">初始化网络库-WSAStartup()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VScode%E9%85%8D%E7%BD%AE"><span class="toc-number">3.5.</span> <span class="toc-text">VScode配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%A5%97%E6%8E%A5%E5%AD%97-socket-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.6.</span> <span class="toc-text">创建套接字-socket()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%91%E5%AE%9A%E6%9C%AC%E5%9C%B0socket-bind-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.7.</span> <span class="toc-text">绑定本地socket-bind()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%91%E5%90%AC%E9%93%BE%E6%8E%A5-listen-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.8.</span> <span class="toc-text">监听链接-listen()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AB%AF%E9%93%BE%E6%8E%A5-connect-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.9.</span> <span class="toc-text">与服务端链接-connect()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E5%8F%97%E9%93%BE%E6%8E%A5-accept-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.10.</span> <span class="toc-text">接受链接-accept()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A5%E6%94%B6%E4%BF%A1%E6%81%AF-recv-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.11.</span> <span class="toc-text">接收信息-recv()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%91%E9%80%81%E4%BF%A1%E6%81%AF-send-%E5%87%BD%E6%95%B0%E4%B8%8E%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="toc-number">3.12.</span> <span class="toc-text">发送信息-send()函数与返回值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Server%E7%AB%AF%E5%AE%8C%E6%95%B4%E7%BC%96%E5%86%99"><span class="toc-number">3.13.</span> <span class="toc-text">Server端完整编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client%E7%AB%AF%E5%AE%8C%E6%95%B4%E7%BC%96%E5%86%99"><span class="toc-number">3.14.</span> <span class="toc-text">Client端完整编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C"><span class="toc-number">3.15.</span> <span class="toc-text">运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">3.16.</span> <span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#C-S%E6%A8%A1%E5%9E%8B%E4%BC%98%E5%8C%96"><span class="toc-number">4.</span> <span class="toc-text">C&#x2F;S模型优化</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#UDP-IP%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%AE%80%E5%8D%95%E4%BB%8B%E7%BB%8D"><span class="toc-number">5.</span> <span class="toc-text">UDP&#x2F;IP模型的简单介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number">6.</span> <span class="toc-text">完结</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&text=Socket网络编程"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&is_video=false&description=Socket网络编程"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Socket网络编程&body=Check out this article: http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&title=Socket网络编程"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&name=Socket网络编程&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/01/23/Socket%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/&t=Socket网络编程"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    Chikie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
