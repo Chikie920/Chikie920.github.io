@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!--Valine-->
+        <script src="/js/Valine.min.js"></script>
+    <meta name="description" content="变量和基本类型2.1-基本内置类型基本数据类型: 算术类型(字符、 整型数、 布尔值和浮点数)、空类型(void) 2.1.1-算术类型算术类型分为两类： 整型、浮点型 算术类型的尺寸在不同机器上有所差别 C++算术类型   bool的取值为true或false  一个char的大小等于一个机器字节  其他字符类型用于扩展字符集， 如wchar_t、 char16_t、 char32_t  wch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ Primer 第二章 变量和基本类型">
+<meta property="og:url" content="http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Chikie">
+<meta property="og:description" content="变量和基本类型2.1-基本内置类型基本数据类型: 算术类型(字符、 整型数、 布尔值和浮点数)、空类型(void) 2.1.1-算术类型算术类型分为两类： 整型、浮点型 算术类型的尺寸在不同机器上有所差别 C++算术类型   bool的取值为true或false  一个char的大小等于一个机器字节  其他字符类型用于扩展字符集， 如wchar_t、 char16_t、 char32_t  wch">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/C++_2.1.1.png">
+<meta property="og:image" content="http://example.com/images/C++_2.1.3.png">
+<meta property="article:published_time" content="2021-04-09T10:45:32.000Z">
+<meta property="article:modified_time" content="2021-04-09T11:16:01.310Z">
+<meta property="article:author" content="Chikie">
+<meta property="article:tag" content="Cpp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/C++_2.1.1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C++ Primer 第二章 变量和基本类型</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/04/09/C++Primer-%E7%AC%AC%E4%B8%89%E7%AB%A0-%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%90%91%E9%87%8F%E5%92%8C%E6%95%B0%E7%BB%84/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/04/09/C++Primer-%E7%AC%AC%E4%B8%80%E7%AB%A0-%E5%BC%80%E5%A7%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&text=C++ Primer 第二章 变量和基本类型"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&is_video=false&description=C++ Primer 第二章 变量和基本类型"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++ Primer 第二章 变量和基本类型&body=Check out this article: http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&name=C++ Primer 第二章 变量和基本类型&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&t=C++ Primer 第二章 变量和基本类型"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">变量和基本类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%9F%BA%E6%9C%AC%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">2.1-基本内置类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E7%AE%97%E6%9C%AF%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">2.1.1-算术类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.1.2类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E5%AD%97%E9%9D%A2%E5%80%BC%E5%B8%B8%E5%9E%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">2.1.3 字面值常型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">2.2-变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.2.1-变量定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E5%92%8C%E5%AE%9A%E4%B9%89%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2.2-变量声明和定义的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.2.3-标识符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4-%E5%90%8D%E5%AD%97%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.2.4-名字的作用域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">2.3-复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-%E5%BC%95%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">2.3.1-引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-%E6%8C%87%E9%92%88"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.3.2-指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-%E7%90%86%E8%A7%A3%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="toc-number">1.3.3.</span> <span class="toc-text">2.3.3-理解复合类型的声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-const%E9%99%90%E5%AE%9A%E7%AC%A6"><span class="toc-number">1.4.</span> <span class="toc-text">2.4-const限定符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-1-const%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-number">1.4.1.</span> <span class="toc-text">2.4.1-const的引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-2-%E6%8C%87%E9%92%88%E5%92%8Cconst"><span class="toc-number">1.4.2.</span> <span class="toc-text">2.4.2-指针和const</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-4-constexpr%E5%92%8C%E5%B8%B8%E9%87%8F%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.4.3.</span> <span class="toc-text">2.4.4-constexpr和常量表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.5.</span> <span class="toc-text">2.5-处理类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-1-%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D"><span class="toc-number">1.5.1.</span> <span class="toc-text">2.5.1 -类型别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-2-auto%E7%B1%BB%E5%9E%8B%E8%AF%B4%E6%98%8E%E7%AC%A6"><span class="toc-number">1.5.2.</span> <span class="toc-text">2.5.2 -auto类型说明符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-3-decltype%E7%B1%BB%E5%9E%8B%E6%8C%87%E7%A4%BA%E7%AC%A6"><span class="toc-number">1.5.3.</span> <span class="toc-text">2.5.3-decltype类型指示符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.6.</span> <span class="toc-text">2.6-自定义数据结构</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        C++ Primer 第二章 变量和基本类型
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Chikie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-04-09T10:45:32.000Z" itemprop="datePublished">2021-04-09</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Cpp/" rel="tag">Cpp</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="变量和基本类型"><a href="#变量和基本类型" class="headerlink" title="变量和基本类型"></a>变量和基本类型</h1><h2 id="2-1-基本内置类型"><a href="#2-1-基本内置类型" class="headerlink" title="2.1-基本内置类型"></a>2.1-基本内置类型</h2><p>基本数据类型: 算术类型(字符、 整型数、 布尔值和浮点数)、空类型(void)</p>
+<h3 id="2-1-1-算术类型"><a href="#2-1-1-算术类型" class="headerlink" title="2.1.1-算术类型"></a>2.1.1-算术类型</h3><p>算术类型分为两类： 整型、浮点型</p>
+<p>算术类型的尺寸在不同机器上有所差别</p>
+<p><strong>C++算术类型</strong></p>
+<p><img src="/images/C++_2.1.1.png"></p>
+<ul>
+<li><p>bool的取值为true或false</p>
+</li>
+<li><p>一个char的大小等于一个机器字节</p>
+</li>
+<li><p>其他字符类型用于扩展字符集， 如wchar_t、 char16_t、 char32_t</p>
+</li>
+<li><p>wchar_t - 用于储存如中文、日文等字符</p>
+</li>
+<li><p>一个英文字符占1字节，中文字符占2字节</p>
+</li>
+<li><p>C++语言规定：一个int比至少和一个short一样大，一个long至少和一个int一样大，一个long long(C++11)至少和一个long一样大</p>
+</li>
+</ul>
+<p><strong>浮点型</strong></p>
+<ul>
+<li>浮点型可表示单精度 、双精度和扩展精度值</li>
+<li>通常，float以1个字( 32）比特来表示，double以2个字(64比特）来表示， long double以3或4个字(96或128 比特）来表示</li>
+<li>类型float和double分别有7和16个有效位</li>
+</ul>
+<p><strong>带符号类型和无符号类型</strong></p>
+<ul>
+<li>通常在类型(int、 short、 long和long long)前加上unsigned来获得无符号类型，带符号类型可以表示正数、 负数或0, 无符号类型则仅能表示大于等于0的值。类型unsigned int可以缩写为unsigned。</li>
+</ul>
+<ul>
+<li><p>与其他整型不同，字符型被分为了三种：char、signed char和unsigned char。尽管字符型有三种，但特别需要注意的是：类型char和类型signed char并不是字符的表现形式却只有两种：带符号的和无符号的。类型char实际上会表现为上述两种形式中的一种， 具体是哪种由编译器决定。</p>
+</li>
+<li><p>在大多数计算机上8比特的signed char所表示的范围为－128至127</p>
+</li>
+</ul>
+<p><strong>建议：如何选择类型</strong></p>
+<ul>
+<li>明确知晓数值不可能为负时， 选用无符号类型</li>
+<li>用int执行整数运算。在实际应用中，short常常显得太小而 long一般与int一样的尺寸，如果超过了int的尺寸使用long long</li>
+<li>算术表达式中不要使用char或bool</li>
+<li>执行浮点数运算选用double，浮点数以double的形式储存在内存中</li>
+</ul>
+<h3 id="2-1-2类型转换"><a href="#2-1-2类型转换" class="headerlink" title="2.1.2类型转换"></a>2.1.2类型转换</h3><p>当在程序的某处我们使用了某种类型而对象而实际应取另一种类型时，程序会自动进行类型转换，称为自动类型转换</p>
+<ul>
+<li><p>非布尔类型转布尔类型时，0值为false，非0值为true</p>
+</li>
+<li><p>布尔转非布尔，true为1，flase为0</p>
+</li>
+<li><p>浮点数转整数，会截断小数点后的数</p>
+</li>
+<li><p>整型转浮点，小数部分是0，若整型数超过浮点容量，有精度损失</p>
+</li>
+<li><p>给unsigned赋超出范围的值，初始值对该unsigned类型最大值取模</p>
+</li>
+<li><p>给signed赋超出范围的值，未定义</p>
+</li>
+<li><p>算术表达式中同时有signed和unsigned，会将signed自动转为unsigned</p>
+</li>
+</ul>
+<p><strong>含有无符号类型的表达式</strong></p>
+<p>当一个算术表达式中既有无符号数又有int值时，那个int值就会转换成无符号</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">unsigned</span> u = <span class="number">10</span>; </span><br><span class="line"><span class="keyword">int</span> i= <span class="number">-42</span>; </span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span>&lt;&lt; i + i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">// 输出－84</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; u + i &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">//如果int占32位,输出4294967264，这里i被取模</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>提示：切勿混用带符号类型和无符号类型</strong></p>
+<h3 id="2-1-3-字面值常型"><a href="#2-1-3-字面值常型" class="headerlink" title="2.1.3 字面值常型"></a>2.1.3 字面值常型</h3><p>一个形如42的值被称作字面值常量</p>
+<p><strong>整型和浮点型字面值</strong></p>
+<ul>
+<li><p><code>20/十进制  024/八进制  Ox14/十六进制</code></p>
+</li>
+<li><p>默认的，浮点型字面值是一个double</p>
+</li>
+</ul>
+<p><strong>字符和字符串字面值</strong></p>
+<ul>
+<li>编译器在每个字符串的结尾处添加一个空字符(‘\0’），因此，字符串字面值的实际长度要比它的内容多1</li>
+</ul>
+<p><strong>转义序列</strong></p>
+<p>转义序列被当作一个字符使用</p>
+<p><strong>指定字面值的类型</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">L&#x27;a&#x27;</span>     <span class="comment">//宽字符型字面值，类型是wchar_t</span></span><br><span class="line"><span class="string">u8&quot;hi!&quot;</span>  <span class="comment">//utf-8字符串字面值（utf-8用8bit编码一个unicode字符）</span></span><br><span class="line"><span class="number">42U</span>LL    <span class="comment">//无符号整型字面值，类型是unsigned long long</span></span><br><span class="line"><span class="number">1E-3</span>F    <span class="comment">//单精度浮点字面值，类型是float</span></span><br><span class="line"><span class="number">3.14159L</span> <span class="comment">//扩展精度浮点字面值，类型是long double</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/images/C++_2.1.3.png"></p>
+<h2 id="2-2-变量"><a href="#2-2-变量" class="headerlink" title="2.2-变量"></a>2.2-变量</h2><p>对C++程序员来说， “变量”和 “对象”一般可以互换使用</p>
+<h3 id="2-2-1-变量定义"><a href="#2-2-1-变量定义" class="headerlink" title="2.2.1-变量定义"></a>2.2.1-变量定义</h3><p><strong>列表初始化(C++11新标准)</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> units_sold = O;</span><br><span class="line"><span class="keyword">int</span> units_sold = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> units_sold&#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">units_sold</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line"><span class="comment">//等效</span></span><br></pre></td></tr></table></figure>
+
+<p>如果我们使用列表初始 化且初始值存在丢失信息的风险，则编译器将报错</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> <span class="keyword">double</span> ld = <span class="number">3.1415926536</span>;</span><br><span class="line"><span class="keyword">int</span> a &#123;ld&#125;, b = &#123;ld&#125;; <span class="comment">//报错</span></span><br><span class="line">int c(ld), d = ld; //正确</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>默认初始化</strong></p>
+<p>如果定义变量时没有指定初值， 则变量被默认初始化</p>
+<ul>
+<li><p>定义在函数体内部的内置类型变量将不被初始化</p>
+</li>
+<li><p>建议初始化每一个内置类型的变量</p>
+</li>
+</ul>
+<h3 id="2-2-2-变量声明和定义的关系"><a href="#2-2-2-变量声明和定义的关系" class="headerlink" title="2.2.2-变量声明和定义的关系"></a>2.2.2-变量声明和定义的关系</h3><ul>
+<li><p><strong>声明</strong>使得名字为程序所知，而<strong>定义</strong>负责创建与名字关联的实体(创建空间)</p>
+</li>
+<li><p>声明规定了变量的类型和名字；定义申请存储空间，也可能会为变量赋一个初始值</p>
+</li>
+</ul>
+<ul>
+<li><strong>变量能且只能被定义一次， 但是可以被多次声明。</strong></li>
+</ul>
+<p><strong>如果想声明一个变量而非定义它， 就在变量名前添加关键字extern, 而且不要显式地初始化变量</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> i;<span class="comment">//声明i</span></span><br><span class="line"><span class="keyword">int</span> i;<span class="comment">//声明并定义i</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">int</span> i = <span class="number">0</span>;<span class="comment">//抵消了extern的作用，定义i</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>在函数体内部，如果试图初始化一个由extern关键字标记的变量，将引发错误。</strong></p>
+<p><strong>C++是一种静态类型语言，其含义是在编译阶段检查类型。其中，检查类型的过程称为类型检查</strong></p>
+<h3 id="2-2-3-标识符"><a href="#2-2-3-标识符" class="headerlink" title="2.2.3-标识符"></a>2.2.3-标识符</h3><p>变量名由字母数字或下划线组成，必须以字母或下划线开头，对大小写敏感</p>
+<p><strong>命名规范</strong></p>
+<ul>
+<li>名字要有意义</li>
+<li>一般用小写字母</li>
+<li>自定义的类名一般以大写字母开头</li>
+<li>如果名字由多个单词构成，单词间应该有明显划分 如: <code>StudentLoan</code></li>
+<li>不能使用C++的<strong>关键字</strong>来命名</li>
+</ul>
+<h3 id="2-2-4-名字的作用域"><a href="#2-2-4-名字的作用域" class="headerlink" title="2.2.4-名字的作用域"></a>2.2.4-名字的作用域</h3><p>C++中作用域一般以花括号分隔，花括号为一个块</p>
+<ul>
+<li><p>块作用域：块内定义的对象不能在块外使用，结果是未定义的</p>
+</li>
+<li><p>全局作用域：在整个程序中都可使用</p>
+</li>
+</ul>
+<h2 id="2-3-复合类型"><a href="#2-3-复合类型" class="headerlink" title="2.3-复合类型"></a>2.3-复合类型</h2><p>复合类型是指基于其他类型定义的类型，C++语言有几种复合类型，这里介绍其中的两种： 引用和指针</p>
+<h3 id="2-3-1-引用"><a href="#2-3-1-引用" class="headerlink" title="2.3.1-引用"></a>2.3.1-引用</h3><p>引用为对象起了另外一个名字，与其绑定，引用即别名，引用并非对象，相反的，它只是对一个已经存在的对象所起的另外一个名字</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">int</span> &amp;j = i; <span class="comment">//j是i的一个引用，值为1024</span></span><br><span class="line"><span class="keyword">int</span> &amp;k; <span class="comment">//错误，引用必须初始化</span></span><br><span class="line"><span class="keyword">int</span> &amp;a = j; <span class="comment">//a = 1024</span></span><br><span class="line"><span class="keyword">double</span> &amp;b = i; <span class="comment">//错误，类型必须相匹配</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>引用必须初始化</strong></p>
+<p>程序把引用和它的初始值绑定(bind)在一起，而不是将初始值拷贝给引用。一旦初始化完成，引用将和它的初始值对象一直绑定在一起。囚为无法令引用重新绑定到另外一个对象，因此引用必须初始化。</p>
+<p>引用只能绑定在对象上，而不能与一字面值或某个表达式的计算结果绑定在一起</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> &amp;i = <span class="number">1024</span>; <span class="comment">//错误，初始值必须为对象</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;i = <span class="number">1024</span>; <span class="comment">//正确，后续将会解释</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-3-2-指针"><a href="#2-3-2-指针" class="headerlink" title="2.3.2-指针"></a>2.3.2-指针</h3><ul>
+<li>指针：指针指向某个地址</li>
+<li>指针变量：指针变量储存地址</li>
+</ul>
+<p><strong>获取对象地址</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">double</span> k = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">int</span> *p = &amp;i; <span class="comment">//p指向i</span></span><br><span class="line"><span class="keyword">int</span> &amp;j = i;</span><br><span class="line">p = &amp;j; <span class="comment">//错误，引用不是对象</span></span><br><span class="line">p = &amp;k; <span class="comment">//错误，类型不匹配</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>引用不是对象，没有实际地址，所以不能定义指向引用的指针</strong></p>
+<p><strong>指针与引用一样，只能指向相同类型的对象</strong></p>
+<p><strong>用指针访问对象</strong></p>
+<p>解引用运算符 <code>*</code> ，访问指针所指对象的值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">int</span> *p = &amp;i;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; *p &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; <span class="comment">//输出，1024</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>空指针</strong></p>
+<p>空指针(nullpointer)不指向任何对象</p>
+<p>得到空指针的三种方法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> *p = <span class="literal">NULL</span>; <span class="comment">//预处理变量，这个变量在头文件cstdlib中定义</span></span><br><span class="line"><span class="keyword">int</span> *p = <span class="literal">nullptr</span>; <span class="comment">//C++11新标准</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>现在的C++程序最好使用nullptr</strong></p>
+<p><strong>任何非0指针对应的条件值都是true</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p1 = <span class="literal">nullptr</span>;</span><br><span class="line"><span class="keyword">int</span> i =<span class="number">1024</span>;</span><br><span class="line"><span class="keyword">int</span> *p2 = &amp;i;</span><br><span class="line"><span class="keyword">if</span>(p1)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;<span class="comment">//false</span></span><br><span class="line"><span class="keyword">if</span>(p2)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>建议初始化所有指针</strong></p>
+<p>*<em>void</em>指针**</p>
+<p>void＊是一种特殊的指针类型，可用于存放任意对象的地址，我们对该地址中到底是个什么类型的对象<br>并不了解，利用void指针能做的事儿比较有限</p>
+<h3 id="2-3-3-理解复合类型的声明"><a href="#2-3-3-理解复合类型的声明" class="headerlink" title="2.3.3-理解复合类型的声明"></a>2.3.3-理解复合类型的声明</h3><p>即同时定义多个变量</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p, pi; <span class="comment">//p为指针变量，pi为整型变量</span></span><br><span class="line"><span class="keyword">int</span> *p, *pi; <span class="comment">//都为指针变量</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>指向指针的指针</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> ival = <span class="number">1024</span>; </span><br><span class="line"><span class="keyword">int</span> *pi= &amp;ival; <span class="comment">//pi指向一个int型的数</span></span><br><span class="line"><span class="keyword">int</span> **ppi = &amp;pi; <span class="comment">//ppi指向一个int类型的指针</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>指向指针的引用</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> *p;</span><br><span class="line"><span class="keyword">int</span> *&amp;r= p;</span><br></pre></td></tr></table></figure>
+
+<p>要理解r的类型到底是什么，最简单的办法是<strong>从右向左阅读r的定义</strong>。离变量名最近的符号，此例中是＆r的符号&amp;对变量的类型有最直接的影响，因此r是一个引用</p>
+<h2 id="2-4-const限定符"><a href="#2-4-const限定符" class="headerlink" title="2.4-const限定符"></a>2.4-const限定符</h2><p>使用const前缀将变量定义为常数，其值不会改变</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> i = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> j; <span class="comment">//错误，必须初始化</span></span><br><span class="line">i = <span class="number">0</span>; <span class="comment">//错误，向常数写值 1024 ！= 0</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>默认状态下，const 对象仅在文件内有效</strong></p>
+<p>默认情况下，const对象被设定为仅在文件内有效。当多个文件中出现了同名的 const变量时，其实等同于在不同文件中分别定义了独立的变量</p>
+<p>要想只在一个文件中 定义const，而在其他多个文件中声明并使用它。解决的办法是，对于const变量不管是声明还是定义都添加extern关键字</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//file_l.cc定义并初始化了一个常岳，该常量能被其他文件访问</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">int</span> bufSize = fen();</span><br><span class="line"><span class="comment">// file_l.h头文件</span></span><br><span class="line"><span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">int</span> bufSize;<span class="comment">//与file_l.cc中定义的bufSize是同一个</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-4-1-const的引用"><a href="#2-4-1-const的引用" class="headerlink" title="2.4.1-const的引用"></a>2.4.1-const的引用</h3><p>对常量的引用不能被用作修改它所绑定的对象</p>
+<p><strong>对常量的引用</strong></p>
+<p><code>const int &amp;i = 1024;</code></p>
+<p><strong>对const的引用可能引用一个井非const的对象</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> &amp;j = i;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-4-2-指针和const"><a href="#2-4-2-指针和const" class="headerlink" title="2.4.2-指针和const"></a>2.4.2-指针和const</h3><p>要想存放常量对象的地址，只能使用指向常量的指针</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> pi = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">double</span> *p_pi;</span><br><span class="line">p_pi = &amp;pi;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>const指针</strong></p>
+<p>把＊放在const关键字之前用以说明指针是一个常量，即无法改变指针指向</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i =<span class="number">1024</span>;</span><br><span class="line"><span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;i; <span class="comment">//指针指向i</span></span><br><span class="line">p = &amp;j; <span class="comment">//错误，不能改变指针指向</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>顶层const</strong></p>
+<p>用名词<strong>顶层 const</strong>表示指针本身是个常量，即<code>*</code>在const前，<strong>底层 const</strong>表示指针所指的对象是一个常量，即<code>*</code>在const后</p>
+<h3 id="2-4-4-constexpr和常量表达式"><a href="#2-4-4-constexpr和常量表达式" class="headerlink" title="2.4.4-constexpr和常量表达式"></a>2.4.4-constexpr和常量表达式</h3><p>C++11新标准规定，允许将变量声明为constexpr类型以便由编译器来验证变量的值是否是一个常量表达式。声明为constexpr的变量一定是一个常量，而且必须用常量表达式初始化。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constexpr</span> <span class="keyword">int</span> i = <span class="number">1024</span>;</span><br></pre></td></tr></table></figure>
+
+<p>如果你认定变量是一个常量表达式，那就把它声明成constexpr 类型。</p>
+<p>一个constexpr指针的初始值必须是nullptr或者0，或者是存储千某个固定地址中的对象</p>
+<p><strong>指针和constexpr</strong></p>
+<p>在constexpr声明中如果定义了一个指针，限定符constexpr仅对指针有效， 与指针所指的对象无关</p>
+<h2 id="2-5-处理类型"><a href="#2-5-处理类型" class="headerlink" title="2.5-处理类型"></a>2.5-处理类型</h2><h3 id="2-5-1-类型别名"><a href="#2-5-1-类型别名" class="headerlink" title="2.5.1 -类型别名"></a>2.5.1 -类型别名</h3><p>传统的方法是使用关键字<strong>typedef</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">int</span> i;</span><br><span class="line">i a = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+
+<p>新标准规定了一种新的方法， 使用<strong>别名声明-using</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> i = <span class="keyword">int</span>;</span><br><span class="line">i a = <span class="number">1024</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>指针、常量和类型别名</strong></p>
+<h3 id="2-5-2-auto类型说明符"><a href="#2-5-2-auto类型说明符" class="headerlink" title="2.5.2 -auto类型说明符"></a>2.5.2 -auto类型说明符</h3><p>C++11新标准引入了auto类型说明符,auto让编译器通 过初始值来推算变量的类型。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> i = <span class="number">1024</span>;<span class="comment">//i为int型</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>auto一般会忽略掉顶层const，底层const会保留</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> ci = i, &amp;er = ci; </span><br><span class="line"><span class="keyword">auto</span> b = ci;</span><br><span class="line"><span class="keyword">auto</span> c= cr; </span><br><span class="line"><span class="keyword">auto</span> e = &amp;ci;</span><br></pre></td></tr></table></figure>
+
+<p><strong>如果希望推断出的auto类型是个顶层const， 需要明确指出</strong></p>
+<p><code>const auto i = 1024;</code></p>
+<p>还可以将引用的类型设为auto, 此时原来的初始化规则仍然适用：</p>
+<p><code>auto &amp;g = ci;</code></p>
+<h3 id="2-5-3-decltype类型指示符"><a href="#2-5-3-decltype类型指示符" class="headerlink" title="2.5.3-decltype类型指示符"></a>2.5.3-decltype类型指示符</h3><p>C++11新标准引入了第二种类型说明符 decltype, 它的作用是选择并返回操作数的数据类型。编译器分析表达式并得到它的类型，却不实际计算表达式的值</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">decltype</span>(<span class="keyword">int</span>) i = <span class="number">1024</span>; <span class="comment">//i为int型</span></span><br><span class="line"><span class="keyword">decltype</span>(i) a = <span class="number">1024</span>;</span><br><span class="line"><span class="keyword">decltype</span>((i)) b = i; <span class="comment">//b是i的引用 int &amp;b = i;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>切记：decltype ((variable))（注意是双层括号）的结果永远是引用，而 decltype(variable)结果只有当variable本身就是一个引用时才是 引用。</strong></p>
+<h2 id="2-6-自定义数据结构"><a href="#2-6-自定义数据结构" class="headerlink" title="2.6-自定义数据结构"></a>2.6-自定义数据结构</h2><p>创建一个类有两种方法:struct、class（区别在后面介绍）</p>
+<p>注意struct后的分号必不可少</p>
+<p><strong>类数据成员</strong></p>
+<p>类的数据成员定义了类的对象的具体内容，定义数据成员的方法和定义普通变量一样</p>
+<p><strong>预处理器概述</strong></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="vcomments">
+                <!--Valine-->
+                <script src="/js/Valine.min.js"></script>
+            <!--id disqus_thread  <noscript>Please enable JavaScript to view the comments.</noscript>-->
+            <script>
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'yEI6RlVJLA4pYwjBexhwdp8j-gzGzoHsz',
+                    appKey: '0oz4352SSpNVsruE6U11qzhQ',
+                     // 设置贴吧表情包地址
+                    emojiCDN: '//valinecdn.bili33.top/', 
+                    // 表情title和图片映射
+                    emojiMaps: {
+                        "Tieba-New2": "Tieba-New/image_emoticon.png",
+                        "Tieba-New3": "Tieba-New/image_emoticon10.png",
+                        "Tieba-New4": "Tieba-New/image_emoticon100.png",
+                        "Tieba-New5": "Tieba-New/image_emoticon101.png",
+                        "Tieba-New6": "Tieba-New/image_emoticon102.png",
+                        "Tieba-New7": "Tieba-New/image_emoticon103.png",
+                        "Tieba-New8": "Tieba-New/image_emoticon104.png",
+                        "Tieba-New9": "Tieba-New/image_emoticon105.png",
+                        "Tieba-New10": "Tieba-New/image_emoticon106.png",
+                        "Tieba-New11": "Tieba-New/image_emoticon107.png",
+                        "Tieba-New12": "Tieba-New/image_emoticon108.png",
+                        "Tieba-New13": "Tieba-New/image_emoticon109.png",
+                        "Tieba-New14": "Tieba-New/image_emoticon11.png",
+                        "Tieba-New15": "Tieba-New/image_emoticon110.png",
+                        "Tieba-New16": "Tieba-New/image_emoticon111.png",
+                        "Tieba-New17": "Tieba-New/image_emoticon112.png",
+                        "Tieba-New18": "Tieba-New/image_emoticon113.png",
+                        "Tieba-New19": "Tieba-New/image_emoticon114.png",
+                        "Tieba-New20": "Tieba-New/image_emoticon115.png",
+                        "Tieba-New21": "Tieba-New/image_emoticon116.png",
+                        "Tieba-New22": "Tieba-New/image_emoticon117.png",
+                        "Tieba-New23": "Tieba-New/image_emoticon118.png",
+                        "Tieba-New24": "Tieba-New/image_emoticon119.png",
+                        "Tieba-New25": "Tieba-New/image_emoticon12.png",
+                        "Tieba-New26": "Tieba-New/image_emoticon120.png",
+                        "Tieba-New27": "Tieba-New/image_emoticon121.png",
+                        "Tieba-New28": "Tieba-New/image_emoticon122.png",
+                        "Tieba-New29": "Tieba-New/image_emoticon123.png",
+                        "Tieba-New30": "Tieba-New/image_emoticon124.png",
+                        "Tieba-New31": "Tieba-New/image_emoticon13.png",
+                        "Tieba-New32": "Tieba-New/image_emoticon14.png",
+                        "Tieba-New33": "Tieba-New/image_emoticon15.png",
+                        "Tieba-New34": "Tieba-New/image_emoticon16.png",
+                        "Tieba-New35": "Tieba-New/image_emoticon17.png",
+                        "Tieba-New36": "Tieba-New/image_emoticon18.png",
+                        "Tieba-New37": "Tieba-New/image_emoticon19.png",
+                        "Tieba-New38": "Tieba-New/image_emoticon2.png",
+                        "Tieba-New39": "Tieba-New/image_emoticon20.png",
+                        "Tieba-New40": "Tieba-New/image_emoticon21.png",
+                        "Tieba-New41": "Tieba-New/image_emoticon22.png",
+                        "Tieba-New42": "Tieba-New/image_emoticon23.png",
+                        "Tieba-New43": "Tieba-New/image_emoticon24.png",
+                        "Tieba-New44": "Tieba-New/image_emoticon25.png",
+                        "Tieba-New45": "Tieba-New/image_emoticon26.png",
+                        "Tieba-New46": "Tieba-New/image_emoticon27.png",
+                        "Tieba-New47": "Tieba-New/image_emoticon28.png",
+                        "Tieba-New48": "Tieba-New/image_emoticon29.png",
+                        "Tieba-New49": "Tieba-New/image_emoticon3.png",
+                        "Tieba-New50": "Tieba-New/image_emoticon30.png",
+                        "Tieba-New51": "Tieba-New/image_emoticon31.png",
+                        "Tieba-New52": "Tieba-New/image_emoticon32.png",
+                        "Tieba-New53": "Tieba-New/image_emoticon33.png",
+                        "Tieba-New54": "Tieba-New/image_emoticon34.png",
+                        "Tieba-New55": "Tieba-New/image_emoticon35.png",
+                        "Tieba-New56": "Tieba-New/image_emoticon36.png",
+                        "Tieba-New57": "Tieba-New/image_emoticon37.png",
+                        "Tieba-New58": "Tieba-New/image_emoticon38.png",
+                        "Tieba-New59": "Tieba-New/image_emoticon39.png",
+                        "Tieba-New60": "Tieba-New/image_emoticon4.png",
+                        "Tieba-New61": "Tieba-New/image_emoticon40.png",
+                        "Tieba-New62": "Tieba-New/image_emoticon41.png",
+                        "Tieba-New63": "Tieba-New/image_emoticon42.png",
+                        "Tieba-New64": "Tieba-New/image_emoticon43.png",
+                        "Tieba-New65": "Tieba-New/image_emoticon44.png",
+                        "Tieba-New66": "Tieba-New/image_emoticon45.png",
+                        "Tieba-New67": "Tieba-New/image_emoticon46.png",
+                        "Tieba-New68": "Tieba-New/image_emoticon47.png",
+                        "Tieba-New69": "Tieba-New/image_emoticon48.png",
+                        "Tieba-New70": "Tieba-New/image_emoticon49.png",
+                        "Tieba-New71": "Tieba-New/image_emoticon5.png",
+                        "Tieba-New72": "Tieba-New/image_emoticon50.png",
+                        "Tieba-New73": "Tieba-New/image_emoticon6.png",
+                        "Tieba-New74": "Tieba-New/image_emoticon66.png",
+                        "Tieba-New75": "Tieba-New/image_emoticon67.png",
+                        "Tieba-New76": "Tieba-New/image_emoticon68.png",
+                        "Tieba-New77": "Tieba-New/image_emoticon69.png",
+                        "Tieba-New78": "Tieba-New/image_emoticon7.png",
+                        "Tieba-New79": "Tieba-New/image_emoticon70.png",
+                        "Tieba-New80": "Tieba-New/image_emoticon71.png",
+                        "Tieba-New81": "Tieba-New/image_emoticon72.png",
+                        "Tieba-New82": "Tieba-New/image_emoticon73.png",
+                        "Tieba-New83": "Tieba-New/image_emoticon74.png",
+                        "Tieba-New84": "Tieba-New/image_emoticon75.png",
+                        "Tieba-New85": "Tieba-New/image_emoticon76.png",
+                        "Tieba-New86": "Tieba-New/image_emoticon77.png",
+                        "Tieba-New87": "Tieba-New/image_emoticon78.png",
+                        "Tieba-New88": "Tieba-New/image_emoticon79.png",
+                        "Tieba-New89": "Tieba-New/image_emoticon8.png",
+                        "Tieba-New90": "Tieba-New/image_emoticon80.png",
+                        "Tieba-New91": "Tieba-New/image_emoticon81.png",
+                        "Tieba-New92": "Tieba-New/image_emoticon82.png",
+                        "Tieba-New93": "Tieba-New/image_emoticon83.png",
+                        "Tieba-New94": "Tieba-New/image_emoticon84.png",
+                        "Tieba-New95": "Tieba-New/image_emoticon85.png",
+                        "Tieba-New96": "Tieba-New/image_emoticon86.png",
+                        "Tieba-New97": "Tieba-New/image_emoticon87.png",
+                        "Tieba-New98": "Tieba-New/image_emoticon88.png",
+                        "Tieba-New99": "Tieba-New/image_emoticon89.png",
+                        "Tieba-New100": "Tieba-New/image_emoticon9.png",
+                        "Tieba-New101": "Tieba-New/image_emoticon90.png",
+                        "Tieba-New102": "Tieba-New/image_emoticon91.png",
+                        "Tieba-New103": "Tieba-New/image_emoticon92.png",
+                        "Tieba-New104": "Tieba-New/image_emoticon93.png",
+                        "Tieba-New105": "Tieba-New/image_emoticon94.png",
+                        "Tieba-New106": "Tieba-New/image_emoticon95.png",
+                        "Tieba-New107": "Tieba-New/image_emoticon96.png",
+                        "Tieba-New108": "Tieba-New/image_emoticon97.png",
+                        "Tieba-New109": "Tieba-New/image_emoticon98.png",
+                        "Tieba-New110": "Tieba-New/image_emoticon99.png",
+                        // ... 更多表情
+                    } 
+                })
+            </script>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.</span> <span class="toc-text">变量和基本类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%9F%BA%E6%9C%AC%E5%86%85%E7%BD%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">2.1-基本内置类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E7%AE%97%E6%9C%AF%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.1.1.</span> <span class="toc-text">2.1.1-算术类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.1.2类型转换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E5%AD%97%E9%9D%A2%E5%80%BC%E5%B8%B8%E5%9E%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">2.1.3 字面值常型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%8F%98%E9%87%8F"><span class="toc-number">1.2.</span> <span class="toc-text">2.2-变量</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.2.1-变量定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E5%92%8C%E5%AE%9A%E4%B9%89%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2.2-变量声明和定义的关系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="toc-number">1.2.3.</span> <span class="toc-text">2.2.3-标识符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4-%E5%90%8D%E5%AD%97%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="toc-number">1.2.4.</span> <span class="toc-text">2.2.4-名字的作用域</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">2.3-复合类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-1-%E5%BC%95%E7%94%A8"><span class="toc-number">1.3.1.</span> <span class="toc-text">2.3.1-引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-2-%E6%8C%87%E9%92%88"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.3.2-指针</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-3-%E7%90%86%E8%A7%A3%E5%A4%8D%E5%90%88%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%A3%B0%E6%98%8E"><span class="toc-number">1.3.3.</span> <span class="toc-text">2.3.3-理解复合类型的声明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-const%E9%99%90%E5%AE%9A%E7%AC%A6"><span class="toc-number">1.4.</span> <span class="toc-text">2.4-const限定符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-1-const%E7%9A%84%E5%BC%95%E7%94%A8"><span class="toc-number">1.4.1.</span> <span class="toc-text">2.4.1-const的引用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-2-%E6%8C%87%E9%92%88%E5%92%8Cconst"><span class="toc-number">1.4.2.</span> <span class="toc-text">2.4.2-指针和const</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-4-constexpr%E5%92%8C%E5%B8%B8%E9%87%8F%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">1.4.3.</span> <span class="toc-text">2.4.4-constexpr和常量表达式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-%E5%A4%84%E7%90%86%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.5.</span> <span class="toc-text">2.5-处理类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-1-%E7%B1%BB%E5%9E%8B%E5%88%AB%E5%90%8D"><span class="toc-number">1.5.1.</span> <span class="toc-text">2.5.1 -类型别名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-2-auto%E7%B1%BB%E5%9E%8B%E8%AF%B4%E6%98%8E%E7%AC%A6"><span class="toc-number">1.5.2.</span> <span class="toc-text">2.5.2 -auto类型说明符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-3-decltype%E7%B1%BB%E5%9E%8B%E6%8C%87%E7%A4%BA%E7%AC%A6"><span class="toc-number">1.5.3.</span> <span class="toc-text">2.5.3-decltype类型指示符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-number">1.6.</span> <span class="toc-text">2.6-自定义数据结构</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&text=C++ Primer 第二章 变量和基本类型"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&is_video=false&description=C++ Primer 第二章 变量和基本类型"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++ Primer 第二章 变量和基本类型&body=Check out this article: http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&title=C++ Primer 第二章 变量和基本类型"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&name=C++ Primer 第二章 变量和基本类型&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/04/09/C++Primer-%E7%AC%AC%E4%BA%8C%E7%AB%A0-%E5%8F%98%E9%87%8F%E5%92%8C%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B/&t=C++ Primer 第二章 变量和基本类型"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    Chikie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
