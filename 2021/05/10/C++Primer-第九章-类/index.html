@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!--Valine-->
+        <script src="/js/Valine.min.js"></script>
+    <meta name="description" content="顺序容器9.1-顺序容器概述所有顺序容器都提供了快速顺序访问元素的能力。 但是，这些容器在以下方面都有不同的性能折中  向容器添加或从容器中删除元素的代价 非顺序访问容器中元素的代价   处了 arry类型其他的类型都可以进行增加或删除元素、增加或减小容器内存大小  forward_list和array是新C++标准增加的类型  string和vector将元素保存在连续的内存空间中，可以随机访问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++Primer-第九章-类">
+<meta property="og:url" content="http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/index.html">
+<meta property="og:site_name" content="Chikie">
+<meta property="og:description" content="顺序容器9.1-顺序容器概述所有顺序容器都提供了快速顺序访问元素的能力。 但是，这些容器在以下方面都有不同的性能折中  向容器添加或从容器中删除元素的代价 非顺序访问容器中元素的代价   处了 arry类型其他的类型都可以进行增加或删除元素、增加或减小容器内存大小  forward_list和array是新C++标准增加的类型  string和vector将元素保存在连续的内存空间中，可以随机访问">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/9.1.png">
+<meta property="og:image" content="http://example.com/images/9.2.png">
+<meta property="og:image" content="http://example.com/images/9.3.png">
+<meta property="og:image" content="http://example.com/images/9.4.png">
+<meta property="og:image" content="http://example.com/images/9.5.png">
+<meta property="og:image" content="http://example.com/images/9.6.png">
+<meta property="og:image" content="http://example.com/images/9.7.png">
+<meta property="og:image" content="http://example.com/images/9.8.png">
+<meta property="og:image" content="http://example.com/images/9.10.png">
+<meta property="og:image" content="http://example.com/images/9.11.png">
+<meta property="og:image" content="http://example.com/images/9.12.png">
+<meta property="og:image" content="http://example.com/images/9.13.png">
+<meta property="og:image" content="http://example.com/images/9.14.png">
+<meta property="og:image" content="http://example.com/images/9.15.png">
+<meta property="og:image" content="http://example.com/images/9.16.png">
+<meta property="og:image" content="http://example.com/images/9.17.png">
+<meta property="og:image" content="http://example.com/images/9.18.png">
+<meta property="og:image" content="http://example.com/images/9.19.png">
+<meta property="article:published_time" content="2021-05-10T12:40:53.000Z">
+<meta property="article:modified_time" content="2021-05-10T12:42:43.522Z">
+<meta property="article:author" content="Chikie">
+<meta property="article:tag" content="Cpp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/9.1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>C++Primer-第九章-类</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/04/17/2021-9%E6%9C%88%E6%95%B0%E5%AD%A6%E5%BB%BA%E6%A8%A1%E5%9B%BD%E8%B5%9B%E7%AD%B9%E5%A4%87/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&text=C++Primer-第九章-类"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&is_video=false&description=C++Primer-第九章-类"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++Primer-第九章-类&body=Check out this article: http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&name=C++Primer-第九章-类&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&t=C++Primer-第九章-类"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">顺序容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-1-%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">9.1-顺序容器概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-2-%E5%AE%B9%E5%99%A8%E5%BA%93%E6%A6%82%E8%A7%88"><span class="toc-number">1.2.</span> <span class="toc-text">9.2-容器库概览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-1-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">9.2.1-迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-2-%E5%AE%B9%E5%99%A8%E7%B1%BB%E5%9E%8B%E6%88%90%E5%91%98"><span class="toc-number">1.2.2.</span> <span class="toc-text">9.2.2-容器类型成员</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-3-begin%E5%92%8Cend%E6%88%90%E5%91%98"><span class="toc-number">1.2.3.</span> <span class="toc-text">9.2.3-begin和end成员</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-4-%E5%AE%B9%E5%99%A8%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.4.</span> <span class="toc-text">9.2.4-容器定义和初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-5-%E8%B5%8B%E5%80%BC%E5%92%8Cswap"><span class="toc-number">1.2.5.</span> <span class="toc-text">9.2.5-赋值和swap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-6-%E5%AE%B9%E5%99%A8%E5%A4%A7%E5%B0%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.6.</span> <span class="toc-text">9.2.6-容器大小操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-7-%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.2.7.</span> <span class="toc-text">9.2.7-关系运算符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-3-%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">9.3-顺序容器操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-1-%E5%90%91%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="toc-number">1.3.1.</span> <span class="toc-text">9.3.1-向顺序容器添加元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-2-%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0"><span class="toc-number">1.3.2.</span> <span class="toc-text">9.3.2-访问元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-3-%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.3.</span> <span class="toc-text">9.3.3-删除容器操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-4-%E7%89%B9%E6%AE%8A%E7%9A%84forward-list%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.4.</span> <span class="toc-text">9.3.4- 特殊的forward_list操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-5-%E6%94%B9%E5%8F%98%E5%AE%B9%E5%99%A8%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.3.5.</span> <span class="toc-text">9.3.5-改变容器大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-6-%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C%E5%8F%AF%E8%83%BD%E4%BD%BF%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%A4%B1%E6%95%88"><span class="toc-number">1.3.6.</span> <span class="toc-text">9.3.6-容器操作可能使迭代器失效</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-4-vector%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%A6%82%E4%BD%95%E5%A2%9E%E9%95%BF%E7%9A%84"><span class="toc-number">1.4.</span> <span class="toc-text">9.4- vector对象是如何增长的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-5-%E9%A2%9D%E5%A4%96%E7%9A%84string%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.</span> <span class="toc-text">9.5- 额外的string操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-1-%E6%9E%84%E9%80%A0string%E7%9A%84%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.1.</span> <span class="toc-text">9.5.1- 构造string的其他方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-2-%E6%94%B9%E5%8F%98string%E7%9A%84%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.2.</span> <span class="toc-text">9.5.2- 改变string的其他方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-3-string%E6%90%9C%E7%B4%A2%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.3.</span> <span class="toc-text">9.5.3- string搜索操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-4-compare%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.4.</span> <span class="toc-text">9.5.4-compare函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-5-%E6%95%B0%E5%80%BC%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.5.5.</span> <span class="toc-text">9.5.5- 数值转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-6-%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.6.</span> <span class="toc-text">9.6- 容器适配器</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        C++Primer-第九章-类
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Chikie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-05-10T12:40:53.000Z" itemprop="datePublished">2021-05-10</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Cpp/" rel="tag">Cpp</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="顺序容器"><a href="#顺序容器" class="headerlink" title="顺序容器"></a>顺序容器</h1><h2 id="9-1-顺序容器概述"><a href="#9-1-顺序容器概述" class="headerlink" title="9.1-顺序容器概述"></a>9.1-顺序容器概述</h2><p>所有顺序容器都提供了快速顺序访问元素的能力。 但是，这些容器在以下方面都有不同的性能折中</p>
+<ul>
+<li>向容器添加或从容器中删除元素的代价</li>
+<li>非顺序访问容器中元素的代价</li>
+</ul>
+<p><img src="/images/9.1.png" alt="9.1"></p>
+<p>处了 <code>arry</code>类型其他的类型都可以进行增加或删除元素、增加或减小容器内存大小</p>
+<ul>
+<li><p>forward_list和array是新C++标准增加的类型</p>
+</li>
+<li><p>string和vector将元素保存在连续的内存空间中，可以随机访问元素且十分快速。但在这两种容器的中间位置添加或删除元<br>素就会非常耗时，每执行一次就要移动操作位置后面的所有元素</p>
+</li>
+<li><p>list和forward_list两个容器的设计目的是令容器任何位置的添加和删除操作都十分快速，但不支持随机访问元素，只能遍历整个容器，且内存开销也很大。</p>
+</li>
+<li><p>deque支持快速的随机访问，但与string和vector一样，在deque的中间位置但是添加或删除元素的代价可能很高。在deque 的两端添加或删除元素都是很快的， 与list和forward_list添加删除元素的速度相当。</p>
+</li>
+<li><p>与内置数组相比，array是一种更安全、更容易使用的数组类型，大小固定，支持拷贝但不支持添加和删除元素以及改变容器大小的操作</p>
+</li>
+<li><p>forward_list的设计目标是达到与最快的手写单向链表相当的性能，故没有size操作（计算和保存都要开销）</p>
+</li>
+<li><p>C++11的容器比旧版本快很多，其性能与优化过的手写数据结构一样好。故应使用标准库容器而不是用数组造轮子</p>
+</li>
+</ul>
+<p><strong>通常，使用vector是最好的选择，除非你有很好的理由选择其他容器。</strong></p>
+<ul>
+<li>选择容器的基本原则：<ul>
+<li>一般用vector，除非有理由选其他容器</li>
+<li>如果元素小而多，且空间开销重要，则不要用list或forward_list</li>
+<li>若要求随机访问，则用vector或deque</li>
+<li>若要在中间插入/删除，则用list或forward_list</li>
+<li>若要在头尾插入/删除但不在中间插入/删除，则用deque</li>
+<li>尽量避免在中间插入。例如可用vector存储，再用标准库算法做排序等操作来改变顺序</li>
+<li>如程序分为几阶段，只有前半段必须在中间插入，则前半段用list，再拷贝到vector做后半段</li>
+<li>若必须同时使用随机访问和中间插入，则看哪个占主导地位。可用实验来判断用list/forward_list还是vector/deque</li>
+<li>若不确定用哪种容器，最好在程序中只用vector和list的公共操作：使用迭代器而不是下标，使用<code>++</code>/<code>--</code>而不是下标访问</li>
+</ul>
+</li>
+</ul>
+<p>当同时遇到插入或删除，数据访问两种情况时，因看其中占主导地位的操作选择容器</p>
+<h2 id="9-2-容器库概览"><a href="#9-2-容器库概览" class="headerlink" title="9.2-容器库概览"></a>9.2-容器库概览</h2><ul>
+<li><p>一般来说，每个容器都定义在一个头文件中，文件名与类型名相同，即，<code>deque</code>定义在头文件<code>deque</code>中</p>
+</li>
+<li><p>容器均定义为<strong>模板类</strong></p>
+</li>
+</ul>
+<p>顺序容器几乎可以保存任意类型的元素，特别是，可以容器中保存容器。容器的容器在C++11之前的版本中需要多写一个空格，如<code>vector&lt;vector&lt;string&gt; &gt;</code></p>
+<p><img src="/images/9.2.png" alt="9.2"></p>
+<h3 id="9-2-1-迭代器"><a href="#9-2-1-迭代器" class="headerlink" title="9.2.1-迭代器"></a>9.2.1-迭代器</h3><ul>
+<li><p>与容器一样，迭代器有着公共的接口：如果一个迭代器提供某个操作，那么所有提供相同操作的迭代器对这个操作的实现方式都是相同的</p>
+</li>
+<li><p>forward_list的迭代器不支持–操作</p>
+</li>
+<li><p>迭代器范围由一对迭代器表示，两个迭代器分别指向同一个容器中的元素或者是尾元素之后的位置，两个迭代器必须指向同一容器</p>
+</li>
+<li><p>尾迭代器指向容器最后一个元素的下一位置，所以迭代器范围一般是左闭右开区间</p>
+</li>
+<li><p>若begin与end相等则范围为空，不等则begin指向范围中的第一个元素</p>
+</li>
+<li><p>可使begin递增直到begin==end。以此条件做循环，可保证迭代器有效</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(begin != end)&#123;</span><br><span class="line">    *begin = val; <span class="comment">//将begin指向的元素值赋值为val</span></span><br><span class="line">    ++begin;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-2-2-容器类型成员"><a href="#9-2-2-容器类型成员" class="headerlink" title="9.2.2-容器类型成员"></a>9.2.2-容器类型成员</h3><p>容器通用的类型成员：</p>
+<ul>
+<li>2个<code>迭代器类型</code>：<code>iterator</code>迭代器类型，<code>const_iterator</code>常量迭代器类型</li>
+<li>2个<code>整型</code>：<code>size_type</code>无符号，<code>difference_type</code>有符号</li>
+<li>3个<code>类型别名</code>：<code>value_type</code>元素类型，<code>reference</code>元素的左值（引用）类型，<code>const_reference</code>元素的常量引用类型</li>
+</ul>
+<p>大多数容器提供<code>反向迭代器</code>，它可反向遍历容器。与正向迭代器相比，其各种操作含义被颠倒。例如对反向迭代器做<code>++</code>得到上一个元素</p>
+<ul>
+<li>要使用这些类型成员，需要用<code>::</code>指明作用域，即模板类的类名（含模板参数）</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt;::size_type count;</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt;::iterator inter;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-2-3-begin和end成员"><a href="#9-2-3-begin和end成员" class="headerlink" title="9.2.3-begin和end成员"></a>9.2.3-begin和end成员</h3><ul>
+<li><p><code>begin</code>和<code>end</code>成员函数得到指向容器首元素和尾后元素的迭代器，即形成包含容器中所有元素的迭代器范围</p>
+</li>
+<li><p>begin和end有多个版本：<code>rbegin</code>返回反向迭代器，<code>cbegin</code>返回常量迭代器，<code>crbegin</code>返回常量反向迭代器</p>
+</li>
+<li><p>不以c开头的（即非常量）迭代器都是被重载过的，即返回类型都可以是const/非const。因为考虑到begin可能被const/非const成员调用。</p>
+</li>
+<li><p>以c开头的（即常量）迭代器类型是C++11定义的，用于支持auto。****</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//显示指定类型</span></span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt;::interator inter = a.begin();</span><br><span class="line"><span class="comment">//auto指定</span></span><br><span class="line"><span class="keyword">auto</span> inter1 = a.end();</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>不需要写访问时，尽量都用cbegin和cend</strong></p>
+<h3 id="9-2-4-容器定义和初始化"><a href="#9-2-4-容器定义和初始化" class="headerlink" title="9.2.4-容器定义和初始化"></a>9.2.4-容器定义和初始化</h3><p>每个容器都定义了默认构造函数。除array之外的容器默认构造函数都会创建指定类型的空容器，且都可接受指定容器大小和初始值的参数</p>
+<p><img src="/images/9.3.png" alt="9.3"></p>
+<ul>
+<li>将一个新容器创建为另一个容器的拷贝，方法有2种：<ul>
+<li>直接拷贝整个容器：两容器的类型和元素类型都必须匹配</li>
+<li>拷贝一对迭代器指定的范围：不要求容器类型相同，也不要求元素类型相同，只要求元素类型可转换。但不可用于array。可拷贝元素的子序列，新容器大小与迭代器范围的大小相同。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; authors=&#123;<span class="string">&quot;Milton&quot;</span>,<span class="string">&quot;Shakespeare&quot;</span>,<span class="string">&quot;Austen&quot;</span>&#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span> *&gt; articles=&#123;<span class="string">&quot;a&quot;</span>,<span class="string">&quot;an&quot;</span>,<span class="string">&quot;the&quot;</span>&#125;;</span><br><span class="line"><span class="function"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; <span class="title">list2</span><span class="params">(authors)</span></span>;                                    <span class="comment">//对，类型匹配</span></span><br><span class="line"><span class="function"><span class="built_in">deque</span>&lt;<span class="built_in">string</span>&gt; <span class="title">authList</span><span class="params">(authors)</span></span>;                                <span class="comment">//错，容器类型不匹配</span></span><br><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; <span class="title">words</span><span class="params">(articles)</span></span>;                                 <span class="comment">//错，元素类型不匹配</span></span><br><span class="line"><span class="function">forward_list&lt;<span class="built_in">string</span>&gt; <span class="title">words</span><span class="params">(articles.begin(),articles.end())</span></span>;    <span class="comment">//对，不需严格匹配</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>当将一个容器初始化为另一个容器的拷贝时， 两个容器的容器类型和元素类型都必须相同</p>
+<p><strong>列表初始化</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">／／每个容器有三个元素， 用给定的初始化器进行初始化</span><br><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; authors = &#123;<span class="string">&quot;Milton&quot;</span>, <span class="string">&quot;Shakespeare&quot;</span>, <span class="string">&quot;Austen&quot;</span>&#125;;</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span>*&gt; articles = &#123;<span class="string">&quot;a&quot;</span>, <span class="string">&quot;an&quot;</span>, <span class="string">&quot;the&quot;</span> &#125;;</span><br></pre></td></tr></table></figure>
+
+<p>显式地指定了容器中每个元素的值，还隐含地指定了容器的大小</p>
+<p><strong>与顺序容器大小相关的构造函数</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ivec</span><span class="params">(<span class="number">1</span>O, <span class="number">-1</span> )</span></span>; <span class="comment">// 10个int元素，每个都初始化为－1</span></span><br><span class="line"><span class="function"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; <span class="title">svec</span><span class="params">(lO, <span class="string">&quot;hi&#x27;&quot;</span>)</span></span>; <span class="comment">// 10个strings;每个都初始化为&quot;hi“</span></span><br><span class="line"><span class="function">forward_list&lt;<span class="keyword">int</span>&gt; <span class="title">ivec</span><span class="params">(lO)</span></span>; <span class="comment">// 10个元素， 每个都初始化为0</span></span><br><span class="line"><span class="function"><span class="built_in">deque</span>&lt;<span class="built_in">string</span>&gt; <span class="title">svec</span><span class="params">(lO)</span></span>; <span class="comment">// 10个元素， 每个都是空string</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>如果元素类型是内置类型或者是具有默认构造函数的类类型，可以只为构造函数提供一个容器大小参数。如果元素类型没有默认构造函数，除了大小参数外，还必须指定一个显式的元素初始值。</p>
+<p><strong>只有顺序容器的构造函数才接受大小参数，关联容器并不支持</strong></p>
+<p><strong>标准库array 具有固定大小</strong></p>
+<p>与内置数组一样，标准库array 的大小也是类型的一部分，定义时须显示指定其大小</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arry&lt;<span class="keyword">int</span>, <span class="number">10</span>&gt; i;</span><br></pre></td></tr></table></figure>
+
+<p>为了使用array 类型，我们必须同时指定元素类型和大小：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arry&lt;<span class="keyword">int</span>, <span class="number">10</span>&gt;::size_type count;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>一个默认构造的array 是非空的：它包含了与其大小一样多的元素，这些元素都被默认初始化，与内置数组相同</p>
+<p>列表初始化array时，列表内的元素必须小于或等于array的大小，若小于，则剩下的元素被默认初始化</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">array</span>&lt;<span class="keyword">int</span>,10&gt; ia1;                          <span class="comment">//默认初始化array&lt;int,10&gt; ia2=&#123;0,1,2,3,4,5,6,7,8,9&#125;;    //列表初始化array&lt;int,10&gt; ia3=&#123;42&#125;;                     //剩下元素被初始化为0int digs[10]=&#123;0,1,2,3,4,5,6,7,8,9&#125;;int cpy[10]=digs;                           //错，内置数组不可拷贝/赋值。digs被转为指针array&lt;int,10&gt; digits=&#123;0,1,2,3,4,5,6,7,8,9&#125;;array&lt;int,10&gt; copy=digits;                  //对，只要大小和元素类型相同即可</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-2-5-赋值和swap"><a href="#9-2-5-赋值和swap" class="headerlink" title="9.2.5-赋值和swap"></a>9.2.5-赋值和swap</h3><ul>
+<li>表9.4中列出的与赋值相关的运算符可用于所有容器，赋值运算符将其左边容器中的全部元素替换为右边容器中元素的拷贝(array不支持)</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c1 = c2; <span class="comment">//将c1中的元素全部替换为c2中的元素c1 = &#123;1, 2, 3&#125;; //将c1中的元素全部替换为列表中的元素，大小为3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/images/9.4.png"></p>
+<p><strong>使用assign （仅顺序容器）</strong></p>
+<ul>
+<li>允许我们从一个不同但相容的类型赋值， 或者从容器的一个子序列赋值</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; names;<span class="built_in">vector</span>&lt;<span class="keyword">const</span> <span class="keyword">char</span> *&gt; oldstyle;names=oldstyle;                                     <span class="comment">//错，容器类型和元素类型不匹配names.assign(oldstyle.cbegin(),oldstyle.cend());    //对，只要元素类型可转换</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>由于旧元素被替换，故传递给assign的迭代器不能指向调用assign的容器</li>
+</ul>
+<p><strong>使用swap</strong></p>
+<ul>
+<li>除array外，swap操作都不交换元素本身，只交换数据结构。</li>
+</ul>
+<h3 id="9-2-6-容器大小操作"><a href="#9-2-6-容器大小操作" class="headerlink" title="9.2.6-容器大小操作"></a>9.2.6-容器大小操作</h3><p>每个容器类型都有三个与大小相关的操作:</p>
+<ul>
+<li>成员函数<code>size</code>返回容器中元素的数目</li>
+<li><code>empty</code>当size为0时返回true，否则false</li>
+<li><code>max_size</code>返回一个大于等于该类型容器所能容纳的最大元素数量的值</li>
+</ul>
+<p><code>forward_list</code>只支持<code>empty</code>和<code>max_size</code>，不支持<code>size</code></p>
+<h3 id="9-2-7-关系运算符"><a href="#9-2-7-关系运算符" class="headerlink" title="9.2.7-关系运算符"></a>9.2.7-关系运算符</h3><ul>
+<li>任何容器都支持相等运算符<code>==</code>和<code>!=</code>，除无序关联容器外都支持关系运算符<code>&lt;</code>、<code>&lt;=</code>、<code>&gt;</code>、<code>&gt;=</code></li>
+<li>关系运算符两侧对象必须容器类型相同且元素类型相同，然后进行<code>字典顺序</code>的比较</li>
+<li>只有当元素定义了相应的比较符时，才可用其比较容器</li>
+<li>容器的相等是用元素的<code>==</code>实现，其他关系运算符是用元素的<code>&lt;</code>实现</li>
+</ul>
+<h2 id="9-3-顺序容器操作"><a href="#9-3-顺序容器操作" class="headerlink" title="9.3-顺序容器操作"></a>9.3-顺序容器操作</h2><h3 id="9-3-1-向顺序容器添加元素"><a href="#9-3-1-向顺序容器添加元素" class="headerlink" title="9.3.1-向顺序容器添加元素"></a>9.3.1-向顺序容器添加元素</h3><ul>
+<li>除array外，所有标准库容器都可在运行时动态添加/删除元素以改变容器大小</li>
+</ul>
+<p><img src="/images/9.5.png"></p>
+<p><strong>使用push_back</strong></p>
+<p>除array和forward_list外，每个顺序容器都支持push_back</p>
+<p><strong>使用push_front</strong></p>
+<ul>
+<li><p>list、forward_list和deque容器还支持名为<code>push_front</code>的类似操作。此操作将元素插入到容器头部</p>
+</li>
+<li><p>vector不支持push_front，这个学了数据结构的会很好理解</p>
+</li>
+</ul>
+<p><strong>使用insert的返回值</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="built_in">string</span>&gt; lst;<span class="keyword">auto</span> iter=lst.begin();<span class="keyword">while</span>(<span class="built_in">cin</span>&gt;&gt;word)    iter=lst.insert(iter,word); <span class="comment">//等价于反复调用push_front</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>使用emplace操作</strong></p>
+<p>新标准引入了三个新成员一一<code>emplace_front</code> 、<code>emplace</code> 和<code>emplace_back</code>, 这些操作构造而不是拷贝元素。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在c的末尾构造一个Sales_data对象//使用三个参数的Sales—data构造函数c.emplace_back(&quot;978-0590353403&quot;, 25, 15.99);//错误： 没有接受三个参数的push_back版本c.push_back(&quot;978-0590353403&quot;, 25, 15.99);//正确： 创这一个临时的Sales_data对象传递给push_backc.push_back(Sales_data(&quot;978-0590353403&quot;, 25, 15.99));</span></span><br></pre></td></tr></table></figure>
+
+<p>emplace函数在容器中直接构造元素。传递给emplace函数的参数必须与元素类型的构造函数相匹配。</p>
+<h3 id="9-3-2-访问元素"><a href="#9-3-2-访问元素" class="headerlink" title="9.3.2-访问元素"></a>9.3.2-访问元素</h3><ul>
+<li><p>包括array在内的每个顺序容器都有一个front成员函数， 而除forward_list之外的所有顺序容器都有一个back成员函数。</p>
+</li>
+<li><p>要获得容器首元素和尾元素的引用。直接的方法是调用front和back。而间接的方法是通过解引用begin与end返回的迭代器来获得首尾元素的引用</p>
+</li>
+</ul>
+<p><img src="/images/9.6.png"></p>
+<ul>
+<li><p>这些成员函数返回的都是引用</p>
+</li>
+<li><p>如果容器是一个const对象， 则返回值是const的引用。如果容器不是const的， 则返回值是普通引用， 我们可以用来改变元素的值</p>
+</li>
+</ul>
+<p><strong>下标操作和安全的随机访问</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="built_in">string</span>&gt; svec; <span class="comment">//空vectorcout &lt;&lt; svec[O]; //运行时错误：svec中没有元素！cout &lt;&lt; svec.at[O]; //抛出一个out of range异常</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-3-3-删除容器操作"><a href="#9-3-3-删除容器操作" class="headerlink" title="9.3.3-删除容器操作"></a>9.3.3-删除容器操作</h3><p>表9.7是顺序容器删除元素的操作，除array外</p>
+<p><img src="/images/9.7.png"></p>
+<ul>
+<li><code>pop_front</code>和<code>pop_back</code>成员函数分别删除首元素和尾元素</li>
+<li>vector/string不支持push_front/pop_front，forward_list不支持push_front/pop_front</li>
+<li>pop_front/pop_back返回void，若需要值，需在pop之前保存</li>
+<li>不能对空容器做删除操作</li>
+<li>erase可从指定的任意位置删除元素，它有两个版本：<ul>
+<li>接受一个迭代器，删除它指向的元素，返回它之后位置的迭代器</li>
+<li>接受一个迭代器范围，删除左闭右开区间内的元素，返回删除列表最后元素之后位置的迭代器</li>
+</ul>
+</li>
+<li>要删除容器的所有元素，可用<code>clear</code>，也可用begin/end调用<code>erase</code></li>
+</ul>
+<h3 id="9-3-4-特殊的forward-list操作"><a href="#9-3-4-特殊的forward-list操作" class="headerlink" title="9.3.4- 特殊的forward_list操作"></a>9.3.4- 特殊的forward_list操作</h3><p>当我们删除forward_list中的元素时，删除位置前一个元素的指针会指向删除位置后的第一个元素</p>
+<p><img src="/images/9.8.png"></p>
+<ul>
+<li>对forward_list（单向链表）的元素做插入/删除，需要知道其<code>前驱</code>。</li>
+<li>forward_list的插入/删除改变的不是指定元素，而是指定元素之后的一个元素</li>
+<li>forward_list未定义<code>insert</code>、<code>emplace</code>、<code>erase</code>，但定义了<code>insert_after</code>、<code>emplace_after</code>、<code>erase_after</code>来提供类似操作</li>
+<li>forward_list定义了<code>before_begin</code>迭代器，它指向首元素之前，称为<code>首前迭代器</code></li>
+<li>使用forward_list时需关注两个元素：我们要处理的元素，和它的前驱</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">forward_list&lt;<span class="keyword">int</span>&gt; flst=&#123;<span class="number">0</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>&#125;;<span class="keyword">auto</span> prev=flst.before_begin();          <span class="comment">//要处理的元素的前驱auto curr=flst.begin();                 //要处理的元素while(curr!=flst.end())&#123;    if(*curr%2)        curr=flst.erase_after(prev);    //删除curr，返回要处理的元素的下一个迭代器，作为下一轮循环要处理的元素    else&#123;        prev=curr;                      //更新前驱        ++curr;                         //更新要处理的元素的迭代器    &#125;&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-3-5-改变容器大小"><a href="#9-3-5-改变容器大小" class="headerlink" title="9.3.5-改变容器大小"></a>9.3.5-改变容器大小</h3><p>我们可以用resize来增大或缩小容器，但array不支持。如果当前大小大于所要求的大小， 容器后部的元素会被删除； 如果当前大小<br>小于新大小， 会将新元素添加到容器后部：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; <span class="title">ilist</span> <span class="params">(<span class="number">10</span>, <span class="number">42</span>)</span></span>; <span class="comment">// 10个int:每个的值都是42ilist.resize(15); // 将5个值为0的元素添加到过ilist的末尾ilist. resize (25, -1); // 将10个值为－1的元素添加到ilist的末尾ilist.resize(S); // 从ilist末尾删除20个元素</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-3-6-容器操作可能使迭代器失效"><a href="#9-3-6-容器操作可能使迭代器失效" class="headerlink" title="9.3.6-容器操作可能使迭代器失效"></a>9.3.6-容器操作可能使迭代器失效</h3><ul>
+<li>向容器中添加/删除元素可能使指向元素的指针/引用/迭代器失效</li>
+<li>添加元素后：<ul>
+<li><code>vector/string</code>：若空间被重新分配，则所有指针/引用/迭代器失效。若空间未重新分配，则插入位置的之后的指针/引用/迭代器都失效</li>
+<li><code>deque</code>：插入首尾之外的任何位置都使所有指针/引用/迭代器失效。在首尾插入时，迭代器失效，指向元素的指针/引用不失效</li>
+<li><code>list/forward_list</code>：所有指针/引用/迭代器仍有效</li>
+</ul>
+</li>
+<li>删除元素后：<ul>
+<li>指向被删除元素的指针/引用/迭代器一定失效</li>
+<li><code>vector/string</code>：删除位置的之后的指针/引用/迭代器都失效。特别是，删除任何元素时，尾后迭代器一定失效</li>
+<li><code>deque</code>：删除首尾之外的任何位置都使所有指针/引用/迭代器失效。删除首元素无影响，删除尾元素使尾后迭代器失效</li>
+<li><code>list/forward_list</code>：除被删除元素之外的所有指针/引用/迭代器仍有效</li>
+</ul>
+</li>
+<li>最佳实践：<ul>
+<li>最小化要求迭代器有效的程序片段</li>
+<li>保证每次改变容器的操作后都更新迭代器</li>
+<li>不要保存尾后迭代器，每次需要时都用end重新取</li>
+</ul>
+</li>
+<li>添加/删除vector/string/deque中的元素，必须考虑指针/引用/迭代器的失效问题。用insert/erase可由返回值直接更新</li>
+<li>例子：用insert/erase实时更新迭代器</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;int&gt; vi&#x3D;&#123;0,1,2,3,4,5,6,7,8,9&#125;;auto iter&#x3D;vi.begin();while(iter!&#x3D;vi.end())&#123;    if(*iter%2)&#123;        iter&#x3D;vi.insert(iter,*iter); &#x2F;&#x2F;复制奇数元素，迭代器实时更新        iter+&#x3D;2;    &#125;    else        iter&#x3D;vi.erase(iter);        &#x2F;&#x2F;删除偶数元素，迭代器实时更新&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加/删除vector/string的元素，deque除首尾处任何位置的插入/删除，都会使尾后迭代器失效。因此在每次插入/删除后必须重新调用end</li>
+</ul>
+<h2 id="9-4-vector对象是如何增长的"><a href="#9-4-vector对象是如何增长的" class="headerlink" title="9.4- vector对象是如何增长的"></a>9.4- vector对象是如何增长的</h2><ul>
+<li>为支持快速随机访问，vector将元素<code>连续存储</code></li>
+<li>若不使用适当的空间分配策略，则每次插入/删除操作都需要：<code>分配空间</code>、<code>拷贝元素</code>、<code>释放空间</code></li>
+<li>为减少分配/释放空间的次数，vector/string要求在每次需要分配新内存空间时，会分配比所需空间更大的空间，预留作备用。之后即使会拷贝元素，但尽量不会分配/释放空间</li>
+</ul>
+<p><img src="/images/9.10.png"></p>
+<ul>
+<li><code>capacity</code>操作告诉我们容器在不扩张内存时最多还能容纳多少元素</li>
+<li><code>reserve</code>操作允许通知容器它至少需要容纳多少元素</li>
+<li><code>reserve</code>不改变元素的数量，即不改变<code>size</code>，只影响预分配的内存</li>
+</ul>
+<p><strong>capacity和size</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>＞ ivec; // size应该为O;capacity的值依赖于具体实现<span class="built_in">cout</span> &lt;&lt; &quot; ivec: size: &quot; &lt;&lt; ivec.size()     &lt;&lt; &quot; capacity: &quot; &lt;&lt; ivec.capacity() &lt;&lt; <span class="built_in">endl</span>; //向ivec添加24个元素<span class="keyword">for</span> ( <span class="built_in">vector</span>&lt; <span class="keyword">int</span>&gt;::size_type ix = O; ix != 24; ++ix)	ivec.push_back(ix); //size应该为24; capacity应该大于等于24,具体值依赖于标准库实现<span class="built_in">cout</span> &lt;&lt; &quot;ivec: size: &quot; &lt;&lt; ivec.size()	 &lt;&lt; &quot; capacity: &quot; &lt;&lt; ivec.capacity() &lt;&lt; <span class="built_in">endl</span>;/*结果ivec: size: 0 capacity: 0ivec: size: 24 capacity: 32*///分配额外空间ivec.reserve(SO); //将capacity至少设定为50,可能会更大//size应该为24; capacity 应该大于等于50,具体值依赖于标准库实现<span class="built_in">cout</span> &lt;&lt; &quot;ivec: size: &quot; &lt;&lt; ivec.size()	 &lt;&lt; &quot; capacity: &quot; &lt;&lt; ivec.capacity() &lt;&lt; <span class="built_in">endl</span>;/*结果ivec: size: 24 capacity: 50*///用光额外空间//接下来可以用光这些预留空间：//添加元素用光多余容量<span class="keyword">while</span> (ivec.size() != ivec.capacity())	ivec.push_back(O);//capacity应该未改变， size和capacity不相等<span class="built_in">cout</span> &lt;&lt; &quot;ivec: size: &quot; &lt;&lt; ivec.size ()	 &lt;&lt; &quot; capacity: &quot; &lt;&lt; ivec.capacity() &lt;&lt; <span class="built_in">endl</span>;/*结果ivec: size: 50 capacity: 50只要没有操作需求超出<span class="built_in">vector</span>的容量，<span class="built_in">vector</span>就不能重新分配内存空间*/</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="9-5-额外的string操作"><a href="#9-5-额外的string操作" class="headerlink" title="9.5- 额外的string操作"></a>9.5- 额外的string操作</h2><p><strong>快速阅读即可，具体要使用的时候可以查找细看</strong></p>
+<h3 id="9-5-1-构造string的其他方法"><a href="#9-5-1-构造string的其他方法" class="headerlink" title="9.5.1- 构造string的其他方法"></a>9.5.1- 构造string的其他方法</h3><p><img src="/images/9.11.png"></p>
+<ul>
+<li>这些构造函数接受<code>string</code>或<code>const char *</code>参数作为源，还接受（可选的）指定拷贝多少个字符的参数。当源为string时，还可给定下标来指定从哪里开始拷贝</li>
+<li>使用<code>const char *</code>构造string时，字符数组必须以空字符<code>\0</code>结尾，用于停止拷贝。但若给定拷贝大小的计数值，则只需不越界，不需空字符结尾。</li>
+<li>使用<code>string</code>构造string时，可提供开始位置和计数值。开始位置必须小于等于源string大小，否则out_of_range异常。不管要求拷贝多少，最多拷到源string结尾。</li>
+<li>substring操作（表9.12）返回string，其值是原始string的一部分或全部的拷贝。可传递可选的起始位置和计数值。</li>
+</ul>
+<p><img src="/images/9.12.png"></p>
+<h3 id="9-5-2-改变string的其他方法"><a href="#9-5-2-改变string的其他方法" class="headerlink" title="9.5.2- 改变string的其他方法"></a>9.5.2- 改变string的其他方法</h3><p><img src="/images/9.13.png"></p>
+<ul>
+<li>string的<code>insert/erase</code>可接受下标，用于指定insert到指定值之前的位置，或是开始删除的位置。</li>
+<li>string的<code>inset/assign</code>可接受C风格字符串</li>
+<li>可将来自其他string或子串的字符串插入到当前string或给其赋值。</li>
+<li>例子：string的insert/erase/assign</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">s</span><span class="params">(<span class="string">&quot;hello world&quot;</span>)</span></span>;s.insert(s.size(),<span class="number">5</span>,<span class="string">&#x27;!&#x27;</span>);   <span class="comment">//s末尾插入5个&#x27;!&#x27;s.erase(s.size()-5,5)       //删除最后5个字符const char *cp=&quot;Stately, plump Buck&quot;;s.assign(cp,7);             //s==&quot;Stately&quot;s.insert(s.size(),cp+7);    //s==&quot;Stately, plump Buck&quot;string s=&quot;some string&quot;, s2=&quot;some other string&quot;;s.insert(0,s2);             //s位置0之前插入s2的拷贝s.insert(0,s2,0,s2.size()); //s位置0之前插入s2位置0开始的s2.size()个字符</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>append是在string末尾插入的简写</li>
+<li>replace是调用erase和insert的组合</li>
+<li>例子：append和replace</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string s(&quot;C++ Primer&quot;), s2=s;s.insert(s.size(),&quot; 4th Ed.&quot;);  //s==&quot;C++ Primer 4th Ed.&quot;s2.append(&quot; 4th Ed.&quot;);          //等价于上一行s.erase(11,3);                  //s==&quot;C++ Primer  Ed.&quot;s.insert(11,&quot;5th&quot;);             //s==&quot;C++ Primer 5th Ed.&quot;s2.replace(11,3,&quot;5th&quot;);         //s2==&quot;C++ Primer 5th Ed.&quot;，等价于上两行s.replace(11,3,&quot;Fifth&quot;);        //s==&quot;C++ Primer Fifth Ed.&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>append、assign、insert、replace都有多个重载版本，根据如何指定要添加的字符和string中被替换的部分</li>
+<li>指定要被替换的部分：<ul>
+<li>assign/append无需指定替换哪部分：assign总是替换所有内容，append总将新字符追加到末尾</li>
+<li>replace可用两种方式指定删除范围：可以用位置和长度，也可用迭代器范围</li>
+<li>insert可用两种方式指定插入点：下标或迭代器</li>
+</ul>
+</li>
+<li><code>指定要添加的字符</code>：见表9.13</li>
+</ul>
+<h3 id="9-5-3-string搜索操作"><a href="#9-5-3-string搜索操作" class="headerlink" title="9.5.3- string搜索操作"></a>9.5.3- string搜索操作</h3><p>string提供了6个搜索函数，每个函数有4个重载版本</p>
+<p><img src="/images/9.14.png"></p>
+<ul>
+<li>每个搜索操作都返回<code>string::size_type</code>类型值，表示匹配位置的下标。</li>
+<li>若搜索失败，即无匹配，则返回名为<code>string::npos</code>的static成员，它是<code>string::size_type</code>类型且初始化为<code>-1</code>，即string最大的可能大小</li>
+<li><code>string::size_type</code>是无符号类型，不可与int等有符号混用</li>
+<li>搜索操作都是大小写敏感</li>
+<li><code>find</code>查找参数字符串第一次出现的位置，<code>rfind</code>查找参数字符串最后一次出现的位置</li>
+<li><code>find_first_of</code>查找参数中任何一个字符第一次出现的位置，<code>find_last_of</code>查找参数中任何一个字符最后一次出现的位置</li>
+<li><code>find_first_not_of</code>查找第一个不在参数中的字符，<code>find_last_not_of</code>查找最后一个不在参数中的字符</li>
+<li>可给find们指定可选的开始位置，指出从哪里开始搜索。可利用此机制<code>循环查找</code>所有匹配的位置</li>
+<li>例子：循环查找所有匹配</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string numbers(&quot;0123456789&quot;), name(&quot;r2d2&quot;);string::size_type pos=0;while((pos=name.find_first_of(numbers,pos))!=string::npos)&#123; //每次查找一个子串    cout&lt;&lt;&quot;found number at index: &quot;        &lt;&lt;pos        &lt;&lt;&quot; element is &quot;        &lt;&lt;name[pos]        &lt;&lt;endl;    ++pos;                                                  //移动到下一个字符，准备从后面的子串中查找&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="9-5-4-compare函数"><a href="#9-5-4-compare函数" class="headerlink" title="9.5.4-compare函数"></a>9.5.4-compare函数</h3><ul>
+<li><code>compare</code>函数类似C语言中的<code>strcmp</code>，根据源字符串等于、大于、小于给定的字符串，compare成员函数返回0、正数、负数</li>
+<li>表9.15是compare函数接受的参数</li>
+</ul>
+<p><img src="/images/9.15.png"></p>
+<h3 id="9-5-5-数值转换"><a href="#9-5-5-数值转换" class="headerlink" title="9.5.5- 数值转换"></a>9.5.5- 数值转换</h3><p>表9.16规定了数值数据和string间的转换</p>
+<p><img src="/images/9.16.png"></p>
+<ul>
+<li><code>to_string</code>将数值类型转为对应的string表示，其他各函数将string表示转为相应的数值类型</li>
+<li>要将string转为数值，必须保证string中的第一个非空白字符是该数值类型中可能出现的字符，例如正负号、数字等，也可是<code>0x</code>或<code>0X</code>表示的十六进制数（此时string中可包含字母）。对于浮点类型，可以小数点<code>.</code>开头，并可包含<code>e</code>或<code>E</code>指定指数部分。</li>
+<li>如string不能转为指定的数值类型，这些函数抛出<code>invalid_argument</code>异常</li>
+<li>如转换得到的数值无法用任何类型表示，则抛出<code>out_of_range</code>异常</li>
+</ul>
+<h2 id="9-6-容器适配器"><a href="#9-6-容器适配器" class="headerlink" title="9.6- 容器适配器"></a>9.6- 容器适配器</h2><ul>
+<li><code>适配器</code>是一种机制，能使某种事物的行为看起来像另一种事物。一个<code>容器适配器</code>接受一种已有的容器类型，使其看起来像另一种不同类型</li>
+<li>定义了3个<code>顺序容器适配器</code>：stack、queue、priority_queue</li>
+</ul>
+<p><img src="/images/9.17.png"></p>
+<p><strong>定义一个适配器</strong></p>
+<p>假定deq是一个<code>deque&lt;int&gt;</code>， 我们可以用deq来初始化一个新的stack</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>&gt; <span class="title">stk</span><span class="params">(deq)</span></span>; <span class="comment">//从deq拷贝元素到stk</span></span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，stack和queue是基于deque实现的，priority_queue是在vector之上实现的</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在vector上实现的空栈stack&lt;string, vector&lt;string&gt;&gt; str_stk;// str_stk2在vector上实现， 初始化时保存svec的拷贝stack&lt;sting, vector&lt;string&gt;&gt; str_stk2(svec);</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>每个适配器都有两个构造函数：</p>
+<ul>
+<li>默认构造函数，创建空对象</li>
+<li>接受一个容器，拷贝该容器来初始化适配器</li>
+</ul>
+</li>
+<li><p>对适配器的容器类型有限制：</p>
+<ul>
+<li>不能基于array，因为要添加/删除元素</li>
+<li>不能基于forward_list，因为要访问尾元素</li>
+<li><code>stack</code>要求<code>back</code>、<code>push_back</code>、<code>pop_back</code>操作，故可构建于除array/forward_list外的所有容器</li>
+<li><code>queue</code>要求<code>back</code>、<code>push_back</code>、<code>front</code>、<code>push_front</code>，故可构建于list/deque</li>
+<li><code>priority_queue</code>要求<code>front</code>、<code>push_back</code>、<code>pop_back</code>、<code>随机访问</code>，故可构建于vector/deque</li>
+</ul>
+</li>
+</ul>
+<p>stack定义于<code>stack头文件</code>中，其特有操作如表9.18</p>
+<p><img src="/images/9.18.png"></p>
+<ul>
+<li>每个适配器都基于底层容器定义了自己的特殊操作，只可用适配器操作，不可用底层容器操作</li>
+<li>queue和priority_queue定义于<code>queue头文件</code>中，其特有操作如表9.19</li>
+</ul>
+<p><img src="/images/9.19.png"></p>
+<ul>
+<li>priority_queue允许为队列中的元素建立优先级，新加入的元素会排在所有优先级比它低的已有元素之前。默认情况下使用元素类型的<code>&lt;</code>运算符来确定优先级</li>
+</ul>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="vcomments">
+                <!--Valine-->
+                <script src="/js/Valine.min.js"></script>
+            <!--id disqus_thread  <noscript>Please enable JavaScript to view the comments.</noscript>-->
+            <script>
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'yEI6RlVJLA4pYwjBexhwdp8j-gzGzoHsz',
+                    appKey: '0oz4352SSpNVsruE6U11qzhQ',
+                     // 设置贴吧表情包地址
+                    emojiCDN: '//valinecdn.bili33.top/', 
+                    // 表情title和图片映射
+                    emojiMaps: {
+                        "Tieba-New2": "Tieba-New/image_emoticon.png",
+                        "Tieba-New3": "Tieba-New/image_emoticon10.png",
+                        "Tieba-New4": "Tieba-New/image_emoticon100.png",
+                        "Tieba-New5": "Tieba-New/image_emoticon101.png",
+                        "Tieba-New6": "Tieba-New/image_emoticon102.png",
+                        "Tieba-New7": "Tieba-New/image_emoticon103.png",
+                        "Tieba-New8": "Tieba-New/image_emoticon104.png",
+                        "Tieba-New9": "Tieba-New/image_emoticon105.png",
+                        "Tieba-New10": "Tieba-New/image_emoticon106.png",
+                        "Tieba-New11": "Tieba-New/image_emoticon107.png",
+                        "Tieba-New12": "Tieba-New/image_emoticon108.png",
+                        "Tieba-New13": "Tieba-New/image_emoticon109.png",
+                        "Tieba-New14": "Tieba-New/image_emoticon11.png",
+                        "Tieba-New15": "Tieba-New/image_emoticon110.png",
+                        "Tieba-New16": "Tieba-New/image_emoticon111.png",
+                        "Tieba-New17": "Tieba-New/image_emoticon112.png",
+                        "Tieba-New18": "Tieba-New/image_emoticon113.png",
+                        "Tieba-New19": "Tieba-New/image_emoticon114.png",
+                        "Tieba-New20": "Tieba-New/image_emoticon115.png",
+                        "Tieba-New21": "Tieba-New/image_emoticon116.png",
+                        "Tieba-New22": "Tieba-New/image_emoticon117.png",
+                        "Tieba-New23": "Tieba-New/image_emoticon118.png",
+                        "Tieba-New24": "Tieba-New/image_emoticon119.png",
+                        "Tieba-New25": "Tieba-New/image_emoticon12.png",
+                        "Tieba-New26": "Tieba-New/image_emoticon120.png",
+                        "Tieba-New27": "Tieba-New/image_emoticon121.png",
+                        "Tieba-New28": "Tieba-New/image_emoticon122.png",
+                        "Tieba-New29": "Tieba-New/image_emoticon123.png",
+                        "Tieba-New30": "Tieba-New/image_emoticon124.png",
+                        "Tieba-New31": "Tieba-New/image_emoticon13.png",
+                        "Tieba-New32": "Tieba-New/image_emoticon14.png",
+                        "Tieba-New33": "Tieba-New/image_emoticon15.png",
+                        "Tieba-New34": "Tieba-New/image_emoticon16.png",
+                        "Tieba-New35": "Tieba-New/image_emoticon17.png",
+                        "Tieba-New36": "Tieba-New/image_emoticon18.png",
+                        "Tieba-New37": "Tieba-New/image_emoticon19.png",
+                        "Tieba-New38": "Tieba-New/image_emoticon2.png",
+                        "Tieba-New39": "Tieba-New/image_emoticon20.png",
+                        "Tieba-New40": "Tieba-New/image_emoticon21.png",
+                        "Tieba-New41": "Tieba-New/image_emoticon22.png",
+                        "Tieba-New42": "Tieba-New/image_emoticon23.png",
+                        "Tieba-New43": "Tieba-New/image_emoticon24.png",
+                        "Tieba-New44": "Tieba-New/image_emoticon25.png",
+                        "Tieba-New45": "Tieba-New/image_emoticon26.png",
+                        "Tieba-New46": "Tieba-New/image_emoticon27.png",
+                        "Tieba-New47": "Tieba-New/image_emoticon28.png",
+                        "Tieba-New48": "Tieba-New/image_emoticon29.png",
+                        "Tieba-New49": "Tieba-New/image_emoticon3.png",
+                        "Tieba-New50": "Tieba-New/image_emoticon30.png",
+                        "Tieba-New51": "Tieba-New/image_emoticon31.png",
+                        "Tieba-New52": "Tieba-New/image_emoticon32.png",
+                        "Tieba-New53": "Tieba-New/image_emoticon33.png",
+                        "Tieba-New54": "Tieba-New/image_emoticon34.png",
+                        "Tieba-New55": "Tieba-New/image_emoticon35.png",
+                        "Tieba-New56": "Tieba-New/image_emoticon36.png",
+                        "Tieba-New57": "Tieba-New/image_emoticon37.png",
+                        "Tieba-New58": "Tieba-New/image_emoticon38.png",
+                        "Tieba-New59": "Tieba-New/image_emoticon39.png",
+                        "Tieba-New60": "Tieba-New/image_emoticon4.png",
+                        "Tieba-New61": "Tieba-New/image_emoticon40.png",
+                        "Tieba-New62": "Tieba-New/image_emoticon41.png",
+                        "Tieba-New63": "Tieba-New/image_emoticon42.png",
+                        "Tieba-New64": "Tieba-New/image_emoticon43.png",
+                        "Tieba-New65": "Tieba-New/image_emoticon44.png",
+                        "Tieba-New66": "Tieba-New/image_emoticon45.png",
+                        "Tieba-New67": "Tieba-New/image_emoticon46.png",
+                        "Tieba-New68": "Tieba-New/image_emoticon47.png",
+                        "Tieba-New69": "Tieba-New/image_emoticon48.png",
+                        "Tieba-New70": "Tieba-New/image_emoticon49.png",
+                        "Tieba-New71": "Tieba-New/image_emoticon5.png",
+                        "Tieba-New72": "Tieba-New/image_emoticon50.png",
+                        "Tieba-New73": "Tieba-New/image_emoticon6.png",
+                        "Tieba-New74": "Tieba-New/image_emoticon66.png",
+                        "Tieba-New75": "Tieba-New/image_emoticon67.png",
+                        "Tieba-New76": "Tieba-New/image_emoticon68.png",
+                        "Tieba-New77": "Tieba-New/image_emoticon69.png",
+                        "Tieba-New78": "Tieba-New/image_emoticon7.png",
+                        "Tieba-New79": "Tieba-New/image_emoticon70.png",
+                        "Tieba-New80": "Tieba-New/image_emoticon71.png",
+                        "Tieba-New81": "Tieba-New/image_emoticon72.png",
+                        "Tieba-New82": "Tieba-New/image_emoticon73.png",
+                        "Tieba-New83": "Tieba-New/image_emoticon74.png",
+                        "Tieba-New84": "Tieba-New/image_emoticon75.png",
+                        "Tieba-New85": "Tieba-New/image_emoticon76.png",
+                        "Tieba-New86": "Tieba-New/image_emoticon77.png",
+                        "Tieba-New87": "Tieba-New/image_emoticon78.png",
+                        "Tieba-New88": "Tieba-New/image_emoticon79.png",
+                        "Tieba-New89": "Tieba-New/image_emoticon8.png",
+                        "Tieba-New90": "Tieba-New/image_emoticon80.png",
+                        "Tieba-New91": "Tieba-New/image_emoticon81.png",
+                        "Tieba-New92": "Tieba-New/image_emoticon82.png",
+                        "Tieba-New93": "Tieba-New/image_emoticon83.png",
+                        "Tieba-New94": "Tieba-New/image_emoticon84.png",
+                        "Tieba-New95": "Tieba-New/image_emoticon85.png",
+                        "Tieba-New96": "Tieba-New/image_emoticon86.png",
+                        "Tieba-New97": "Tieba-New/image_emoticon87.png",
+                        "Tieba-New98": "Tieba-New/image_emoticon88.png",
+                        "Tieba-New99": "Tieba-New/image_emoticon89.png",
+                        "Tieba-New100": "Tieba-New/image_emoticon9.png",
+                        "Tieba-New101": "Tieba-New/image_emoticon90.png",
+                        "Tieba-New102": "Tieba-New/image_emoticon91.png",
+                        "Tieba-New103": "Tieba-New/image_emoticon92.png",
+                        "Tieba-New104": "Tieba-New/image_emoticon93.png",
+                        "Tieba-New105": "Tieba-New/image_emoticon94.png",
+                        "Tieba-New106": "Tieba-New/image_emoticon95.png",
+                        "Tieba-New107": "Tieba-New/image_emoticon96.png",
+                        "Tieba-New108": "Tieba-New/image_emoticon97.png",
+                        "Tieba-New109": "Tieba-New/image_emoticon98.png",
+                        "Tieba-New110": "Tieba-New/image_emoticon99.png",
+                        // ... 更多表情
+                    } 
+                })
+            </script>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8"><span class="toc-number">1.</span> <span class="toc-text">顺序容器</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#9-1-%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8%E6%A6%82%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">9.1-顺序容器概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-2-%E5%AE%B9%E5%99%A8%E5%BA%93%E6%A6%82%E8%A7%88"><span class="toc-number">1.2.</span> <span class="toc-text">9.2-容器库概览</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-1-%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="toc-number">1.2.1.</span> <span class="toc-text">9.2.1-迭代器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-2-%E5%AE%B9%E5%99%A8%E7%B1%BB%E5%9E%8B%E6%88%90%E5%91%98"><span class="toc-number">1.2.2.</span> <span class="toc-text">9.2.2-容器类型成员</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-3-begin%E5%92%8Cend%E6%88%90%E5%91%98"><span class="toc-number">1.2.3.</span> <span class="toc-text">9.2.3-begin和end成员</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-4-%E5%AE%B9%E5%99%A8%E5%AE%9A%E4%B9%89%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">1.2.4.</span> <span class="toc-text">9.2.4-容器定义和初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-5-%E8%B5%8B%E5%80%BC%E5%92%8Cswap"><span class="toc-number">1.2.5.</span> <span class="toc-text">9.2.5-赋值和swap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-6-%E5%AE%B9%E5%99%A8%E5%A4%A7%E5%B0%8F%E6%93%8D%E4%BD%9C"><span class="toc-number">1.2.6.</span> <span class="toc-text">9.2.6-容器大小操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-7-%E5%85%B3%E7%B3%BB%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="toc-number">1.2.7.</span> <span class="toc-text">9.2.7-关系运算符</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-3-%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">9.3-顺序容器操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-1-%E5%90%91%E9%A1%BA%E5%BA%8F%E5%AE%B9%E5%99%A8%E6%B7%BB%E5%8A%A0%E5%85%83%E7%B4%A0"><span class="toc-number">1.3.1.</span> <span class="toc-text">9.3.1-向顺序容器添加元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-2-%E8%AE%BF%E9%97%AE%E5%85%83%E7%B4%A0"><span class="toc-number">1.3.2.</span> <span class="toc-text">9.3.2-访问元素</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-3-%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.3.</span> <span class="toc-text">9.3.3-删除容器操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-4-%E7%89%B9%E6%AE%8A%E7%9A%84forward-list%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.4.</span> <span class="toc-text">9.3.4- 特殊的forward_list操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-5-%E6%94%B9%E5%8F%98%E5%AE%B9%E5%99%A8%E5%A4%A7%E5%B0%8F"><span class="toc-number">1.3.5.</span> <span class="toc-text">9.3.5-改变容器大小</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-6-%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C%E5%8F%AF%E8%83%BD%E4%BD%BF%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%A4%B1%E6%95%88"><span class="toc-number">1.3.6.</span> <span class="toc-text">9.3.6-容器操作可能使迭代器失效</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-4-vector%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%A6%82%E4%BD%95%E5%A2%9E%E9%95%BF%E7%9A%84"><span class="toc-number">1.4.</span> <span class="toc-text">9.4- vector对象是如何增长的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-5-%E9%A2%9D%E5%A4%96%E7%9A%84string%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.</span> <span class="toc-text">9.5- 额外的string操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-1-%E6%9E%84%E9%80%A0string%E7%9A%84%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.1.</span> <span class="toc-text">9.5.1- 构造string的其他方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-2-%E6%94%B9%E5%8F%98string%E7%9A%84%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.2.</span> <span class="toc-text">9.5.2- 改变string的其他方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-3-string%E6%90%9C%E7%B4%A2%E6%93%8D%E4%BD%9C"><span class="toc-number">1.5.3.</span> <span class="toc-text">9.5.3- string搜索操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-4-compare%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.4.</span> <span class="toc-text">9.5.4-compare函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-5-5-%E6%95%B0%E5%80%BC%E8%BD%AC%E6%8D%A2"><span class="toc-number">1.5.5.</span> <span class="toc-text">9.5.5- 数值转换</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-6-%E5%AE%B9%E5%99%A8%E9%80%82%E9%85%8D%E5%99%A8"><span class="toc-number">1.6.</span> <span class="toc-text">9.6- 容器适配器</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&text=C++Primer-第九章-类"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&is_video=false&description=C++Primer-第九章-类"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++Primer-第九章-类&body=Check out this article: http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&title=C++Primer-第九章-类"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&name=C++Primer-第九章-类&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/05/10/C++Primer-%E7%AC%AC%E4%B9%9D%E7%AB%A0-%E7%B1%BB/&t=C++Primer-第九章-类"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    Chikie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
