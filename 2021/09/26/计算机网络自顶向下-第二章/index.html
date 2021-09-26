@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!--Valine-->
+        <script src="/js/Valine.min.js"></script>
+    <meta name="description" content="2.1-应用层协议原理只能基于应用层编写软件 2.1.1-网络应用程序体系结构应用程序体系结构：客户-服务器体系结构(简称C&#x2F;S模型)、对等体系结构(P2P) HTTP、SMTP、FTP等使用C&#x2F;S模式 BitTorrent使用P2P模式 2.1.2-进程通信进行通信的是进程而不是应用程序(进程是操作系统对一个正在运行的程序的一种抽象) 1 . 客户和服务器进程客户(Client)：发起通信的进程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络自顶向下 第二章">
+<meta property="og:url" content="http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/index.html">
+<meta property="og:site_name" content="Chikie">
+<meta property="og:description" content="2.1-应用层协议原理只能基于应用层编写软件 2.1.1-网络应用程序体系结构应用程序体系结构：客户-服务器体系结构(简称C&#x2F;S模型)、对等体系结构(P2P) HTTP、SMTP、FTP等使用C&#x2F;S模式 BitTorrent使用P2P模式 2.1.2-进程通信进行通信的是进程而不是应用程序(进程是操作系统对一个正在运行的程序的一种抽象) 1 . 客户和服务器进程客户(Client)：发起通信的进程">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/network_2_1.png">
+<meta property="og:image" content="http://example.com/images/network_2_2.png">
+<meta property="og:image" content="http://example.com/images/network_2_3.png">
+<meta property="og:image" content="http://example.com/images/network_2_4.png">
+<meta property="og:image" content="http://example.com/images/network_2_5.png">
+<meta property="article:published_time" content="2021-09-26T11:52:11.000Z">
+<meta property="article:modified_time" content="2021-09-26T11:54:53.994Z">
+<meta property="article:author" content="Chikie">
+<meta property="article:tag" content="计算机网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/network_2_1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>计算机网络自顶向下 第二章</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2021/09/25/CSAPP-%E7%AC%AC%E4%B8%80%E7%AB%A0/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&text=计算机网络自顶向下 第二章"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&is_video=false&description=计算机网络自顶向下 第二章"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计算机网络自顶向下 第二章&body=Check out this article: http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&name=计算机网络自顶向下 第二章&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&t=计算机网络自顶向下 第二章"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">2.1-应用层协议原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">2.1.1-网络应用程序体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="toc-number">1.2.</span> <span class="toc-text">2.1.2-进程通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%A2%E6%88%B7%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">1 . 客户和服务器进程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B9%8B%E9%97%AE%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 进程与计算机网络之问的接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BF%9B%E7%A8%8B%E5%AF%BB%E5%9D%80"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 进程寻址</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E5%8F%AF%E4%BE%9B%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%BF%E7%94%A8%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.3.</span> <span class="toc-text">2.1.3-可供应用程序使用的运输服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-4-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%8F%90%E4%BE%9B%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.4.</span> <span class="toc-text">2.1.4-因特网提供的运输服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-5-%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.5.</span> <span class="toc-text">2.1.5-应用层协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Web%E5%92%8CHTTP"><span class="toc-number">2.</span> <span class="toc-text">2.2-Web和HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E9%9D%9E%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">2.2.2-非持续连接和持续连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-HTTP-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.3-HTTP 报文格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87"><span class="toc-number">2.2.1.</span> <span class="toc-text">HTTP请求报文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87"><span class="toc-number">2.2.2.</span> <span class="toc-text">HTTP响应报文</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4-%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E4%BA%A4%E4%BA%92%EF%BC%9Acookie"><span class="toc-number">2.3.</span> <span class="toc-text">2.2.4-用户与服务器的交互：cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-5-Web%E7%BC%93%E5%AD%98"><span class="toc-number">2.4.</span> <span class="toc-text">2.2.5-Web缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-6-%E6%9D%A1%E4%BB%B6GET%E6%96%B9%E6%B3%95"><span class="toc-number">2.5.</span> <span class="toc-text">2.2.6-条件GET方法</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        计算机网络自顶向下 第二章
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Chikie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-09-26T11:52:11.000Z" itemprop="datePublished">2021-09-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" rel="tag">计算机网络</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="2-1-应用层协议原理"><a href="#2-1-应用层协议原理" class="headerlink" title="2.1-应用层协议原理"></a>2.1-应用层协议原理</h2><p>只能基于应用层编写软件</p>
+<h3 id="2-1-1-网络应用程序体系结构"><a href="#2-1-1-网络应用程序体系结构" class="headerlink" title="2.1.1-网络应用程序体系结构"></a>2.1.1-网络应用程序体系结构</h3><p>应用程序体系结构：客户-服务器体系结构(简称C/S模型)、对等体系结构(P2P)</p>
+<p>HTTP、SMTP、FTP等使用C/S模式</p>
+<p>BitTorrent使用P2P模式</p>
+<h3 id="2-1-2-进程通信"><a href="#2-1-2-进程通信" class="headerlink" title="2.1.2-进程通信"></a>2.1.2-进程通信</h3><p>进行通信的是进程而不是应用程序(进程是操作系统对一个正在运行的程序的一种抽象)</p>
+<h4 id="1-客户和服务器进程"><a href="#1-客户和服务器进程" class="headerlink" title="1 . 客户和服务器进程"></a>1 . 客户和服务器进程</h4><p>客户(Client)：发起通信的进程</p>
+<p>服务器(Server)：等待联系的进程</p>
+<h4 id="2-进程与计算机网络之问的接口"><a href="#2-进程与计算机网络之问的接口" class="headerlink" title="2. 进程与计算机网络之问的接口"></a>2. 进程与计算机网络之问的接口</h4><p>Socket提供进程与网络的通信接口，准确的说是应用层与运输层的接口</p>
+<p><img src="/images/network_2_1.png" alt="network_2_1"></p>
+<h4 id="3-进程寻址"><a href="#3-进程寻址" class="headerlink" title="3. 进程寻址"></a>3. 进程寻址</h4><p>发送数据需要知道对方的地址</p>
+<p>地址：</p>
+<ul>
+<li>主机地址-IP</li>
+<li>进程标识符-端口号(Port)</li>
+</ul>
+<h3 id="2-1-3-可供应用程序使用的运输服务"><a href="#2-1-3-可供应用程序使用的运输服务" class="headerlink" title="2.1.3-可供应用程序使用的运输服务"></a>2.1.3-可供应用程序使用的运输服务</h3><p>运输层理论上可提供：可靠数据传输、吞吐量、定时、安全性服务</p>
+<p><strong>可靠数据传输：</strong>数据无差错传输</p>
+<p><strong>吞吐量：</strong>确保一定的传输速率</p>
+<p><strong>带宽敏感应用：</strong>对吞吐量要求，需要达到一定的传输速率的应用(如视频应用)</p>
+<p><strong>弹性应用：</strong>根据当时可用的带宽或多或少地利用可供使用的吞吐量，对吞吐量无太大要求</p>
+<p><strong>定时：</strong>以较低时延交付数据</p>
+<p><strong>安全性：</strong>由运输层加密、解密数据</p>
+<h3 id="2-1-4-因特网提供的运输服务"><a href="#2-1-4-因特网提供的运输服务" class="headerlink" title="2.1.4-因特网提供的运输服务"></a>2.1.4-因特网提供的运输服务</h3><p>运输层提供两个运输协议：TCP、UDP</p>
+<p><strong>TCP：面向连接、可靠数据服务、拥塞控制</strong></p>
+<p><strong>面向连接：</strong>在开始传输之前经过三次握手，为传输数据做准备</p>
+<p><strong>全双工：</strong>当连接建立完成后，双方都可在TCP连接上进行通信</p>
+<p><strong>可靠数据传输服务：</strong>无差错、按序交付</p>
+<p><strong>拥塞控制：</strong>网络拥塞时限制发送速率</p>
+<p><strong>安全套接字-SSL：</strong>TCP安全加强版</p>
+<p><strong>UDP：无连接、不可靠数据传输服务、无拥塞控制</strong></p>
+<p><strong>实际上目前运输层协议并不提供吞吐量与定时服务，当前的因特网仍能提供满意的服务</strong></p>
+<h3 id="2-1-5-应用层协议"><a href="#2-1-5-应用层协议" class="headerlink" title="2.1.5-应用层协议"></a>2.1.5-应用层协议</h3><p>应用层协议定义了：</p>
+<ul>
+<li>交换的<strong>报文类型</strong>，例如请求报文和响应报文</li>
+<li>各种报文类型的<strong>语法</strong>，如报文中的各个字段及这些字段是如何描述的</li>
+<li>字段的<strong>语义</strong>，即这些字段中的信息的含义</li>
+<li>确定一个进程何时以及如何发送报文，对报文进行响应的<strong>规则</strong></li>
+</ul>
+<p>可设置专用的应用层协议</p>
+<h2 id="2-2-Web和HTTP"><a href="#2-2-Web和HTTP" class="headerlink" title="2.2-Web和HTTP"></a>2.2-Web和HTTP</h2><p><strong>超文本传输协议-HTTP</strong>是web应用层协议</p>
+<p>HTTP使用TCP作为运输层协议</p>
+<p>HTTP是<strong>无状态协议</strong>：不储存任何客户的状态信息</p>
+<h3 id="2-2-2-非持续连接和持续连接"><a href="#2-2-2-非持续连接和持续连接" class="headerlink" title="2.2.2-非持续连接和持续连接"></a>2.2.2-非持续连接和持续连接</h3><p><strong>非持续连接</strong>：在响应请求后关闭连接</p>
+<p><strong>持续连接</strong>：通过同一个TCP连接发送请求或响应</p>
+<p>HTTP默认使用持续连接</p>
+<p><strong>往返时间-RTT</strong></p>
+<p>一个分组从客户端发送到服务器然后返回客户端所花的时间</p>
+<p><img src="/images/network_2_2.png" alt="network_2_2"></p>
+<p><strong>三次握手：</strong>即客户向服务器发送一个小TCP 报文段，服务器用一个小TCP 报文段做出确认和响应，最后，客户向服务器返回确认</p>
+<p>客户端在第三次握手的同时发送请求报文</p>
+<p>非持续连接的缺点：</p>
+<ul>
+<li>重新建立连接增加服务器的负担</li>
+<li>重新建立连接增加RTT</li>
+</ul>
+<h3 id="2-2-3-HTTP-报文格式"><a href="#2-2-3-HTTP-报文格式" class="headerlink" title="2.2.3-HTTP 报文格式"></a>2.2.3-HTTP 报文格式</h3><h4 id="HTTP请求报文"><a href="#HTTP请求报文" class="headerlink" title="HTTP请求报文"></a>HTTP请求报文</h4><p>包含<strong>请求行</strong>+<strong>首部行</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /somedir/page.html HTTP/1.1</span><br><span class="line">Host: www.someschool.edu</span><br><span class="line">Connection: close</span><br><span class="line">User-agent: Mozilla/5.0</span><br><span class="line">Accept-language: fr</span><br></pre></td></tr></table></figure>
+
+<p><strong>请求行：</strong>HTTP报文第一行，由<strong>方法字段</strong>、<strong>URL字段</strong>、<strong>HTTP版本字段</strong>组成</p>
+<p><strong>首部行</strong>：后继的行</p>
+<p>每行以一个回车\r和一个换行\n结束，首部行结束时需要两个回车与换行</p>
+<p><strong>方法字段：</strong>包括<code>GET</code> 、<code>POST</code> 、<code>HEAD</code> 、<code>PUT</code> 和<code>DELETE</code></p>
+<ul>
+<li>GET-服务器将会返回请求的对象</li>
+<li>POST-常用于上传表单，使用时会将用户输入的表单放在实体体内</li>
+<li>HEAD-与GET类似，服务器会用HTTP报文进行响应，但不包含请求的对象，常用于调试</li>
+<li>PUT-允许用户上传对象到指定的Web 服务器上指定的路径（目录）</li>
+<li>DELETE-允许用户或者应用程序删除Web 服务器上的对象</li>
+</ul>
+<p><strong>URL字段：</strong>要请求的对象的位置</p>
+<p><code>Host</code>对象所在主机，通常被代理服务器使用</p>
+<p><code>Connection: close</code>表示让服务器不使用持续连接</p>
+<p><code>User- agent</code>-浏览器类型</p>
+<p><code>Accept- language</code>-语言，不存在该语言则使用默认语言</p>
+<p><img src="/images/network_2_3.png" alt="network_2_3"></p>
+<h4 id="HTTP响应报文"><a href="#HTTP响应报文" class="headerlink" title="HTTP响应报文"></a>HTTP响应报文</h4><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Connection: close</span><br><span class="line">Date: Tue, 18 Aug 2015 15:44:04 GMT</span><br><span class="line">Server: Apache/2.2.3 (CentOS)</span><br><span class="line">Last-Modified: Tue, 18 Aug 2015 15:11:03 GMT</span><br><span class="line">Content-Length: 6821</span><br><span class="line">Content-Type: text/html</span><br><span class="line">( data data data data data ... )</span><br></pre></td></tr></table></figure>
+
+<p>包含<strong>状态行</strong>、<strong>首部行</strong>、<strong>实体体</strong></p>
+<p><strong>状态行：</strong>由<strong>协议版本字段</strong>、<strong>状态码</strong>和<strong>相应状态信息</strong>组成</p>
+<p>状态码与相应状态信息</p>
+<ul>
+<li>200 OK: 请求成功，信息在返回的响应报文中</li>
+<li>301 Moved Permanently: 请求的对象已经被永久转移了，新的URL 定义在响应报文的Location: 首部行中。客户软件将自动获取新的URL</li>
+<li>400 Bad Request : 一个通用差错代码，指示该请求不能被服务器理解</li>
+<li>404 Not Found: 被请求的文档不在服务器上</li>
+<li>505 HTTP Version Not Supported : 服务器不支持请求报文使用的HTTP 协议版本</li>
+</ul>
+<p><code>Date</code>服务器产生并发送该响应报文的日期和时间</p>
+<p><code>Server</code>服务器类型</p>
+<p><code>Last-Modified</code>对象创建或者最后修改的日期和时间</p>
+<p><code>Content-Length</code>被发送对象中的首部行字节数。</p>
+<p><code>Content-Type</code>指示内容类型</p>
+<p><img src="/images/network_2_4.png" alt="network_2_4"></p>
+<h3 id="2-2-4-用户与服务器的交互：cookie"><a href="#2-2-4-用户与服务器的交互：cookie" class="headerlink" title="2.2.4-用户与服务器的交互：cookie"></a>2.2.4-用户与服务器的交互：cookie</h3><p>cookie用于标识一个用户</p>
+<p>cookie 技术有4 个组件： </p>
+<ul>
+<li>在HTTP 响应报文中的一个cookie 首部行</li>
+<li>在HTTP 请求报文中的一个cookie 首部行</li>
+<li>在用户端系统中保留有一个cookie 文件，并由用户的浏览器进行管理</li>
+<li>位于Web 站点的一个后端数据库。</li>
+</ul>
+<p><img src="/images/network_2_5.png" alt="network_2_5"></p>
+<h3 id="2-2-5-Web缓存"><a href="#2-2-5-Web缓存" class="headerlink" title="2.2.5-Web缓存"></a>2.2.5-Web缓存</h3><p><strong>Web缓存器-代理服务器</strong>：储存最近被请求的对象，减少请求的响应时间，减少接入链路到因特网的通信量</p>
+<p><strong>内容分发网络-CDN</strong></p>
+<h3 id="2-2-6-条件GET方法"><a href="#2-2-6-条件GET方法" class="headerlink" title="2.2.6-条件GET方法"></a>2.2.6-条件GET方法</h3><p>使用<code>GET</code>方法并在请求报文的首部行加入<code>If-Modified-Since： date</code> date为具体的时间</p>
+<p>服务器仅当自指定日期之后该对象被修改过，才发送该对象</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="vcomments">
+                <!--Valine-->
+                <script src="/js/Valine.min.js"></script>
+            <!--id disqus_thread  <noscript>Please enable JavaScript to view the comments.</noscript>-->
+            <script>
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'yEI6RlVJLA4pYwjBexhwdp8j-gzGzoHsz',
+                    appKey: '0oz4352SSpNVsruE6U11qzhQ',
+                     // 设置贴吧表情包地址
+                    emojiCDN: '//valinecdn.bili33.top/', 
+                    // 表情title和图片映射
+                    emojiMaps: {
+                        "Tieba-New2": "Tieba-New/image_emoticon.png",
+                        "Tieba-New3": "Tieba-New/image_emoticon10.png",
+                        "Tieba-New4": "Tieba-New/image_emoticon100.png",
+                        "Tieba-New5": "Tieba-New/image_emoticon101.png",
+                        "Tieba-New6": "Tieba-New/image_emoticon102.png",
+                        "Tieba-New7": "Tieba-New/image_emoticon103.png",
+                        "Tieba-New8": "Tieba-New/image_emoticon104.png",
+                        "Tieba-New9": "Tieba-New/image_emoticon105.png",
+                        "Tieba-New10": "Tieba-New/image_emoticon106.png",
+                        "Tieba-New11": "Tieba-New/image_emoticon107.png",
+                        "Tieba-New12": "Tieba-New/image_emoticon108.png",
+                        "Tieba-New13": "Tieba-New/image_emoticon109.png",
+                        "Tieba-New14": "Tieba-New/image_emoticon11.png",
+                        "Tieba-New15": "Tieba-New/image_emoticon110.png",
+                        "Tieba-New16": "Tieba-New/image_emoticon111.png",
+                        "Tieba-New17": "Tieba-New/image_emoticon112.png",
+                        "Tieba-New18": "Tieba-New/image_emoticon113.png",
+                        "Tieba-New19": "Tieba-New/image_emoticon114.png",
+                        "Tieba-New20": "Tieba-New/image_emoticon115.png",
+                        "Tieba-New21": "Tieba-New/image_emoticon116.png",
+                        "Tieba-New22": "Tieba-New/image_emoticon117.png",
+                        "Tieba-New23": "Tieba-New/image_emoticon118.png",
+                        "Tieba-New24": "Tieba-New/image_emoticon119.png",
+                        "Tieba-New25": "Tieba-New/image_emoticon12.png",
+                        "Tieba-New26": "Tieba-New/image_emoticon120.png",
+                        "Tieba-New27": "Tieba-New/image_emoticon121.png",
+                        "Tieba-New28": "Tieba-New/image_emoticon122.png",
+                        "Tieba-New29": "Tieba-New/image_emoticon123.png",
+                        "Tieba-New30": "Tieba-New/image_emoticon124.png",
+                        "Tieba-New31": "Tieba-New/image_emoticon13.png",
+                        "Tieba-New32": "Tieba-New/image_emoticon14.png",
+                        "Tieba-New33": "Tieba-New/image_emoticon15.png",
+                        "Tieba-New34": "Tieba-New/image_emoticon16.png",
+                        "Tieba-New35": "Tieba-New/image_emoticon17.png",
+                        "Tieba-New36": "Tieba-New/image_emoticon18.png",
+                        "Tieba-New37": "Tieba-New/image_emoticon19.png",
+                        "Tieba-New38": "Tieba-New/image_emoticon2.png",
+                        "Tieba-New39": "Tieba-New/image_emoticon20.png",
+                        "Tieba-New40": "Tieba-New/image_emoticon21.png",
+                        "Tieba-New41": "Tieba-New/image_emoticon22.png",
+                        "Tieba-New42": "Tieba-New/image_emoticon23.png",
+                        "Tieba-New43": "Tieba-New/image_emoticon24.png",
+                        "Tieba-New44": "Tieba-New/image_emoticon25.png",
+                        "Tieba-New45": "Tieba-New/image_emoticon26.png",
+                        "Tieba-New46": "Tieba-New/image_emoticon27.png",
+                        "Tieba-New47": "Tieba-New/image_emoticon28.png",
+                        "Tieba-New48": "Tieba-New/image_emoticon29.png",
+                        "Tieba-New49": "Tieba-New/image_emoticon3.png",
+                        "Tieba-New50": "Tieba-New/image_emoticon30.png",
+                        "Tieba-New51": "Tieba-New/image_emoticon31.png",
+                        "Tieba-New52": "Tieba-New/image_emoticon32.png",
+                        "Tieba-New53": "Tieba-New/image_emoticon33.png",
+                        "Tieba-New54": "Tieba-New/image_emoticon34.png",
+                        "Tieba-New55": "Tieba-New/image_emoticon35.png",
+                        "Tieba-New56": "Tieba-New/image_emoticon36.png",
+                        "Tieba-New57": "Tieba-New/image_emoticon37.png",
+                        "Tieba-New58": "Tieba-New/image_emoticon38.png",
+                        "Tieba-New59": "Tieba-New/image_emoticon39.png",
+                        "Tieba-New60": "Tieba-New/image_emoticon4.png",
+                        "Tieba-New61": "Tieba-New/image_emoticon40.png",
+                        "Tieba-New62": "Tieba-New/image_emoticon41.png",
+                        "Tieba-New63": "Tieba-New/image_emoticon42.png",
+                        "Tieba-New64": "Tieba-New/image_emoticon43.png",
+                        "Tieba-New65": "Tieba-New/image_emoticon44.png",
+                        "Tieba-New66": "Tieba-New/image_emoticon45.png",
+                        "Tieba-New67": "Tieba-New/image_emoticon46.png",
+                        "Tieba-New68": "Tieba-New/image_emoticon47.png",
+                        "Tieba-New69": "Tieba-New/image_emoticon48.png",
+                        "Tieba-New70": "Tieba-New/image_emoticon49.png",
+                        "Tieba-New71": "Tieba-New/image_emoticon5.png",
+                        "Tieba-New72": "Tieba-New/image_emoticon50.png",
+                        "Tieba-New73": "Tieba-New/image_emoticon6.png",
+                        "Tieba-New74": "Tieba-New/image_emoticon66.png",
+                        "Tieba-New75": "Tieba-New/image_emoticon67.png",
+                        "Tieba-New76": "Tieba-New/image_emoticon68.png",
+                        "Tieba-New77": "Tieba-New/image_emoticon69.png",
+                        "Tieba-New78": "Tieba-New/image_emoticon7.png",
+                        "Tieba-New79": "Tieba-New/image_emoticon70.png",
+                        "Tieba-New80": "Tieba-New/image_emoticon71.png",
+                        "Tieba-New81": "Tieba-New/image_emoticon72.png",
+                        "Tieba-New82": "Tieba-New/image_emoticon73.png",
+                        "Tieba-New83": "Tieba-New/image_emoticon74.png",
+                        "Tieba-New84": "Tieba-New/image_emoticon75.png",
+                        "Tieba-New85": "Tieba-New/image_emoticon76.png",
+                        "Tieba-New86": "Tieba-New/image_emoticon77.png",
+                        "Tieba-New87": "Tieba-New/image_emoticon78.png",
+                        "Tieba-New88": "Tieba-New/image_emoticon79.png",
+                        "Tieba-New89": "Tieba-New/image_emoticon8.png",
+                        "Tieba-New90": "Tieba-New/image_emoticon80.png",
+                        "Tieba-New91": "Tieba-New/image_emoticon81.png",
+                        "Tieba-New92": "Tieba-New/image_emoticon82.png",
+                        "Tieba-New93": "Tieba-New/image_emoticon83.png",
+                        "Tieba-New94": "Tieba-New/image_emoticon84.png",
+                        "Tieba-New95": "Tieba-New/image_emoticon85.png",
+                        "Tieba-New96": "Tieba-New/image_emoticon86.png",
+                        "Tieba-New97": "Tieba-New/image_emoticon87.png",
+                        "Tieba-New98": "Tieba-New/image_emoticon88.png",
+                        "Tieba-New99": "Tieba-New/image_emoticon89.png",
+                        "Tieba-New100": "Tieba-New/image_emoticon9.png",
+                        "Tieba-New101": "Tieba-New/image_emoticon90.png",
+                        "Tieba-New102": "Tieba-New/image_emoticon91.png",
+                        "Tieba-New103": "Tieba-New/image_emoticon92.png",
+                        "Tieba-New104": "Tieba-New/image_emoticon93.png",
+                        "Tieba-New105": "Tieba-New/image_emoticon94.png",
+                        "Tieba-New106": "Tieba-New/image_emoticon95.png",
+                        "Tieba-New107": "Tieba-New/image_emoticon96.png",
+                        "Tieba-New108": "Tieba-New/image_emoticon97.png",
+                        "Tieba-New109": "Tieba-New/image_emoticon98.png",
+                        "Tieba-New110": "Tieba-New/image_emoticon99.png",
+                        // ... 更多表情
+                    } 
+                })
+            </script>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE%E5%8E%9F%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">2.1-应用层协议原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E7%BD%91%E7%BB%9C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">2.1.1-网络应用程序体系结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1"><span class="toc-number">1.2.</span> <span class="toc-text">2.1.2-进程通信</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%AE%A2%E6%88%B7%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">1 . 客户和服务器进程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E4%B9%8B%E9%97%AE%E7%9A%84%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.2.2.</span> <span class="toc-text">2. 进程与计算机网络之问的接口</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E8%BF%9B%E7%A8%8B%E5%AF%BB%E5%9D%80"><span class="toc-number">1.2.3.</span> <span class="toc-text">3. 进程寻址</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E5%8F%AF%E4%BE%9B%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BD%BF%E7%94%A8%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.3.</span> <span class="toc-text">2.1.3-可供应用程序使用的运输服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-4-%E5%9B%A0%E7%89%B9%E7%BD%91%E6%8F%90%E4%BE%9B%E7%9A%84%E8%BF%90%E8%BE%93%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.4.</span> <span class="toc-text">2.1.4-因特网提供的运输服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-5-%E5%BA%94%E7%94%A8%E5%B1%82%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.5.</span> <span class="toc-text">2.1.5-应用层协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-Web%E5%92%8CHTTP"><span class="toc-number">2.</span> <span class="toc-text">2.2-Web和HTTP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E9%9D%9E%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5%E5%92%8C%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5"><span class="toc-number">2.1.</span> <span class="toc-text">2.2.2-非持续连接和持续连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-HTTP-%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2.3-HTTP 报文格式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87"><span class="toc-number">2.2.1.</span> <span class="toc-text">HTTP请求报文</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#HTTP%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87"><span class="toc-number">2.2.2.</span> <span class="toc-text">HTTP响应报文</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4-%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E4%BA%A4%E4%BA%92%EF%BC%9Acookie"><span class="toc-number">2.3.</span> <span class="toc-text">2.2.4-用户与服务器的交互：cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-5-Web%E7%BC%93%E5%AD%98"><span class="toc-number">2.4.</span> <span class="toc-text">2.2.5-Web缓存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-6-%E6%9D%A1%E4%BB%B6GET%E6%96%B9%E6%B3%95"><span class="toc-number">2.5.</span> <span class="toc-text">2.2.6-条件GET方法</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&text=计算机网络自顶向下 第二章"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&is_video=false&description=计算机网络自顶向下 第二章"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=计算机网络自顶向下 第二章&body=Check out this article: http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&title=计算机网络自顶向下 第二章"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&name=计算机网络自顶向下 第二章&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2021/09/26/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B-%E7%AC%AC%E4%BA%8C%E7%AB%A0/&t=计算机网络自顶向下 第二章"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2021
+    Chikie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
