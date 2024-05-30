@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <!--Valine-->
+        <script src="/js/Valine.min.js"></script>
+    <meta name="description" content="致敬传奇SpringMVC嗯，要开始做配置与写Web了…… 基本概念MVC是一种软件架构模式，是一种软件架构设计思想 ●M：Model（模型），负责业务处理及数据的收集，负责处理业务、进行Sql操作进行数据的处理。●V：View（视图），即前端页面。●C：Controller（控制器），拦截前端请求并交给Model处理，将Model结果返回给前端展示。 分为三块而不是依托，可以降低代码耦合性，利于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="痛苦开始之SpringMVC">
+<meta property="og:url" content="http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/index.html">
+<meta property="og:site_name" content="Chikie">
+<meta property="og:description" content="致敬传奇SpringMVC嗯，要开始做配置与写Web了…… 基本概念MVC是一种软件架构模式，是一种软件架构设计思想 ●M：Model（模型），负责业务处理及数据的收集，负责处理业务、进行Sql操作进行数据的处理。●V：View（视图），即前端页面。●C：Controller（控制器），拦截前端请求并交给Model处理，将Model结果返回给前端展示。 分为三块而不是依托，可以降低代码耦合性，利于">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524121041397.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524121855834.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125709190.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125753030.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125815315.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125921740.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130124899.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130457121.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130723817.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130740484.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525144001783.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525160414702.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525190000383.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525194123903.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526121417553.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526121515027.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526121717672.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526125323276.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526132122783.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526132642897.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526210133769.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527133034132.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527133223659.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc01.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc02.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527142552354.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527143321151.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527143521320.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc03.png">
+<meta property="article:published_time" content="2024-05-30T07:01:11.000Z">
+<meta property="article:modified_time" content="2024-05-30T07:01:52.881Z">
+<meta property="article:author" content="Chikie">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="SpringMVC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524121041397.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>痛苦开始之SpringMVC</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2024/05/30/SMM%E5%AE%8C%E7%BB%93%E4%B9%8BMybatis/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2024/05/30/%E9%9D%A2%E5%90%91Spring%E7%BC%96%E7%A8%8B/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&text=痛苦开始之SpringMVC"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&is_video=false&description=痛苦开始之SpringMVC"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=痛苦开始之SpringMVC&body=Check out this article: http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&name=痛苦开始之SpringMVC&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&t=痛苦开始之SpringMVC"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%B4%E6%95%AC%E4%BC%A0%E5%A5%87SpringMVC"><span class="toc-number">1.</span> <span class="toc-text">致敬传奇SpringMVC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%A8%A1%E5%9E%8B%E4%B8%8EMVC%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">三层模型与MVC架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">三层模型概念</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSpringMVC"><span class="toc-number">1.1.2.</span> <span class="toc-text">什么是SpringMVC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AASpringMVC%E7%A8%8B%E5%BA%8F-%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">第一个SpringMVC程序-基于XML配置方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">项目创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0TomCat%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="toc-number">1.2.2.</span> <span class="toc-text">部署到TomCat并运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Maven%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">Maven依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEServlet"><span class="toc-number">1.2.4.</span> <span class="toc-text">配置Servlet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.</span> <span class="toc-text">SpringMVC配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%90%8D%E7%A7%B0%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">配置文件存放位置与名称设置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E6%96%B9%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.1.1.</span> <span class="toc-text">默认方式配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.1.2.</span> <span class="toc-text">自定义配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%A0%87%E7%AD%BE"><span class="toc-number">1.2.5.1.3.</span> <span class="toc-text">其他标签</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SpringMVC%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">SpringMVC配置文件编写</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9C%9C%E6%B1%81404%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.6.</span> <span class="toc-text">蜜汁404问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AASpringMVC%E7%A8%8B%E5%BA%8F-%E5%9F%BA%E4%BA%8E%E5%85%A8%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">第一个SpringMVC程序-基于全注解方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E6%9B%BFSpringMvc-XML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.2.</span> <span class="toc-text">代替SpringMvc XML配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ServletConfig%E4%BB%A3%E6%9B%BFweb-xml"><span class="toc-number">1.3.3.</span> <span class="toc-text">ServletConfig代替web.xml</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#AbstractAnnotationConfigDispatcherServletInitializer%E8%A7%A3%E6%9E%90"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">AbstractAnnotationConfigDispatcherServletInitializer解析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B2%A1%E6%83%B3%E5%88%B0%E5%90%A7%E8%BF%98%E6%98%AF%E6%88%91404"><span class="toc-number">1.3.4.</span> <span class="toc-text">没想到吧还是我404</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E6%98%A0%E5%B0%84%E6%96%B9%E6%B3%95%E5%A4%84%E7%90%86"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">静态资源映射方法处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E9%BB%98%E8%AE%A4Servlet%E5%A4%84%E7%90%86"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">启用默认Servlet处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EWebMvcConfigurer%E5%92%8CWebMvcConfigurationSupport"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">关于WebMvcConfigurer和WebMvcConfigurationSupport</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E8%BF%9B%E8%A1%8C%E8%AE%BF%E9%97%AE%E6%8B%A6%E6%88%AA%E4%B8%8E%E5%A4%84%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">使用控制器进行访问拦截与处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B1%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">编写控制器类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RequestMapping%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">@RequestMapping注解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9SpringMVC%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text">修改SpringMVC配置类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E8%8E%B7%E5%8F%96URL%E5%8F%82%E6%95%B0%E4%BB%A5%E5%8F%8A%E8%BF%94%E5%9B%9E%E5%8E%9F%E5%A7%8B%E5%86%85%E5%AE%B9"><span class="toc-number">1.4.3.</span> <span class="toc-text">使用控制器获取URL参数以及返回原始内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RESTful%E9%A3%8E%E6%A0%BCAPI"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">RESTful风格API</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#URL%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83"><span class="toc-number">1.4.3.1.1.</span> <span class="toc-text">URL设计规范</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83"><span class="toc-number">1.4.3.1.2.</span> <span class="toc-text">请求设计规范</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="toc-number">1.4.3.1.3.</span> <span class="toc-text">举个栗子</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ResponseBody%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">@ResponseBody注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96RESTful%E9%A3%8E%E6%A0%BC%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8F%82%E6%95%B0%E5%80%BC"><span class="toc-number">1.4.3.3.</span> <span class="toc-text">如何获取RESTful风格请求的参数值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%A7%8B%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.3.4.</span> <span class="toc-text">使用原始方式获取参数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%AE%80%E5%8D%95%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.3.4.1.</span> <span class="toc-text">获取简单类型参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AF%B9%E8%B1%A1%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.3.4.2.</span> <span class="toc-text">获取对象参数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96JSON%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">1.4.3.5.</span> <span class="toc-text">获取JSON格式的数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E9%80%86%E5%A4%A9%E9%97%AE%E9%A2%98-HttpMessageNotReadableException-Required-request-body-is-missing%E6%88%96%E8%80%85%E6%98%AF400%E3%80%81415%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.3.5.1.</span> <span class="toc-text">一个逆天问题-HttpMessageNotReadableException: Required request body is missing或者是400、415代码</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8RESTful%E9%A3%8E%E6%A0%BC%E7%AE%80%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">使用RESTful风格简化代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-number">1.6.</span> <span class="toc-text">拦截器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.6.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E4%B8%8E%E6%8B%A6%E6%88%AA%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.6.2.</span> <span class="toc-text">过滤器与拦截器的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-number">1.6.3.</span> <span class="toc-text">自定义拦截器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">1.6.4.</span> <span class="toc-text">注意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E7%9A%84%E4%B8%89%E4%B8%AA%E6%96%B9%E6%B3%95"><span class="toc-number">1.6.5.</span> <span class="toc-text">关于重写的三个方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8%E9%93%BE"><span class="toc-number">1.6.6.</span> <span class="toc-text">拦截器链</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.7.</span> <span class="toc-text">SpringMVC执行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">完结</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        痛苦开始之SpringMVC
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Chikie</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-05-30T07:01:11.000Z" itemprop="datePublished">2024-05-30</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Java/" rel="tag">Java</a>, <a class="tag-link-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="致敬传奇SpringMVC"><a href="#致敬传奇SpringMVC" class="headerlink" title="致敬传奇SpringMVC"></a>致敬传奇SpringMVC</h1><p><strong>嗯，要开始做配置与写Web了……</strong></p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>MVC是一种软件架构模式，是一种软件架构设计思想</p>
+<p>●M：Model（模型），负责业务处理及数据的收集，负责<strong>处理业务</strong>、进行Sql操作进行<strong>数据的处理</strong>。<br>●V：View（视图），即前端页面。<br>●C：Controller（控制器），拦截前端请求并交给Model处理，将Model结果返回给前端展示。</p>
+<p>分为三块而不是依托，可以降低代码耦合性，利于维护</p>
+<h3 id="三层模型与MVC架构"><a href="#三层模型与MVC架构" class="headerlink" title="三层模型与MVC架构"></a>三层模型与MVC架构</h3><p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524121041397.png" alt="image-20240524121041397"></p>
+<h4 id="三层模型概念"><a href="#三层模型概念" class="headerlink" title="三层模型概念"></a>三层模型概念</h4><p>三层是指<strong>表示层-用户界面、应用层(业务逻辑层-负责处理数据)、数据层(数据访问层或持久层-进行数据库操作)</strong></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524121855834.png" alt="image-20240524121855834"></p>
+<h3 id="什么是SpringMVC"><a href="#什么是SpringMVC" class="headerlink" title="什么是SpringMVC"></a>什么是SpringMVC</h3><p>SpringMVC是一个实现了MVC架构模式的Web框架，底层基于Servlet实现。</p>
+<p>使用SpringMVC可以帮助我们<strong>简化WEB的开发</strong>。</p>
+<h2 id="第一个SpringMVC程序-基于XML配置方式"><a href="#第一个SpringMVC程序-基于XML配置方式" class="headerlink" title="第一个SpringMVC程序-基于XML配置方式"></a>第一个SpringMVC程序-基于XML配置方式</h2><h3 id="项目创建"><a href="#项目创建" class="headerlink" title="项目创建"></a>项目创建</h3><p>新建项目结构如下</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125709190.png" alt="image-20240524125709190"></p>
+<p>项目右键选择添加框架支持，勾选并确定</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125753030.png" alt="image-20240524125753030"></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125815315.png" alt="image-20240524125815315"></p>
+<p>或者在模块设置中选择添加也是一样的</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524125921740.png" alt="image-20240524125921740"></p>
+<h3 id="部署到TomCat并运行"><a href="#部署到TomCat并运行" class="headerlink" title="部署到TomCat并运行"></a>部署到TomCat并运行</h3><p>IDEA中选择运行-&gt;编辑配置</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130124899.png" alt="image-20240524130124899"></p>
+<p>配置好后选择部署，添加工件</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130457121.png" alt="image-20240524130457121"></p>
+<p>可以将应用程序上下文改为<code>/</code>，这样网页访问时链接会更清爽，你想加也可以….</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130723817.png" alt="image-20240524130723817"></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240524130740484.png" alt="image-20240524130740484"></p>
+<h3 id="Maven依赖"><a href="#Maven依赖" class="headerlink" title="Maven依赖"></a>Maven依赖</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.junit.jupiter&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;junit-jupiter-api&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;5.10.2&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!--Junit依赖--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-context&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;6.1.6&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!--Spring核心依赖--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;6.1.6&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!--SpringMVC依赖--&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;jakarta.servlet&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;jakarta.servlet-api&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;6.1.0-M1&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;!--Servlet依赖--&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<p>前面说过，SpringMVC底层是由Servlet实现的，所以需要引入Servlet依赖</p>
+<h3 id="配置Servlet"><a href="#配置Servlet" class="headerlink" title="配置Servlet"></a>配置Servlet</h3><p>严格来说，配置方法应该属于JavaWeb的内容，下面注释看不懂的请自行查阅</p>
+<p>配置<code>WEB-INFO</code>目录下的<code>web.xml</code>文件如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">&quot;4.0&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span> <span class="comment">&lt;!--引入用于处理请求的servlet，让tomcat能够根据配置进行调用--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> <span class="comment">&lt;!--定义servet的名称(别名)--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span> <span class="comment">&lt;!--servlet类的全类名, 用于tomcat进行调用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span> <span class="comment">&lt;!--设置servlet的拦截请求--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> <span class="comment">&lt;!--servlet名称，这里使用我们上面的--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span> <span class="comment">&lt;!--拦截路径--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这里的<code>servlet</code>类为何使用**<code>DispatcherServlet</code>**？</p>
+<p>Spring MVC框架是围绕<code>DispatcherServlet</code>来设计的，<code>DispatcherServlet</code>会把请求分发给各个处理器，并支持可配置的处理器映射、视图渲染、本地化、时区与主题渲染和文件上传等功能。</p>
+<h3 id="SpringMVC配置"><a href="#SpringMVC配置" class="headerlink" title="SpringMVC配置"></a>SpringMVC配置</h3><h4 id="配置文件存放位置与名称设置"><a href="#配置文件存放位置与名称设置" class="headerlink" title="配置文件存放位置与名称设置"></a>配置文件存放位置与名称设置</h4><h5 id="默认方式配置"><a href="#默认方式配置" class="headerlink" title="默认方式配置"></a>默认方式配置</h5><p>如果采用上面的<code>web.xml</code>文件配置，则为默认方式配置，<strong>必须将SpringMVC配置文件放在<code>WEB-INF</code>文件夹下</strong>，即<code>web.xml</code>同目录下，并且配置文件名必须为<code>web.xml</code>中配置的servlet的别名-servlet的形式，以上面的为例<code>SpringServlet-servlet.xml</code></p>
+<p><strong>位置或者名称不正确都会报错</strong></p>
+<h5 id="自定义配置"><a href="#自定义配置" class="headerlink" title="自定义配置"></a>自定义配置</h5><p>自定义springmvc配置文件位置与文件名</p>
+<p>在<code>servlet</code>标签中新增<code>&lt;init-param&gt;</code>标签如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span> <span class="comment">&lt;!--引入用于处理请求的servlet，让tomcat能够根据配置进行调用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> <span class="comment">&lt;!--定义servet的名称(别名)--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span> <span class="comment">&lt;!--servlet类的全类名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:springmvc-config.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span> <span class="comment">&lt;!--表示改配置文件位于main/resources目录下名为springmvc-config.xml--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="其他标签"><a href="#其他标签" class="headerlink" title="其他标签"></a>其他标签</h5><p><strong><code>load-on-startup</code>标签</strong></p>
+<p>一般我们在开发web应用时，都会配置这个参数，有两个好处：</p>
+<ol>
+<li>如果初始化过程失败，则容器会提示启动失败，此时我们能够提前知道相关错误</li>
+<li>配置该参数相当于将初始化servlet的工作转移到容器启动过程，使得容器只要启动成功后，就可立即响应web请求，否则可能会等一小会进行加载</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span> <span class="comment">&lt;!--引入用于处理请求的servlet，让tomcat能够根据配置进行调用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> <span class="comment">&lt;!--定义servet的名称(别名)--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span> <span class="comment">&lt;!--servlet类的全类名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:springmvc-config.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--值大于或等于0时，在程序启动期间即加载这个servlet，默认或者小于0时，等到tomcat调用servlet时才被加载--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="SpringMVC配置文件编写"><a href="#SpringMVC配置文件编写" class="headerlink" title="SpringMVC配置文件编写"></a>SpringMVC配置文件编写</h4><p>就使用IDEA新建spring的配置文件即可，第一个程序这里不用编写即可运行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="line">       xmlns:xsi=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="line">       xmlns:context=<span class="string">&quot;http://www.springframework.org/schema/context&quot;</span></span><br><span class="line">       xsi:schemaLocation=<span class="string">&quot;</span></span><br><span class="line"><span class="string">       http://www.springframework.org/schema/beans</span></span><br><span class="line"><span class="string">       http://www.springframework.org/schema/beans/spring-beans.xsd</span></span><br><span class="line"><span class="string">       http://www.springframework.org/schema/context</span></span><br><span class="line"><span class="string">       https://www.springframework.org/schema/context/spring-context.xsd&quot;</span>&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!--	&lt;mvc:annotation-driven /&gt;  后续如果要使用XML配置方式进行请求的拦截与处理，需要加上该标签表示启用SpringMVC功能 由于后面的例子都将采用注解的形式，只在这里进行说明 --&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="蜜汁404问题"><a href="#蜜汁404问题" class="headerlink" title="蜜汁404问题"></a>蜜汁404问题</h3><p>初学者大概率会在运行第一个程序时出现404的错误，可能原因之一是Tomcat资源访问的问题(Servlet不知道要将静态资源交给哪个Servlet处理)</p>
+<p>如果你使用.html后缀的页面文件(如index.html)就会404，而.jsp后缀的就不会，下面贴一下原因，这里引用知乎上面的回答</p>
+<blockquote>
+<p>Tomcat访问所有的资源，都是用Servlet来实现的。</p>
+<p>在Tomcat看来，资源分3种</p>
+<ol>
+<li>静态资源，如css,html,js,jpg,png等</li>
+<li>Servlet</li>
+<li>JSP</li>
+</ol>
+<p>对于静态资源，Tomcat最后会交由一个叫做DefaultServlet的类来处理</p>
+<p>对于Servlet ，Tomcat最后会交由一个叫做 InvokerServlet的类来处理</p>
+<p>对于JSP，Tomcat最后会交由一个叫做JspServlet的类来处理</p>
+<p>所以Tomcat又叫Servlet容器嘛，什么都交给Servlet来处理。</p>
+<p>那么什么时候调用哪个Servlet呢？ 有一个类叫做org.apache.tomcat.util.http.mapper.Mapper，它一共进行了7个大的规则判断，第7个，就是判断是否是该用DefaultServlet。</p>
+<p>简单地说。。。先看是不是servlet,然后看是不是<a target="_blank" rel="noopener" href="https://www.zhihu.com/search?q=jsp&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra=%7B%22sourceType%22:%22answer%22,%22sourceId%22:154753720%7D">jsp</a>，如果都不是，那么就是你DefaultServlet的活儿了。</p>
+</blockquote>
+<p>所以我们需要在web.xml中配置默认的servlet–DefaultServlet来处理静态资源，更改后的代码如下</p>
+<p><strong>web.xml</strong></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;</span></span></span><br><span class="line"><span class="tag">         <span class="attr">version</span>=<span class="string">&quot;4.0&quot;</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span> <span class="comment">&lt;!--引入用于处理请求的servlet，让tomcat能够根据配置进行调用--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> <span class="comment">&lt;!--定义servet的名称(别名)--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span> <span class="comment">&lt;!--servlet类的全类名--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:springmvc-config.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--值大于或等于0时，在程序启动期间即加载这个servlet，默认或者小于0时，等到tomcat调用servlet时才被加载--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> <span class="comment">&lt;!--使用tomcat默认servlet拦截*.html请求--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.html<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span> <span class="comment">&lt;!--处理html资源，如果需要处理如css、js等资源和这个一样继续添加--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span> <span class="comment">&lt;!--设置servlet的拦截请求--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>springmvc<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span> <span class="comment">&lt;!--servlet名称，这里使用我们上面的--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span> <span class="comment">&lt;!--匹配路径--&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>当然还有其他方法比如静态资源映射等方法，请读者自行查阅并选择……</strong></p>
+<h2 id="第一个SpringMVC程序-基于全注解方式"><a href="#第一个SpringMVC程序-基于全注解方式" class="headerlink" title="第一个SpringMVC程序-基于全注解方式"></a>第一个SpringMVC程序-基于全注解方式</h2><h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>先不用管那个controller文件夹，这里删除了web.xml与springmvc的xml的配置文件，新建了两个类如下</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525144001783.png" alt="image-20240525144001783"></p>
+<h3 id="代替SpringMvc-XML配置文件"><a href="#代替SpringMvc-XML配置文件" class="headerlink" title="代替SpringMvc XML配置文件"></a>代替SpringMvc XML配置文件</h3><p>新建<code>SpringMvcConfig</code>类</p>
+<p>加上<code>@Configuration</code>注解表示这是一个配置Spring配置文件即可(包扫描现在可以不管，这还是初始项目)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringMvcConfig</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="ServletConfig代替web-xml"><a href="#ServletConfig代替web-xml" class="headerlink" title="ServletConfig代替web.xml"></a>ServletConfig代替web.xml</h3><p>新建<code>ServletConfig</code>类，继承并实现抽象类<code>AbstractAnnotationConfigDispatcherServletInitializer</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServletConfig</span> <span class="keyword">extends</span> <span class="title">AbstractAnnotationConfigDispatcherServletInitializer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getRootConfigClasses() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="comment">// 加载Spring配置类，这里用不到所以return null</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getServletConfigClasses() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Class[] &#123;SpringMvcConfig.class&#125;;</span><br><span class="line">    &#125; <span class="comment">// 加载SpringMVC配置类</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> String[] getServletMappings() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String[] &#123;<span class="string">&quot;/&quot;</span>&#125;;</span><br><span class="line">    &#125; <span class="comment">// 设置请求匹配路径(拦截路径)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="AbstractAnnotationConfigDispatcherServletInitializer解析"><a href="#AbstractAnnotationConfigDispatcherServletInitializer解析" class="headerlink" title="AbstractAnnotationConfigDispatcherServletInitializer解析"></a>AbstractAnnotationConfigDispatcherServletInitializer解析</h4><p>这里引用CSDN上面的一篇文章(是不是原创不知道)</p>
+<blockquote>
+<p>​    在Servlet3.0环境中，容器会在类路径中查找实现<code>javax.servlet.ServletContainerInitializer</code>接口的类，如果找到的话就用它来配置Servlet容器。<br> Spring提供了这个接口的实现，名为<code>SpringServletContainerInitializer</code>，这个类反过来又会查找实现<code>WebApplicationInitializer</code>的类并将配置的任务交给它们来完成。</p>
+<p>​    Spring3.2引入了一个便利的<code>WebApplicationInitializer</code>基础实现，名为<code>AbstractAnnotationConfigDispatcherServletInitializer</code>，当我们的类实现了<code>AbstractAnnotationConfigDispatcherServletInitializer</code>并将其部署到Servlet3.0容器的时候，容器会自动发现它，并用它来配置Servlet上下文。</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc.png"></p>
+<h3 id="没想到吧还是我404"><a href="#没想到吧还是我404" class="headerlink" title="没想到吧还是我404"></a>没想到吧还是我404</h3><p>如果这里你还是采用的.html的页面，恭喜你还是404，那么采用全注解方式如何解决静态资源访问的问题呢？</p>
+<p>还是按照官方的来</p>
+<p>这里还是将静态的html文件统一的丢进一个文件夹内，就叫<code>pages</code>吧</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525160414702.png" alt="image-20240525160414702"></p>
+<p>有两种方案进行处理，任选其一即可。</p>
+<h4 id="静态资源映射方法处理"><a href="#静态资源映射方法处理" class="headerlink" title="静态资源映射方法处理"></a><strong>静态资源映射方法处理</strong></h4><p>这里我们就不像官方那样再新建一个类了，我们直接在SpringMVC的配置类中写，实现<code>WebMvcConfigurer</code>类，并重写<code>addResourceHandlers</code>方法</p>
+<p><strong><code>SpringMvcConfig</code>配置类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addResourceHandler(<span class="string">&quot;/pages/**&quot;</span>).addResourceLocations(<span class="string">&quot;/pages/&quot;</span>); <span class="comment">// 表示将URL路径中的/pages/**映射到/pages/文件夹中对应文件 这里**表示匹配/后多个目录，只有一个*表示匹配该级目录</span></span><br><span class="line">        WebMvcConfigurer.<span class="keyword">super</span>.addResourceHandlers(registry);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="启用默认Servlet处理"><a href="#启用默认Servlet处理" class="headerlink" title="启用默认Servlet处理"></a>启用默认Servlet处理</h4><p>当所有其他Servlet无法处理时交给该Servlet处理(默认最低优先级)-来自官方文档</p>
+<p>依旧是实现<code>WebMvcConfigurer</code>接口，重写方法<code>configureDefaultServletHandling</code>，代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">configureDefaultServletHandling</span><span class="params">(DefaultServletHandlerConfigurer configurer)</span> </span>&#123;</span><br><span class="line">        configurer.enable(); <span class="comment">// 启用默认Servlet</span></span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="关于WebMvcConfigurer和WebMvcConfigurationSupport"><a href="#关于WebMvcConfigurer和WebMvcConfigurationSupport" class="headerlink" title="关于WebMvcConfigurer和WebMvcConfigurationSupport"></a>关于WebMvcConfigurer和WebMvcConfigurationSupport</h4><p>作者这里踩坑了，刚开始使用<code>WebMvcConfigurationSupport</code>做静态映射始终不生效，原因可参考下方链接</p>
+<p><strong>WebMvcConfigurer</strong>：主要用于添加或修改Spring MVC的配置，如添加拦截器，自定义消息转换器等（<strong>推荐优先使用该类</strong>）。<br><strong>WebMvcConfigurationSupport</strong>：主要用于完全自定义Spring MVC的配置，如果我们需要对Spring MVC的配置进行大量的自定义，可以选择继承该类并重写其中的方法。但是需要注意的是，<strong>继承该类会覆盖Spring MVC的部分默认配置导致WebMVC自动配置失效</strong>。因此，<strong>当我们只需要对部分配置进行自定义时，应该使用WebMvcConfigurer</strong>。</p>
+<h2 id="使用控制器进行访问拦截与处理"><a href="#使用控制器进行访问拦截与处理" class="headerlink" title="使用控制器进行访问拦截与处理"></a>使用控制器进行访问拦截与处理</h2><h3 id="编写控制器类"><a href="#编写控制器类" class="headerlink" title="编写控制器类"></a><strong>编写控制器类</strong></h3><p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525190000383.png" alt="image-20240525190000383"></p>
+<p><strong><code>MyController</code>类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMethod;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span> <span class="comment">// 使用该注解表示该类为控制器类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/&quot;, method = RequestMethod.GET)</span> <span class="comment">// 请求路径匹配 访问localhost:8080/ 匹配到/时由该函数进行处理</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">indexDisplay</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;/pages/index.html&quot;</span>; <span class="comment">// 访问/pages/index.html文件</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/hello&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">helloDisplay</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;/pages/hello.html&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="RequestMapping注解"><a href="#RequestMapping注解" class="headerlink" title="@RequestMapping注解"></a><strong><code>@RequestMapping</code>注解</strong></h4><p>表示匹配请求进行处理，只能作用于类或方法上</p>
+<ul>
+<li><p><code>value</code>值表示要匹配的路径</p>
+<p><strong>Ant风格的value</strong>，value是可以用来匹配路径的，路径支持模糊匹配，我们把这种模糊匹配称之为Ant风格。关于路径中的通配符包括：</p>
+<ol>
+<li><code>?</code>代表<strong>任意一个字符</strong></li>
+<li><code>*</code>代表<strong>0到N个任意字符</strong></li>
+<li><code>**</code>代表0到N个任意字符，并且路径中可以出现路径分隔符 /，** 通配符在使用时，左右不能出现字符，只能是 /</li>
+</ol>
+</li>
+<li><p><code>method</code>值表示匹配的请求方法GET、POST、PUT、DELETE、OPTIONS….，<code>method</code>值可以缺省经过测试默认是GET方法，不过还是强烈建议加上值</p>
+</li>
+</ul>
+<h3 id="修改SpringMVC配置类"><a href="#修改SpringMVC配置类" class="headerlink" title="修改SpringMVC配置类"></a><strong>修改SpringMVC配置类</strong></h3><p><strong>必须使用注解<code>@ComponentScan</code>开启包扫描并添加控制器类，必须使用注解<code>@EnableWebMvc</code></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span> <span class="comment">// 表明这是一个Spring配置类</span></span><br><span class="line"><span class="meta">@ComponentScan(&#123;&quot;com.chikie.controller&quot;&#125;)</span> <span class="comment">// 开启包扫描，添加控制器的包</span></span><br><span class="line"><span class="meta">@EnableWebMvc</span> <span class="comment">// 开启SpringMVC功能</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Override</span></span><br><span class="line"><span class="comment">//    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) &#123;</span></span><br><span class="line"><span class="comment">//        configurer.enable(); // 开启默认Servlet</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addResourceHandler(<span class="string">&quot;/pages/**&quot;</span>).addResourceLocations(<span class="string">&quot;/pages/&quot;</span>); <span class="comment">// 静态资源映射</span></span><br><span class="line">        WebMvcConfigurer.<span class="keyword">super</span>.addResourceHandlers(registry);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>关于@EnableWebMvc`注解的作用</strong></p>
+<p>如果不启用控制器将不会工作</p>
+<ul>
+<li><p>启用SpringMVC</p>
+</li>
+<li><p>提供了SpringMVC的默认配置</p>
+</li>
+<li><p><code>@EnableWebMvc</code>相当于XML中的<code>&lt;mvc:annotation-driven /&gt;</code>。它支持使用<code>@Controller</code>将传入请求映射到特定方法的<code>@RequestMapping</code>注释类</p>
+</li>
+</ul>
+<p><strong>测试结果</strong></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240525194123903.png" alt="image-20240525194123903"></p>
+<h3 id="使用控制器获取URL参数以及返回原始内容"><a href="#使用控制器获取URL参数以及返回原始内容" class="headerlink" title="使用控制器获取URL参数以及返回原始内容"></a>使用控制器获取URL参数以及返回原始内容</h3><p>首先了解什么是RESTful风格API</p>
+<h4 id="RESTful风格API"><a href="#RESTful风格API" class="headerlink" title="RESTful风格API"></a>RESTful风格API</h4><h5 id="URL设计规范"><a href="#URL设计规范" class="headerlink" title="URL设计规范"></a>URL设计规范</h5><p>这里我直接引用别人写的(我觉得以及写的很好了，没有必要再写一遍，文章请见ref目录SpringMVC01)</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526121417553.png" alt="image-20240526121417553"></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526121515027.png" alt="image-20240526121515027"></p>
+<h5 id="请求设计规范"><a href="#请求设计规范" class="headerlink" title="请求设计规范"></a>请求设计规范</h5><p>按照不同的请求方式代表不同的操作类型</p>
+<ul>
+<li>发送<strong>GET</strong>请求是用来做<strong>查询</strong></li>
+<li>发送<strong>POST</strong>请求是用来做<strong>新增</strong>发送</li>
+<li><strong>PUT</strong>请求是用来做<strong>修改</strong></li>
+<li>发送<strong>DELETE</strong>请求是用来做<strong>删除</strong></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526121717672.png" alt="image-20240526121717672"></p>
+<h5 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h5><p>使用<code>GET</code>请求查询内容<a target="_blank" rel="noopener" href="http://localhost:8080/users/chikie/21%E8%A1%A8%E7%A4%BA%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%89%E7%94%A8%E6%88%B7%E4%B8%AD%E5%90%8D%E4%B8%BAchikie%E5%B9%B6%E4%B8%9421%E5%B2%81%E7%9A%84%E7%94%A8%E6%88%B7">http://localhost:8080/users/chikie/21表示查询所有用户中名为chikie并且21岁的用户</a></p>
+<h4 id="ResponseBody注解"><a href="#ResponseBody注解" class="headerlink" title="@ResponseBody注解"></a>@ResponseBody注解</h4><p><code>@RequestMapping</code>修饰方法只能返回<code>void</code>或者<code>String</code>类型，当返回<code>String</code>类型数据时，默认会定向到该返回值的目录下。如果我们想直接返回<code>String</code>数据而不是重定向呢？这就要使用该注解了。</p>
+<p><code>@ResponseBody</code>注解可以设置当前控制器方法响应内容为当前返回值，无需解析。</p>
+<h4 id="如何获取RESTful风格请求的参数值"><a href="#如何获取RESTful风格请求的参数值" class="headerlink" title="如何获取RESTful风格请求的参数值"></a>如何获取RESTful风格请求的参数值</h4><p>使用<code>&#123;变量名(任取)&#125;</code>的形式进行URL的占位，在处理函数参数列表中使用<code>@PathVariable</code>注解并传入要获取的对应变量名即可</p>
+<p>更改后的<code>MyController</code>控制器类代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span> <span class="comment">// 使用该注解表示该类为控制器类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/add/&#123;a&#125;/&#123;b&#125;&quot;, method = RequestMethod.GET)</span> <span class="comment">// RESTful风格的请求地址，并且采用占位符的方式获取值</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">// 返回原始内容</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">add</span><span class="params">(<span class="meta">@PathVariable(&quot;a&quot;)</span> <span class="keyword">int</span> num1, <span class="meta">@PathVariable(&quot;b&quot;)</span> <span class="keyword">int</span> num2)</span> </span>&#123; <span class="comment">// 将获取的参数值传入处理函数</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;res\&quot; : &quot;</span> + (num1+num2) + <span class="string">&quot;&#125;&quot;</span>; <span class="comment">// 返回json数据</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果</strong></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526125323276.png" alt="image-20240526125323276"></p>
+<h4 id="使用原始方式获取参数"><a href="#使用原始方式获取参数" class="headerlink" title="使用原始方式获取参数"></a>使用原始方式获取参数</h4><h5 id="获取简单类型参数"><a href="#获取简单类型参数" class="headerlink" title="获取简单类型参数"></a>获取简单类型参数</h5><p>即通过<a target="_blank" rel="noopener" href="http://localhost:8080/add?key1=value2&amp;key2=value2%E7%9A%84%E5%BD%A2%E5%BC%8F%E8%BF%9B%E8%A1%8C%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92">http://localhost:8080/add?key1=value2&amp;key2=value2的形式进行参数传递</a></p>
+<p>更改控制器代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span> <span class="comment">// 使用该注解表示该类为控制器类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/add&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">add</span><span class="params">(<span class="meta">@RequestParam(&quot;num1&quot;)</span> <span class="keyword">int</span> num1, <span class="meta">@RequestParam(&quot;num2&quot;)</span> <span class="keyword">int</span> num2)</span> </span>&#123; <span class="comment">// 使用RequestParam注解获取对应参数值</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;&#123;\&quot;res\&quot; : &quot;</span> + (num1+num2) + <span class="string">&quot;&#125;&quot;</span>; <span class="comment">// 返回json数据</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果</strong></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526132122783.png" alt="image-20240526132122783"></p>
+<h5 id="获取对象参数"><a href="#获取对象参数" class="headerlink" title="获取对象参数"></a>获取对象参数</h5><p>创建实体类<code>Student</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.entity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Student&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改控制器类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.chikie.entity.Student;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span> <span class="comment">// 使用该注解表示该类为控制器类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/students&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStudent</span><span class="params">(Student student)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> student.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>运行结果</strong></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526132642897.png" alt="image-20240526132642897"></p>
+<p>可见SpringMVC为我们自动装配了类</p>
+<p><strong>注意点</strong></p>
+<p>请求URL中的key值必须与实体类中对应属性的set方法名称对应(类似于Spring教程中使用配置文件进行<strong>依赖注入</strong>时一样)</p>
+<h4 id="获取JSON格式的数据"><a href="#获取JSON格式的数据" class="headerlink" title="获取JSON格式的数据"></a>获取JSON格式的数据</h4><p><code>SpringMVC</code>默认使用Jackson来进行Json数据的解析操作，这里我们先使用maven导入依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.fasterxml.jackson.core<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jackson-databind<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.17.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--SpringMVC Json数据处理依赖--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时，你的SpringMVC配置类中必须有注解<code>@EnableWebMvc</code>，该注解会自动进行Json到实体类的转换(实际上没有这个注解，控制器都无法处理请求-servlet找不到控制器)</p>
+<p>首先新建实体类<code>Student</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.entity;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Student</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125; <span class="comment">// 必须包含无参方法</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Student&#123;&quot;</span> +</span><br><span class="line">                <span class="string">&quot;name=&#x27;&quot;</span> + name + <span class="string">&#x27;\&#x27;&#x27;</span> +</span><br><span class="line">                <span class="string">&quot;, age=&quot;</span> + age +</span><br><span class="line">                <span class="string">&#x27;&#125;&#x27;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>控制器类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.chikie.entity.Student;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span> <span class="comment">// 使用该注解表示该类为控制器类</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/students&quot;, method = RequestMethod.POST)</span></span><br><span class="line">    <span class="meta">@ResponseBody</span> <span class="comment">// 返回原始内容</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getStudent</span><span class="params">(<span class="meta">@RequestBody</span> Student student)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> student.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>运行测试</strong></p>
+<p>由于需要传输<code>Json</code>数据，这里推荐使用<code>ApiFox</code>(垃圾PostMan)</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240526210133769.png" alt="image-20240526210133769"></p>
+<h5 id="一个逆天问题-HttpMessageNotReadableException-Required-request-body-is-missing或者是400、415代码"><a href="#一个逆天问题-HttpMessageNotReadableException-Required-request-body-is-missing或者是400、415代码" class="headerlink" title="一个逆天问题-HttpMessageNotReadableException: Required request body is missing或者是400、415代码"></a>一个逆天问题-HttpMessageNotReadableException: Required request body is missing或者是400、415代码</h5><p><strong>问题描述</strong>：在正确写完所有代码后（包括<code>@EnableWebMvc</code>注解），测试过程中<strong>SpringMVC无法正常接收Json数据</strong>，并且<strong>控制器失效-无法进入控制器进行处理</strong>，IDEA控制台出现<code>HttpMessageNotReadableException: Required request body is missing</code>问题。在多次更换注解如<code>@RestController</code>、<code>@PostMapping</code>，请求方法GET、POST都试过了….均无效，不断出现<code>400</code>、<code>415</code>代码(由于这里只进行了Json的测试，其他的如页面访问的没有测试，所以并不知道是不是<code>@EnableWebMvc</code>注解失效了)</p>
+<p><strong>我是如何解决的</strong>：我又重新新建了一个模块又写了一遍代码(和原来一样)结果能够正常运行，我又回到原来的代码模块中，打开模块设置将模块工件移除后又重新添加后，运行正常。耗费我五六个小时的问题这样解决了……</p>
+<p><strong>我的建议：</strong>如果你遇到类似的问题请以如下方式进行检查</p>
+<ul>
+<li><code>@EnableWebMvc</code>注解是否添加到SpringMVC配置文件中</li>
+<li><code>Jackson</code>依赖是否添加</li>
+<li>最好使用POST方法进行Json数据的传入，Json数据格式要正确</li>
+<li>尝试更换<code>@RequestMapping</code>注解到<code>@PostMapping</code>，更换<code>@Controller</code>注解到<code>@RestController</code></li>
+<li>重新配置IDEA工件</li>
+</ul>
+<p>真tm无语的逆天问题…..</p>
+<h2 id="使用RESTful风格简化代码"><a href="#使用RESTful风格简化代码" class="headerlink" title="使用RESTful风格简化代码"></a>使用RESTful风格简化代码</h2><p><strong>注解说明</strong></p>
+<ul>
+<li><code>@RestController</code>，类注解，相当于<code>@Controller</code>+<code>@ResponseBody</code></li>
+<li><code>@GetMapping @PostMapping @PutMapping @DeleteMapping</code>，设置当前控制器方法请求访问路径与请求动作，相当于<code>@RequestMapping</code>的简化</li>
+</ul>
+<p><strong>简化前的控制器代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/api/users&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;返回user信息&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/api/students&quot;, method = RequestMethod.POST)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;新增student信息&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>简化后</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/api&quot;)</span> <span class="comment">// 由于该控制器类中所有处理方法的匹配路径都有/api前缀，这里直接写在类上，表示该类所有方法都匹配/api前缀</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/users&quot;)</span> <span class="comment">// 匹配/users的GET请求</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;返回user信息&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/students&quot;)</span> <span class="comment">// 匹配/students的POST请求</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;新增student信息&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="拦截器"><a href="#拦截器" class="headerlink" title="拦截器"></a>拦截器</h2><h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><p>这里我直接放别人写好的（已经写得很好了，请见ref目录下的SpringMVC02）</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527133034132.png" alt="image-20240527133034132"></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527133223659.png" alt="image-20240527133223659"></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc01.png"></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc02.png"></p>
+<p><strong>总而言之</strong>，拦截器就是在Controller处理之前对请求进行拦截处理</p>
+<h3 id="过滤器与拦截器的区别"><a href="#过滤器与拦截器的区别" class="headerlink" title="过滤器与拦截器的区别"></a>过滤器与拦截器的区别</h3><p>来源于GPT回答</p>
+<ul>
+<li><strong>过滤器</strong>：作用于所有的Web请求，包括静态资源。</li>
+<li><strong>拦截器</strong>：只作用于Spring MVC的请求，不作用于静态资源</li>
+<li><strong>过滤器</strong>：属于Servlet容器层次，早于Spring框架处理。</li>
+<li><strong>拦截器</strong>：属于Spring MVC框架层次，在Controller方法调用之前和之后进行处理。</li>
+<li><strong>过滤器</strong>：常用于编码设置、安全检查、日志记录等全局性任务。</li>
+<li><strong>拦截器</strong>：常用于业务逻辑处理，如权限验证、数据预处理等。</li>
+</ul>
+<h3 id="自定义拦截器"><a href="#自定义拦截器" class="headerlink" title="自定义拦截器"></a>自定义拦截器</h3><p>SpringMVC中的拦截器需要实现<code>org.springframework.web.servlet.HandlerInterceptor</code>接口</p>
+<p>这里我们创建一个拦截器类实现该接口</p>
+<p><strong>MyInterceptor类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> jakarta.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> jakarta.servlet.http.HttpServletResponse;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.ModelAndView;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Component</span> <span class="comment">// 纳入Spring的管理</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyInterceptor</span> <span class="keyword">implements</span> <span class="title">HandlerInterceptor</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">preHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;preHandle......&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="comment">// 预处理</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">postHandle</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;postHandle......&quot;</span>);</span><br><span class="line">    &#125; <span class="comment">// 后处理</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterCompletion</span><span class="params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;afterCompletion......&quot;</span>);</span><br><span class="line">    &#125; <span class="comment">// 完成后的处理</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>更改<code>SpringMVC</code>配置类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.ComponentScan;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.servlet.config.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@ComponentScan(&#123;&quot;com.chikie.controller&quot;, &quot;com.chikie.config&quot;&#125;)</span> <span class="comment">// 将配置文件也纳入Spring包扫描中，以便Spring进行管理</span></span><br><span class="line"><span class="meta">@EnableWebMvc</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringMvcConfig</span> <span class="keyword">implements</span> <span class="title">WebMvcConfigurer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span> <span class="comment">// 启用自动装配</span></span><br><span class="line">    <span class="keyword">private</span> MyInterceptor myInterceptor;</span><br><span class="line"></span><br><span class="line"><span class="comment">//    @Override</span></span><br><span class="line"><span class="comment">//    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) &#123;</span></span><br><span class="line"><span class="comment">//        configurer.enable(); // 开启默认Servlet</span></span><br><span class="line"><span class="comment">//    &#125;</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addResourceHandlers</span><span class="params">(ResourceHandlerRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addResourceHandler(<span class="string">&quot;/pages/**&quot;</span>).addResourceLocations(<span class="string">&quot;/pages/&quot;</span>); <span class="comment">// 静态资源映射</span></span><br><span class="line">        WebMvcConfigurer.<span class="keyword">super</span>.addResourceHandlers(registry);</span><br><span class="line">    &#125; <span class="comment">// 静态资源管理</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addInterceptors</span><span class="params">(InterceptorRegistry registry)</span> </span>&#123;</span><br><span class="line">        registry.addInterceptor(myInterceptor).addPathPatterns(<span class="string">&quot;/api/users&quot;</span>); <span class="comment">// 添加我们的自定义拦截器类并配置拦截URL路径</span></span><br><span class="line">        WebMvcConfigurer.<span class="keyword">super</span>.addInterceptors(registry);</span><br><span class="line">    &#125; <span class="comment">// 拦截器管理</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>控制器代码</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.chikie.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/api&quot;)</span> <span class="comment">// 由于该控制器类中所有处理方法的匹配路径都有/api前缀，这里直接写在类上，表示该类所有方法都匹配/api前缀</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/users&quot;)</span> <span class="comment">// 匹配/users的GET请求</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUser</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;返回user信息&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(&quot;/students&quot;)</span> <span class="comment">// 匹配/students的POST请求</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">addStudent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;新增student信息&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>运行测试</strong></p>
+<p>使用GET方法请求<code>http://localhost:8080/api/users</code></p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527142552354.png" alt="image-20240527142552354"></p>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>拦截器的拦截URL规则是从<code>根 /</code>开始匹配的</p>
+<p>可以使用通配符<code>*</code>、<code>**</code>来进行匹配</p>
+<p>例如使用<code>/api/**</code>可以匹配api后所有请求</p>
+<h3 id="关于重写的三个方法"><a href="#关于重写的三个方法" class="headerlink" title="关于重写的三个方法"></a>关于重写的三个方法</h3><p>●preHandle：处理器方法调用之前执行，<strong>只有该方法有返回值，返回值是布尔类型，true放行，false拦截</strong>。</p>
+<p>​    若返回false则请求只会到<code>preHandle</code>这一步，直接被拦截了，后面的步骤均不会执行!控制器也不会执行!</p>
+<p>●postHandle：处理器方法调用之后执行</p>
+<p>●afterCompletion：渲染完成后执行</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527143321151.png" alt="image-20240527143321151"></p>
+<p>这三个方法中，最常用的是<strong>preHandle</strong>,在这个方法中可以通过返回值来决定是否要进行放行，我们可以把业务逻辑放在该方法中，如果满足业务则返回true放行，不满足则返回false拦截。</p>
+<h3 id="拦截器链"><a href="#拦截器链" class="headerlink" title="拦截器链"></a>拦截器链</h3><p>这个自行了解吧，下面就放个图算了</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/image-20240527143521320.png" alt="image-20240527143521320"></p>
+<h2 id="SpringMVC执行流程"><a href="#SpringMVC执行流程" class="headerlink" title="SpringMVC执行流程"></a>SpringMVC执行流程</h2><p>这里也贴个图吧</p>
+<p><img src="https://raw.githubusercontent.com/Chikie920/Mark/main/Java%20Basis/assets/springmvc03.png"></p>
+<h2 id="完结"><a href="#完结" class="headerlink" title="完结"></a>完结</h2><p>SpringMVC基础教程就此告一段落，后面可能会出关于SpringMVC原理与实现的部分，马上到来的是Mybatis</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="vcomments">
+                <!--Valine-->
+                <script src="/js/Valine.min.js"></script>
+            <!--id disqus_thread  <noscript>Please enable JavaScript to view the comments.</noscript>-->
+            <script>
+                new Valine({
+                    el: '#vcomments',
+                    appId: 'yEI6RlVJLA4pYwjBexhwdp8j-gzGzoHsz',
+                    appKey: '0oz4352SSpNVsruE6U11qzhQ',
+                     // 设置贴吧表情包地址
+                    emojiCDN: '//valinecdn.bili33.top/', 
+                    // 表情title和图片映射
+                    emojiMaps: {
+                        "Tieba-New2": "Tieba-New/image_emoticon.png",
+                        "Tieba-New3": "Tieba-New/image_emoticon10.png",
+                        "Tieba-New4": "Tieba-New/image_emoticon100.png",
+                        "Tieba-New5": "Tieba-New/image_emoticon101.png",
+                        "Tieba-New6": "Tieba-New/image_emoticon102.png",
+                        "Tieba-New7": "Tieba-New/image_emoticon103.png",
+                        "Tieba-New8": "Tieba-New/image_emoticon104.png",
+                        "Tieba-New9": "Tieba-New/image_emoticon105.png",
+                        "Tieba-New10": "Tieba-New/image_emoticon106.png",
+                        "Tieba-New11": "Tieba-New/image_emoticon107.png",
+                        "Tieba-New12": "Tieba-New/image_emoticon108.png",
+                        "Tieba-New13": "Tieba-New/image_emoticon109.png",
+                        "Tieba-New14": "Tieba-New/image_emoticon11.png",
+                        "Tieba-New15": "Tieba-New/image_emoticon110.png",
+                        "Tieba-New16": "Tieba-New/image_emoticon111.png",
+                        "Tieba-New17": "Tieba-New/image_emoticon112.png",
+                        "Tieba-New18": "Tieba-New/image_emoticon113.png",
+                        "Tieba-New19": "Tieba-New/image_emoticon114.png",
+                        "Tieba-New20": "Tieba-New/image_emoticon115.png",
+                        "Tieba-New21": "Tieba-New/image_emoticon116.png",
+                        "Tieba-New22": "Tieba-New/image_emoticon117.png",
+                        "Tieba-New23": "Tieba-New/image_emoticon118.png",
+                        "Tieba-New24": "Tieba-New/image_emoticon119.png",
+                        "Tieba-New25": "Tieba-New/image_emoticon12.png",
+                        "Tieba-New26": "Tieba-New/image_emoticon120.png",
+                        "Tieba-New27": "Tieba-New/image_emoticon121.png",
+                        "Tieba-New28": "Tieba-New/image_emoticon122.png",
+                        "Tieba-New29": "Tieba-New/image_emoticon123.png",
+                        "Tieba-New30": "Tieba-New/image_emoticon124.png",
+                        "Tieba-New31": "Tieba-New/image_emoticon13.png",
+                        "Tieba-New32": "Tieba-New/image_emoticon14.png",
+                        "Tieba-New33": "Tieba-New/image_emoticon15.png",
+                        "Tieba-New34": "Tieba-New/image_emoticon16.png",
+                        "Tieba-New35": "Tieba-New/image_emoticon17.png",
+                        "Tieba-New36": "Tieba-New/image_emoticon18.png",
+                        "Tieba-New37": "Tieba-New/image_emoticon19.png",
+                        "Tieba-New38": "Tieba-New/image_emoticon2.png",
+                        "Tieba-New39": "Tieba-New/image_emoticon20.png",
+                        "Tieba-New40": "Tieba-New/image_emoticon21.png",
+                        "Tieba-New41": "Tieba-New/image_emoticon22.png",
+                        "Tieba-New42": "Tieba-New/image_emoticon23.png",
+                        "Tieba-New43": "Tieba-New/image_emoticon24.png",
+                        "Tieba-New44": "Tieba-New/image_emoticon25.png",
+                        "Tieba-New45": "Tieba-New/image_emoticon26.png",
+                        "Tieba-New46": "Tieba-New/image_emoticon27.png",
+                        "Tieba-New47": "Tieba-New/image_emoticon28.png",
+                        "Tieba-New48": "Tieba-New/image_emoticon29.png",
+                        "Tieba-New49": "Tieba-New/image_emoticon3.png",
+                        "Tieba-New50": "Tieba-New/image_emoticon30.png",
+                        "Tieba-New51": "Tieba-New/image_emoticon31.png",
+                        "Tieba-New52": "Tieba-New/image_emoticon32.png",
+                        "Tieba-New53": "Tieba-New/image_emoticon33.png",
+                        "Tieba-New54": "Tieba-New/image_emoticon34.png",
+                        "Tieba-New55": "Tieba-New/image_emoticon35.png",
+                        "Tieba-New56": "Tieba-New/image_emoticon36.png",
+                        "Tieba-New57": "Tieba-New/image_emoticon37.png",
+                        "Tieba-New58": "Tieba-New/image_emoticon38.png",
+                        "Tieba-New59": "Tieba-New/image_emoticon39.png",
+                        "Tieba-New60": "Tieba-New/image_emoticon4.png",
+                        "Tieba-New61": "Tieba-New/image_emoticon40.png",
+                        "Tieba-New62": "Tieba-New/image_emoticon41.png",
+                        "Tieba-New63": "Tieba-New/image_emoticon42.png",
+                        "Tieba-New64": "Tieba-New/image_emoticon43.png",
+                        "Tieba-New65": "Tieba-New/image_emoticon44.png",
+                        "Tieba-New66": "Tieba-New/image_emoticon45.png",
+                        "Tieba-New67": "Tieba-New/image_emoticon46.png",
+                        "Tieba-New68": "Tieba-New/image_emoticon47.png",
+                        "Tieba-New69": "Tieba-New/image_emoticon48.png",
+                        "Tieba-New70": "Tieba-New/image_emoticon49.png",
+                        "Tieba-New71": "Tieba-New/image_emoticon5.png",
+                        "Tieba-New72": "Tieba-New/image_emoticon50.png",
+                        "Tieba-New73": "Tieba-New/image_emoticon6.png",
+                        "Tieba-New74": "Tieba-New/image_emoticon66.png",
+                        "Tieba-New75": "Tieba-New/image_emoticon67.png",
+                        "Tieba-New76": "Tieba-New/image_emoticon68.png",
+                        "Tieba-New77": "Tieba-New/image_emoticon69.png",
+                        "Tieba-New78": "Tieba-New/image_emoticon7.png",
+                        "Tieba-New79": "Tieba-New/image_emoticon70.png",
+                        "Tieba-New80": "Tieba-New/image_emoticon71.png",
+                        "Tieba-New81": "Tieba-New/image_emoticon72.png",
+                        "Tieba-New82": "Tieba-New/image_emoticon73.png",
+                        "Tieba-New83": "Tieba-New/image_emoticon74.png",
+                        "Tieba-New84": "Tieba-New/image_emoticon75.png",
+                        "Tieba-New85": "Tieba-New/image_emoticon76.png",
+                        "Tieba-New86": "Tieba-New/image_emoticon77.png",
+                        "Tieba-New87": "Tieba-New/image_emoticon78.png",
+                        "Tieba-New88": "Tieba-New/image_emoticon79.png",
+                        "Tieba-New89": "Tieba-New/image_emoticon8.png",
+                        "Tieba-New90": "Tieba-New/image_emoticon80.png",
+                        "Tieba-New91": "Tieba-New/image_emoticon81.png",
+                        "Tieba-New92": "Tieba-New/image_emoticon82.png",
+                        "Tieba-New93": "Tieba-New/image_emoticon83.png",
+                        "Tieba-New94": "Tieba-New/image_emoticon84.png",
+                        "Tieba-New95": "Tieba-New/image_emoticon85.png",
+                        "Tieba-New96": "Tieba-New/image_emoticon86.png",
+                        "Tieba-New97": "Tieba-New/image_emoticon87.png",
+                        "Tieba-New98": "Tieba-New/image_emoticon88.png",
+                        "Tieba-New99": "Tieba-New/image_emoticon89.png",
+                        "Tieba-New100": "Tieba-New/image_emoticon9.png",
+                        "Tieba-New101": "Tieba-New/image_emoticon90.png",
+                        "Tieba-New102": "Tieba-New/image_emoticon91.png",
+                        "Tieba-New103": "Tieba-New/image_emoticon92.png",
+                        "Tieba-New104": "Tieba-New/image_emoticon93.png",
+                        "Tieba-New105": "Tieba-New/image_emoticon94.png",
+                        "Tieba-New106": "Tieba-New/image_emoticon95.png",
+                        "Tieba-New107": "Tieba-New/image_emoticon96.png",
+                        "Tieba-New108": "Tieba-New/image_emoticon97.png",
+                        "Tieba-New109": "Tieba-New/image_emoticon98.png",
+                        "Tieba-New110": "Tieba-New/image_emoticon99.png",
+                        // ... 更多表情
+                    } 
+                })
+            </script>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%B4%E6%95%AC%E4%BC%A0%E5%A5%87SpringMVC"><span class="toc-number">1.</span> <span class="toc-text">致敬传奇SpringMVC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%A8%A1%E5%9E%8B%E4%B8%8EMVC%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.1.</span> <span class="toc-text">三层模型与MVC架构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E6%A8%A1%E5%9E%8B%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">三层模型概念</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFSpringMVC"><span class="toc-number">1.1.2.</span> <span class="toc-text">什么是SpringMVC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AASpringMVC%E7%A8%8B%E5%BA%8F-%E5%9F%BA%E4%BA%8EXML%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F"><span class="toc-number">1.2.</span> <span class="toc-text">第一个SpringMVC程序-基于XML配置方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9B%E5%BB%BA"><span class="toc-number">1.2.1.</span> <span class="toc-text">项目创建</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E5%88%B0TomCat%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="toc-number">1.2.2.</span> <span class="toc-text">部署到TomCat并运行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Maven%E4%BE%9D%E8%B5%96"><span class="toc-number">1.2.3.</span> <span class="toc-text">Maven依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AEServlet"><span class="toc-number">1.2.4.</span> <span class="toc-text">配置Servlet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SpringMVC%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.</span> <span class="toc-text">SpringMVC配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%AD%98%E6%94%BE%E4%BD%8D%E7%BD%AE%E4%B8%8E%E5%90%8D%E7%A7%B0%E8%AE%BE%E7%BD%AE"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">配置文件存放位置与名称设置</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E6%96%B9%E5%BC%8F%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.1.1.</span> <span class="toc-text">默认方式配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.5.1.2.</span> <span class="toc-text">自定义配置</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E6%A0%87%E7%AD%BE"><span class="toc-number">1.2.5.1.3.</span> <span class="toc-text">其他标签</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SpringMVC%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%BC%96%E5%86%99"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">SpringMVC配置文件编写</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%9C%9C%E6%B1%81404%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.6.</span> <span class="toc-text">蜜汁404问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AASpringMVC%E7%A8%8B%E5%BA%8F-%E5%9F%BA%E4%BA%8E%E5%85%A8%E6%B3%A8%E8%A7%A3%E6%96%B9%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">第一个SpringMVC程序-基于全注解方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.1.</span> <span class="toc-text">目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E6%9B%BFSpringMvc-XML%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.3.2.</span> <span class="toc-text">代替SpringMvc XML配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ServletConfig%E4%BB%A3%E6%9B%BFweb-xml"><span class="toc-number">1.3.3.</span> <span class="toc-text">ServletConfig代替web.xml</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#AbstractAnnotationConfigDispatcherServletInitializer%E8%A7%A3%E6%9E%90"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">AbstractAnnotationConfigDispatcherServletInitializer解析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B2%A1%E6%83%B3%E5%88%B0%E5%90%A7%E8%BF%98%E6%98%AF%E6%88%91404"><span class="toc-number">1.3.4.</span> <span class="toc-text">没想到吧还是我404</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90%E6%98%A0%E5%B0%84%E6%96%B9%E6%B3%95%E5%A4%84%E7%90%86"><span class="toc-number">1.3.4.1.</span> <span class="toc-text">静态资源映射方法处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E9%BB%98%E8%AE%A4Servlet%E5%A4%84%E7%90%86"><span class="toc-number">1.3.4.2.</span> <span class="toc-text">启用默认Servlet处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EWebMvcConfigurer%E5%92%8CWebMvcConfigurationSupport"><span class="toc-number">1.3.4.3.</span> <span class="toc-text">关于WebMvcConfigurer和WebMvcConfigurationSupport</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E8%BF%9B%E8%A1%8C%E8%AE%BF%E9%97%AE%E6%8B%A6%E6%88%AA%E4%B8%8E%E5%A4%84%E7%90%86"><span class="toc-number">1.4.</span> <span class="toc-text">使用控制器进行访问拦截与处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%96%E5%86%99%E6%8E%A7%E5%88%B6%E5%99%A8%E7%B1%BB"><span class="toc-number">1.4.1.</span> <span class="toc-text">编写控制器类</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RequestMapping%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">@RequestMapping注解</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9SpringMVC%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="toc-number">1.4.2.</span> <span class="toc-text">修改SpringMVC配置类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%8E%A7%E5%88%B6%E5%99%A8%E8%8E%B7%E5%8F%96URL%E5%8F%82%E6%95%B0%E4%BB%A5%E5%8F%8A%E8%BF%94%E5%9B%9E%E5%8E%9F%E5%A7%8B%E5%86%85%E5%AE%B9"><span class="toc-number">1.4.3.</span> <span class="toc-text">使用控制器获取URL参数以及返回原始内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#RESTful%E9%A3%8E%E6%A0%BCAPI"><span class="toc-number">1.4.3.1.</span> <span class="toc-text">RESTful风格API</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#URL%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83"><span class="toc-number">1.4.3.1.1.</span> <span class="toc-text">URL设计规范</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E8%AE%BE%E8%AE%A1%E8%A7%84%E8%8C%83"><span class="toc-number">1.4.3.1.2.</span> <span class="toc-text">请求设计规范</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90"><span class="toc-number">1.4.3.1.3.</span> <span class="toc-text">举个栗子</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ResponseBody%E6%B3%A8%E8%A7%A3"><span class="toc-number">1.4.3.2.</span> <span class="toc-text">@ResponseBody注解</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%8F%96RESTful%E9%A3%8E%E6%A0%BC%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8F%82%E6%95%B0%E5%80%BC"><span class="toc-number">1.4.3.3.</span> <span class="toc-text">如何获取RESTful风格请求的参数值</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%A7%8B%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.3.4.</span> <span class="toc-text">使用原始方式获取参数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%AE%80%E5%8D%95%E7%B1%BB%E5%9E%8B%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.3.4.1.</span> <span class="toc-text">获取简单类型参数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E5%AF%B9%E8%B1%A1%E5%8F%82%E6%95%B0"><span class="toc-number">1.4.3.4.2.</span> <span class="toc-text">获取对象参数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96JSON%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-number">1.4.3.5.</span> <span class="toc-text">获取JSON格式的数据</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E9%80%86%E5%A4%A9%E9%97%AE%E9%A2%98-HttpMessageNotReadableException-Required-request-body-is-missing%E6%88%96%E8%80%85%E6%98%AF400%E3%80%81415%E4%BB%A3%E7%A0%81"><span class="toc-number">1.4.3.5.1.</span> <span class="toc-text">一个逆天问题-HttpMessageNotReadableException: Required request body is missing或者是400、415代码</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8RESTful%E9%A3%8E%E6%A0%BC%E7%AE%80%E5%8C%96%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.</span> <span class="toc-text">使用RESTful风格简化代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-number">1.6.</span> <span class="toc-text">拦截器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A6%82%E5%BF%B5"><span class="toc-number">1.6.1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8%E4%B8%8E%E6%8B%A6%E6%88%AA%E5%99%A8%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.6.2.</span> <span class="toc-text">过滤器与拦截器的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-number">1.6.3.</span> <span class="toc-text">自定义拦截器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F"><span class="toc-number">1.6.4.</span> <span class="toc-text">注意</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E%E9%87%8D%E5%86%99%E7%9A%84%E4%B8%89%E4%B8%AA%E6%96%B9%E6%B3%95"><span class="toc-number">1.6.5.</span> <span class="toc-text">关于重写的三个方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8B%A6%E6%88%AA%E5%99%A8%E9%93%BE"><span class="toc-number">1.6.6.</span> <span class="toc-text">拦截器链</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SpringMVC%E6%89%A7%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.7.</span> <span class="toc-text">SpringMVC执行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%8C%E7%BB%93"><span class="toc-number">1.8.</span> <span class="toc-text">完结</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&text=痛苦开始之SpringMVC"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&is_video=false&description=痛苦开始之SpringMVC"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=痛苦开始之SpringMVC&body=Check out this article: http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&title=痛苦开始之SpringMVC"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&name=痛苦开始之SpringMVC&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/05/30/%E7%97%9B%E8%8B%A6%E5%BC%80%E5%A7%8B%E4%B9%8BSpringMVC/&t=痛苦开始之SpringMVC"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2020-2022
+    Chikie
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'cactus-1';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
+</body>
+</html>
